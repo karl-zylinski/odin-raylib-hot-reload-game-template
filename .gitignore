@@ -1,0 +1,8 @@
+*.exe
+*.sublime-workspace
+*.pdb
+*.raddbgi
+*.dll
+*.exp
+*.lib
+log.txt

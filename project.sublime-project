@@ -1,0 +1,50 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+		},
+		{
+			"path": "C:\\Programs\\Odin\\vendor\\raylib",
+		},
+		{
+			"path": "C:\\Programs\\Odin\\base",
+		},
+		{
+			"path": "C:\\Programs\\Odin\\core",
+		},
+		{
+			"path": "C:\\Programs\\Odin\\examples",
+		}
+	],
+	"build_systems":
+	[
+		{
+			"working_dir": "c:/repos/game_template",
+			"file_regex": "^(.+)\\(([0-9]+):([0-9]+)\\) (.+)$",
+			"name": "Game template",
+			"shell_cmd": "build_dev.bat && start game.exe",
+
+			"variants": [
+				{
+					"name": "Build",
+					"cmd": "build_dev.bat",
+				},
+				{
+					"name": "Build release",
+					"shell_cmd": "build_release.bat",
+				},
+			]
+		}
+	],
+	"settings":
+	{
+		"LSP":
+		{
+			"odin":
+			{
+				"enabled": true,
+			},
+		},
+	},
+}
