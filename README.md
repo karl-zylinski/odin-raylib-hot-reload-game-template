@@ -12,7 +12,7 @@ There are also some additional files with some helpers that I find useful.
 
 Edit `build_dev_main.bat` so it uses the correct path to copy `raylib.dll` from.
 
-There's a `project.sublime-project` in case you use sublime. Edit it and make sure the paths to the folders within the Odin compiler directory are correct. I put those as part of my project so I can quickly jump to symbol within core & raylib.
+There's a `project.sublime-project` in case you use sublime. Edit it and make sure the paths to the folders within the Odin compiler directory are correct. I put those as part of my project so I can quickly jump to symbols within core & raylib. Also make sure the working directory of the build system in there is correct, in case you want to use the included build system.
 
 ## Questions?
 
