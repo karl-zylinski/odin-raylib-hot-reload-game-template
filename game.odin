@@ -4,7 +4,6 @@ import "core:math/linalg"
 import "core:fmt"
 import rl "vendor:raylib"
 
-Texture :: rl.Texture
 PixelWindowHeight :: 180
 
 GameMemory :: struct {	

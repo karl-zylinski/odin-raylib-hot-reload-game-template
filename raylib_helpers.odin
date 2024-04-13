@@ -1,6 +1,8 @@
 package game
 
-texture_rect :: proc(tex: Texture, flip_x: bool) -> Rect {
+import rl "vendor:raylib"
+
+texture_rect :: proc(tex: rl.Texture, flip_x: bool) -> Rect {
 	return {
 		x = 0,
 		y = 0,
