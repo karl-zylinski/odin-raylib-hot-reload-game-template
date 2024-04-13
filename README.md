@@ -13,7 +13,7 @@ There are also some additional files with some helpers that I find useful.
 - Edit `build_dev_main.bat` so it uses the correct path to copy `raylib.dll` from.
 - Run `build_dev.bat` to compile `game.exe` and `game.dll`
 - Run `game.exe`
-- Make changes to the gameplay code
+- Make changes to the gameplay code (for example, do changes in the proc `update` or `draw` in `game.odin`)
 - Run `build_dev.bat` again while game.exe is running, it will recompile `game.dll`
 - `game.exe` will reload `game.dll` but use the same GameMemory (a struct defined in `game.odin`) as before.
 
