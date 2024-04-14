@@ -20,21 +20,12 @@
 	"build_systems":
 	[
 		{
-			"working_dir": "c:/repos/game_template",
 			"file_regex": "^(.+)\\(([0-9]+):([0-9]+)\\) (.+)$",
 			"name": "Game template",
-			"shell_cmd": "build_dev.bat && start game.exe",
-
-			"variants": [
-				{
-					"name": "Build",
-					"cmd": "build_dev.bat",
-				},
-				{
-					"name": "Build release",
-					"shell_cmd": "build_release.bat",
-				},
-			]
+			"windows": {
+				"working_dir": "$project_path",
+				"shell_cmd": "build_hot_reload.bat && start game.exe",
+			}
 		}
 	],
 	"settings":
