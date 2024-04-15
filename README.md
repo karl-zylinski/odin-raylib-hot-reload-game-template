@@ -20,6 +20,9 @@ There are also some additional files with some helpers that I find useful.
 ## Sublime
 There's a `project.sublime-project` in case you use sublime. Edit it and make sure the paths to the folders within the Odin compiler directory are correct. I put those as part of my project so I can quickly jump to symbols within core & raylib.
 
+## Optional files
+Only `game.odin` and `math.odin` are required to compile the game DLL. You can delete the other files in the root directrory of the repo if you wish. They are there because they contain things I often use in all projects. They all have a descriptions at the top of each file explaining what they contain.
+
 ## Questions?
 
 Ask questions in my gamedev Discord: https://discord.gg/4FsHgtBmFK

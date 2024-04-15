@@ -1,7 +1,7 @@
-// Handle array gives you a statically allocated array where you have index
-// based handles instead of pointers. The handles have a generation that
-// makes sure you don't get bugs when slots are re-used.
-// Read more about it here: https://floooh.github.io/2018/06/17/handles-vs-pointers.html
+/*	Handle array gives you a statically allocated array where you have index
+	based handles instead of pointers. The handles have a generation that
+	makes sure you don't get bugs when slots are re-used.
+	Read more about it here: https://floooh.github.io/2018/06/17/handles-vs-pointers.html  */
 
 package game
 
