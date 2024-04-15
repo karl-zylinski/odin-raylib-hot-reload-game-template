@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "build_debug",
+            "name": "Debug",
+            "program": "${workspaceFolder}/game_debug.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "build_release",
+            "name": "Release",
+            "program": "${workspaceFolder}/game_release.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "cppvsdbg",
+            "request": "launch",
+            "name": "Run File",
+            "program": "odin",
+            "args": ["run", "${fileBasename}", "-file"],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
