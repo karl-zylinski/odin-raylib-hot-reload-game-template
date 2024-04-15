@@ -60,7 +60,6 @@ main :: proc() {
 	
 	if logh_err == os.ERROR_NONE {
 		log.destroy_file_logger(&logger)
-		os.close(logh)
 	}
 
 	when UseTrackingAllocator {
