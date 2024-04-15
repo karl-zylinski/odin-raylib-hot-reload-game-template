@@ -20,6 +20,11 @@ There are also some additional files with some helpers that I find useful.
 ## Sublime
 There's a `project.sublime-project` in case you use sublime. Edit it and make sure the paths to the folders within the Odin compiler directory are correct. I put those as part of my project so I can quickly jump to symbols within core & raylib.
 
+## VS Code
+Included there are Debug and Release tasks for VS Code. If you install the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension, it's possible to Debug the project code with the included Debug task.
+
+A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
+
 ## Questions?
 
 Ask questions in my gamedev Discord: https://discord.gg/4FsHgtBmFK
