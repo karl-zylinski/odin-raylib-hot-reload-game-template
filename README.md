@@ -1,6 +1,6 @@
 ## Description
 
-This is a small game template for Odin + Raylib with hot reloading pre-setup. My game projects tend to have some things in common, so I made this template so I can get up and running quicker. 
+This is an Odin + Raylib game template with Hot Reloading pre-setup.  My game projects tend to have some things in common, so I made this template so I can get up and running quicker. 
 
 `build_hot_reload.bat` will build `game.dll` from the stuff in this directory. It will also build `game.exe` from the stuff in the directory `main_hot_reload`. When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything that is compiled as part of `game.dll` and re-run `build_hot_reload.bat`. `game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `GameMemory` struct in `game.odin`.
 
