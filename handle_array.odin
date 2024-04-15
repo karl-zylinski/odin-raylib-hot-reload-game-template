@@ -1,7 +1,7 @@
-/*	Handle array gives you a statically allocated array where you have index
-	based handles instead of pointers. The handles have a generation that
-	makes sure you don't get bugs when slots are re-used.
-	Read more about it here: https://floooh.github.io/2018/06/17/handles-vs-pointers.html  */
+// This handle-based array gives you a statically allocated array where you can
+// use index based handles instead of pointers. The handles have a generation
+// that makes sure you don't get bugs when slots are re-used.
+// Read more about it here: https://floooh.github.io/2018/06/17/handles-vs-pointers.html  */
 
 package game
 
@@ -16,6 +16,8 @@ HandleArrayItem :: struct($T: typeid) {
 	handle: Handle(T),
 }
 
+// TODO: Add a freelist that uses some kind of bit array... We should be able to
+// check 64 item slots at a time that way, but without any dynamic array.
 HandleArray :: struct($T: typeid, $N: int) {
 	items: #soa[N]HandleArrayItem(T),
 	num_items: u32,

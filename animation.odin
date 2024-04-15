@@ -1,9 +1,8 @@
-/*	This implements simple animations using sprite sheets. The texture in the
-  	`Animation` struct is assumed to contain a horizontal strip of the frames
-	in the animation. Call `animation_update` to update and then call
-	`animation_rect` when you wish to know the source rect to use in the
-	texture. With the source rect you can run rl.DrawTextureRec to draw the
-	current frame. */
+// This implements simple animations using sprite sheets. The texture in the
+// `Animation` struct is assumed to contain a horizontal strip of the frames
+// in the animation. Call `animation_update` to update and then call
+// `animation_rect` when you wish to know the source rect to use in the texture
+// With the source rect you can run rl.DrawTextureRec to draw the current frame.
 
 package game
 
