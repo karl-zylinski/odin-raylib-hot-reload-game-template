@@ -10,8 +10,8 @@ There are also some additional files with some helpers that I find useful.
 
 ## Setup
 
-- Edit `build_hot_reload.bat` so it uses the correct path to copy `raylib.dll` from.
-- Run `build_hot_reload.bat` to compile `game.exe` and `game.dll`
+- Copy `raylib.dll` from your_odin_compiler/vendor/raylib/windows to the root of this repo.
+- Run `build_hot_reload.bat` to compile `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
 - Run `game.exe`
 - Make changes to the gameplay code (for example, make changes in the proc `update` or `draw` in `game.odin`)
 - Run `build_hot_reload.bat` again while game.exe is running, it will recompile `game.dll`
