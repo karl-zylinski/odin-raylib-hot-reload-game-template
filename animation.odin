@@ -2,8 +2,6 @@ package game
 
 import "core:log"
 
-import rl "vendor:raylib"
-
 Animation :: struct {
 	texture: Texture,
 	num_frames: int,
@@ -18,8 +16,8 @@ animation_create :: proc(tex: Texture, num_frames: int) -> Animation {
 	}
 }
 
-animation_update :: proc(a: ^Animation) {
-	a.frame_timer -= rl.GetFrameTime()
+animation_update :: proc(a: ^Animation, dt: f32) {
+	a.frame_timer -= dt
 
 	if a.frame_timer <= 0 {
 		a.frame_timer = 0.2
@@ -31,21 +29,19 @@ animation_update :: proc(a: ^Animation) {
 	}
 }
 
-animation_draw :: proc(a: Animation, pos: Vec2) {
+animation_rect :: proc(a: Animation) -> Rect {
 	if a.num_frames == 0 {
 		log.error("Animation has zero frames")
-		return
+		return RectEmpty
 	}
 
 	w := f32(a.texture.width) / f32(a.num_frames)
 	h := f32(a.texture.height)
 
-	source := Rect {
+	return {
 		x = f32(a.current_frame) * w,
 		y = 0,
 		width = w,
 		height = h,
 	}
-
-	rl.DrawTextureRec(a.texture, source, pos, rl.WHITE)
 }
