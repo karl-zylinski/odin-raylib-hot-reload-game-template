@@ -90,7 +90,7 @@ ha_valid :: proc(a: HandleArray($T, $N), h: Handle(T)) -> bool {
 		return false
 	}
 
-	return int(h.idx) < len(a.items) && int(h.idx) < a.num_items && a.items[h.idx].handle == h
+	return int(h.idx) < len(a.items) && h.idx < a.num_items && a.items[h.idx].handle == h
 }
 
 HandleArrayIter :: struct($T: typeid, $N: int) {
