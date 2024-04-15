@@ -24,6 +24,8 @@ temp_cstring :: proc(s: string) -> cstring {
 	return strings.clone_to_cstring(s, context.temp_allocator)
 }
 
+// There is a remap in core:math but it doesn't clamp in the new range, which I
+// always want.
 remap :: proc "contextless" (old_value, old_min, old_max, new_min, new_max: $T) -> (x: T) where intrinsics.type_is_numeric(T), !intrinsics.type_is_array(T) {
 	old_range := old_max - old_min
 	new_range := new_max - new_min

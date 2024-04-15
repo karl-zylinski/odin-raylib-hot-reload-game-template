@@ -25,6 +25,9 @@ Included there are Debug and Release tasks for VS Code. If you install the [Code
 
 A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
 
+## Optional files
+Only `game.odin` and `math.odin` are required to compile the game DLL. You can delete the other files in the root directrory of the repo if you wish. They are there because they contain things I often use in all projects. They all have a descriptions at the top of each file explaining what they contain.
+
 ## Questions?
 
 Ask questions in my gamedev Discord: https://discord.gg/4FsHgtBmFK
