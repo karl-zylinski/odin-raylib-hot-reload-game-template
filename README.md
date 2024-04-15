@@ -6,6 +6,8 @@ This is an Odin + Raylib game template with Hot Reloading pre-setup.  My game pr
 
 There is also a `build_release.bat` file that makes a `game_release.exe` that does not have the hot reloading stuff, since you probably do not want that in the released version of your game.
 
+`build_debug.bat` is like `build_release.bat` but makes a debuggable executable, in case you need to debug your non-hot-reload-exe.
+
 There are also some additional files with some helpers that I find useful. See [Optional files](#optional-files) below.
 
 ## Setup and usage
