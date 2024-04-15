@@ -7,7 +7,7 @@
 // - Premultiply alpha in all textures. If your pixelart only uses full or zero transparency then you don't need to do this
 // - Premultiply alpha in any fonts.
 //
-// You can use the included load_premultiplied_alpha_ttf_from_memory in raylib_helpers.odin to do load a font with premultiplied alpha
+// You can use the included load_premultiplied_alpha_ttf_from_memory in raylib_helpers.odin to load a font with premultiplied alpha
 // and bilinear filtering enabled. Feed it the font bytes (i.e. load the font bytes with os.read_entire_file("some_font.ttf"))
 // 
 // Read more here: https://gist.github.com/d7samurai/9f17966ba6130a75d1bfb0f1894ed377
