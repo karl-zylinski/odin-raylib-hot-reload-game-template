@@ -6,8 +6,6 @@ import "core:dynlib"
 import "core:fmt"
 import "core:c/libc"
 import "core:os"
-import "core:time"
-import "core:strings"
 import "core:log"
 import "core:mem"
 
@@ -70,7 +68,7 @@ main :: proc() {
 	reset_tracking_allocator :: proc(a: ^mem.Tracking_Allocator) -> bool {
 		err := false
 
-		for key, value in a.allocation_map {
+		for _, value in a.allocation_map {
 			fmt.printf("%v: Leaked %v bytes\n", value.location, value.size)
 			err = true
 		}
