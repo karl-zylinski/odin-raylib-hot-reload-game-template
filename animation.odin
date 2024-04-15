@@ -47,5 +47,5 @@ animation_draw :: proc(a: Animation, pos: Vec2) {
 		height = h,
 	}
 
-	draw_texture(a.texture, source, pos)
+	rl.DrawTextureRec(a.texture, source, pos, rl.WHITE)
 }
