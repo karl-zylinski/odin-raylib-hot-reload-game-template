@@ -28,6 +28,9 @@ A task to build and hot reload is also included, build, run and rebuild with `Ct
 ## Optional files
 Only `game.odin` and `math.odin` are required to compile the game DLL. You can delete the other files in the root directrory of the repo if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
 
+## Demo video
+I did a stream where I prototype a game by starting from scratch with this template. You can watch it here: https://www.youtube.com/watch?v=cl8EOjOaoXc It is very long, but it's mostly the front part that is interesting with regards to how to use this template.
+
 ## Questions?
 
 Ask questions in my gamedev Discord: https://discord.gg/4FsHgtBmFK
