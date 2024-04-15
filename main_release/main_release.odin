@@ -4,10 +4,6 @@ package main_release
 
 import "core:log"
 import "core:os"
-import "core:fmt"
-import "core:path/filepath"
-import c "core:c/libc"
-import "base:runtime"
 
 import game ".."
 
