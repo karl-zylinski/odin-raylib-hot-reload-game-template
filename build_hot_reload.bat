@@ -6,7 +6,7 @@ IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem If game.exe already running: Then only compile game.dll and exit cleanly
 QPROCESS "game.exe">NUL
-IF %ERRORLEVEL% EQU 0 exit /b 0
+IF %ERRORLEVEL% EQU 0 exit /b 1
 
 rem build game.exe
 odin build main_hot_reload -use-separate-modules -define:RAYLIB_SHARED=true -out:game.exe -strict-style -debug
