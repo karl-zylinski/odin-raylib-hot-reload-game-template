@@ -17,8 +17,8 @@ There are also some additional files with some helpers that I find useful.
 - Run `build_hot_reload.bat` again while game.exe is running, it will recompile `game.dll`
 - `game.exe` will reload `game.dll` but use the same GameMemory (a struct defined in `game.odin`) as before.
 
-## Sublime
-There's a `project.sublime-project` in case you use sublime. Edit it and make sure the paths to the folders within the Odin compiler directory are correct. I put those as part of my project so I can quickly jump to symbols within core & raylib.
+## Sublime Text
+There's a `project.sublime-project` in case you use Sublime Text. Edit it and make sure the paths to the folders within the Odin compiler directory are correct. I put those as part of my project so I can quickly jump to symbols within core & raylib.
 
 ## VS Code
 Included there are Debug and Release tasks for VS Code. If you install the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension, it's possible to Debug the project code with the included Debug task.
@@ -26,7 +26,7 @@ Included there are Debug and Release tasks for VS Code. If you install the [Code
 A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
 
 ## Optional files
-Only `game.odin` and `math.odin` are required to compile the game DLL. You can delete the other files in the root directrory of the repo if you wish. They are there because they contain things I often use in all projects. They all have a descriptions at the top of each file explaining what they contain.
+Only `game.odin` and `math.odin` are required to compile the game DLL. You can delete the other files in the root directrory of the repo if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
 
 ## Questions?
 
