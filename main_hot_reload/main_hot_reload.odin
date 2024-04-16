@@ -10,27 +10,27 @@ import "core:log"
 import "core:mem"
 
 when ODIN_OS == .Windows {
-    DLL_EXT :: ".dll"
+	DLL_EXT :: ".dll"
 } else when ODIN_OS == .Darwin {
-    DLL_EXT :: ".dylib"
+	DLL_EXT :: ".dylib"
 } else {
-    DLL_EXT :: ".so"
+	DLL_EXT :: ".so"
 }
 
 copy_dll :: proc(to: string) -> bool {
-    exit: i32
-    when ODIN_OS == .Windows {
-        exit = libc.system(fmt.ctprintf("copy game.dll {0}", to))
-    } else {
-        exit = libc.system(fmt.ctprintf("cp game" + DLL_EXT + " {0}", to))
-    }
+	exit: i32
+	when ODIN_OS == .Windows {
+		exit = libc.system(fmt.ctprintf("copy game.dll {0}", to))
+	} else {
+		exit = libc.system(fmt.ctprintf("cp game" + DLL_EXT + " {0}", to))
+	}
 
-    if exit != 0 {
-        fmt.printfln("Failed to copy game" + DLL_EXT + " to {0}", to)
-        return false
-    }
+	if exit != 0 {
+		fmt.printfln("Failed to copy game" + DLL_EXT + " to {0}", to)
+		return false
+	}
 
-    return true
+	return true
 }
 
 GameAPI :: struct {
@@ -52,21 +52,21 @@ GameAPI :: struct {
 load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
 	mod_time, mod_time_error := os.last_write_time_by_name("game" + DLL_EXT)
 	if mod_time_error != os.ERROR_NONE {
-        fmt.printfln(
-            "Failed getting last write time of game" + DLL_EXT + ", error code: {1}",
-            mod_time_error,
-        )
+		fmt.printfln(
+			"Failed getting last write time of game" + DLL_EXT + ", error code: {1}",
+			mod_time_error,
+		)
 		return
 	}
 
 	// NOTE: this needs to be a relative path for Linux to work.
 	game_dll_name := fmt.tprintf("{0}game_{1}" + DLL_EXT, "./" when ODIN_OS != .Windows else "", api_version)
-    copy_dll(game_dll_name) or_return
+	copy_dll(game_dll_name) or_return
 
 	_, ok = dynlib.initialize_symbols(&api, game_dll_name, "game_", "lib")
-    if !ok {
-        fmt.printfln("Failed initializing symbols: {0}", dynlib.last_error())
-    }
+	if !ok {
+		fmt.printfln("Failed initializing symbols: {0}", dynlib.last_error())
+	}
 
 	api.api_version = api_version
 	api.modification_time = mod_time
@@ -78,13 +78,13 @@ load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
 unload_game_api :: proc(api: ^GameAPI) {
 	if api.lib != nil {
 		if !dynlib.unload_library(api.lib) {
-            fmt.printfln("Failed unloading lib: {0}", dynlib.last_error())
-        }
+			fmt.printfln("Failed unloading lib: {0}", dynlib.last_error())
+		}
 	}
 
-    if os.remove(fmt.tprintf("game_{0}" + DLL_EXT, api.api_version)) != 0 {
+	if os.remove(fmt.tprintf("game_{0}" + DLL_EXT, api.api_version)) != 0 {
 		fmt.printfln("Failed to remove game_{0}" + DLL_EXT + " copy", api.api_version)
-    }
+	}
 }
 
 main :: proc() {

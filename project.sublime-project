@@ -3,18 +3,6 @@
 	[
 		{
 			"path": ".",
-		},
-		{
-			"path": "C:\\Programs\\Odin\\vendor\\raylib",
-		},
-		{
-			"path": "C:\\Programs\\Odin\\base",
-		},
-		{
-			"path": "C:\\Programs\\Odin\\core",
-		},
-		{
-			"path": "C:\\Programs\\Odin\\examples",
 		}
 	],
 	"build_systems":
@@ -25,6 +13,14 @@
 			"windows": {
 				"working_dir": "$project_path",
 				"shell_cmd": "build_hot_reload.bat && start game.exe",
+			},
+			"osx": {
+				"working_dir": "$project_path",
+				"shell_cmd": "./build_hot_reload.sh && ./game.exe &",
+			},
+			"linux": {
+				"working_dir": "$project_path",
+				"shell_cmd": "./build_hot_reload.sh && ./game.exe &",
 			}
 		}
 	],
