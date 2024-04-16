@@ -19,18 +19,34 @@ There are also some additional files with some helpers that I find useful. See [
 - Run `build_hot_reload.bat` again while game.exe is running, it will recompile `game.dll`
 - `game.exe` will reload `game.dll` but use the same GameMemory (a struct defined in `game.odin`) as before.
 
+### Non-Windows
+
+The template also supports Linux and MacOS, all mentions of `.bat` scripts have an equivalent `.sh` script, and the game is built as `game.bin` instead of `game.exe`.
+
+Unlike Windows, there is no need to copy any Raylib library to the root of this repo.
+
+#### Important note on Linux
+
+The Raylib bindings are currently a bit broken regarding shared libraries, there is this PR that is trying to fix it: https://github.com/odin-lang/Odin/pull/3369.
+
+So this will work nicely out of the box when that is corrected & merged, what you should be able to do at the moment as a workaround is go into the `vendor/raylib/raylib.odin` file and change the `"linux/libraylib.so.500"` to `"linux/libraylib.so"`.
+
 ## Sublime Text
+
 There's a `project.sublime-project` in case you use Sublime Text. Edit it and make sure the paths to the folders within the Odin compiler directory are correct. I put those as part of my project so I can quickly jump to symbols within core & raylib.
 
 ## VS Code
+
 Included there are Debug and Release tasks for VS Code. If you install the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension, it's possible to Debug the project code with the included Debug task.
 
 A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
 
 ## Optional files
+
 Only `game.odin` and `math.odin` are required to compile the game DLL. You can delete the other files in the root directrory of the repo if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
 
 ## Demo video
+
 I did a stream where I prototype a game by starting from scratch with this template. You can watch it here: https://www.youtube.com/watch?v=cl8EOjOaoXc It is very long, but it's mostly the front part that is interesting with regards to how to use this template.
 
 ## Questions?

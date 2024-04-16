@@ -9,6 +9,30 @@ import "core:os"
 import "core:log"
 import "core:mem"
 
+when ODIN_OS == .Windows {
+    DLL_EXT :: ".dll"
+} else when ODIN_OS == .Darwin {
+    DLL_EXT :: ".dylib"
+} else {
+    DLL_EXT :: ".so"
+}
+
+copy_dll :: proc(to: string) -> bool {
+    exit: i32
+    when ODIN_OS == .Windows {
+        exit = libc.system(fmt.ctprintf("copy game.dll {0}", to))
+    } else {
+        exit = libc.system(fmt.ctprintf("cp game" + DLL_EXT + " {0}", to))
+    }
+
+    if exit != 0 {
+        fmt.printfln("Failed to copy game" + DLL_EXT + " to {0}", to)
+        return false
+    }
+
+    return true
+}
+
 GameAPI :: struct {
 	lib: dynlib.Library,
 	init_window: proc(),
@@ -26,20 +50,24 @@ GameAPI :: struct {
 }
 
 load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
-	mod_time, mod_time_error := os.last_write_time_by_name("game.dll")
-
+	mod_time, mod_time_error := os.last_write_time_by_name("game" + DLL_EXT)
 	if mod_time_error != os.ERROR_NONE {
+        fmt.printfln(
+            "Failed getting last write time of game" + DLL_EXT + ", error code: {1}",
+            mod_time_error,
+        )
 		return
 	}
 
-	game_dll_name := fmt.tprintf("game_{0}.dll", api_version)
-
-	if libc.system(fmt.ctprintf("copy game.dll {0}", game_dll_name)) != 0 {
-		fmt.println("Failed to copy game.dll to {0}", game_dll_name)
-		return
-	}
+	// NOTE: this needs to be a relative path for Linux to work.
+	game_dll_name := fmt.tprintf("{0}game_{1}" + DLL_EXT, "./" when ODIN_OS != .Windows else "", api_version)
+    copy_dll(game_dll_name) or_return
 
 	_, ok = dynlib.initialize_symbols(&api, game_dll_name, "game_", "lib")
+    if !ok {
+        fmt.printfln("Failed initializing symbols: {0}", dynlib.last_error())
+    }
+
 	api.api_version = api_version
 	api.modification_time = mod_time
 	ok = true
@@ -49,17 +77,19 @@ load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
 
 unload_game_api :: proc(api: ^GameAPI) {
 	if api.lib != nil {
-		dynlib.unload_library(api.lib)
+		if !dynlib.unload_library(api.lib) {
+            fmt.printfln("Failed unloading lib: {0}", dynlib.last_error())
+        }
 	}
 
-	if libc.system(fmt.ctprintf("del game_{0}.dll", api.api_version)) != 0 {
-		fmt.println("Failed to remove game_{0}.dll copy", api.api_version)
-	}
+    if os.remove(fmt.tprintf("game_{0}" + DLL_EXT, api.api_version)) != 0 {
+		fmt.printfln("Failed to remove game_{0}" + DLL_EXT + " copy", api.api_version)
+    }
 }
 
 main :: proc() {
 	context.logger = log.create_console_logger()
-	
+
 	default_allocator := context.allocator
 	tracking_allocator: mem.Tracking_Allocator
 	mem.tracking_allocator_init(&tracking_allocator, default_allocator)
@@ -97,7 +127,7 @@ main :: proc() {
 		force_reload := game_api.force_reload()
 		force_restart := game_api.force_restart()
 		reload := force_reload || force_restart
-		game_dll_mod, game_dll_mod_err := os.last_write_time_by_name("game.dll")
+		game_dll_mod, game_dll_mod_err := os.last_write_time_by_name("game" + DLL_EXT)
 
 		if game_dll_mod_err == os.ERROR_NONE && game_api.modification_time != game_dll_mod {
 			reload = true
@@ -105,7 +135,7 @@ main :: proc() {
 
 		if reload {
 			new_game_api, new_game_api_ok := load_game_api(game_api_version)
-			
+
 			if new_game_api_ok {
 				if game_api.memory_size() != new_game_api.memory_size() || force_restart {
 					game_api.shutdown()
