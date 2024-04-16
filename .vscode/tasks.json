@@ -4,21 +4,45 @@
     "args": [],
     "tasks": [
         {
-            "label": "build_debug",
+            "label": "Build Debug",
             "type": "shell",
-            "command": "${workspaceFolder}/build_debug.bat",
+            "windows": {
+                "command": "${workspaceFolder}/build_debug.bat",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build_debug.sh",
+            },
+            "osx": {
+                "command": "${workspaceFolder}/build_debug.sh",
+            },
             "group": "build"
         },
         {
-            "label": "build_release",
+            "label": "Build Release",
             "type": "shell",
-            "command": "${workspaceFolder}/build_release.bat",
+            "windows": {
+                "command": "${workspaceFolder}/build_release.bat",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build_release.sh",
+            },
+            "osx": {
+                "command": "${workspaceFolder}/build_release.sh",
+            },
             "group": "build"
         },
         {
             "label": "Build Hot Reload",
             "type": "shell",
-            "command": "${workspaceFolder}/build_hot_reload.bat; start game.exe",
+            "windows": {
+                "command": "${workspaceFolder}/build_hot_reload.bat; start game.exe",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build_hot_reload.sh",
+            },
+            "osx": {
+                "command": "${workspaceFolder}/build_hot_reload.sh",
+            },
             "presentation": {
                 "echo": true,
                 "reveal": "always",
