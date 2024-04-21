@@ -35,7 +35,7 @@
             "label": "Build Hot Reload",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/build_hot_reload.bat; start build/dev/game.exe",
+                "command": "${workspaceFolder}/build_hot_reload.bat; start build/dev/game_hot_reload.exe",
             },
             "linux": {
                 "command": "${workspaceFolder}/build_hot_reload.sh",
