@@ -11,3 +11,4 @@ log.txt
 *.so
 *.dSYM
 linux
+build/*
