@@ -1,7 +1,11 @@
 @echo off
 
+if not exist "./build/dev" (
+	mkdir "./build/dev"
+)
+
 rem Build game.dll
-odin build src/game -show-timings -use-separate-modules -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll -strict-style -vet-unused -vet-using-stmt -vet-using-param -vet-style -vet-semicolon -debug
+odin build src/game -show-timings -use-separate-modules -define:RAYLIB_SHARED=true -build-mode:dll -out:build/dev/game.dll -strict-style -vet-unused -vet-using-stmt -vet-using-param -vet-style -vet-semicolon -debug
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem If game.exe already running: Then only compile game.dll and exit cleanly
@@ -9,7 +13,7 @@ QPROCESS "game.exe">NUL
 IF %ERRORLEVEL% EQU 0 exit /b 1
 
 rem build game.exe
-odin build src/main_hot_reload -use-separate-modules -out:game.exe -strict-style -vet-using-stmt -vet-using-param -vet-style -vet-semicolon -debug
+odin build src/main_hot_reload -use-separate-modules -out:build/dev/game.exe -strict-style -vet-using-stmt -vet-using-param -vet-style -vet-semicolon -debug
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem copy raylib.dll from odin folder to here

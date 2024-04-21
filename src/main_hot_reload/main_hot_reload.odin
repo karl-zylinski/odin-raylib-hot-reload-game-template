@@ -8,25 +8,37 @@ import "core:c/libc"
 import "core:os"
 import "core:log"
 import "core:mem"
+import "core:strings"
 
 when ODIN_OS == .Windows {
 	DLL_EXT :: ".dll"
+	PATH_SEP :: "\\"
 } else when ODIN_OS == .Darwin {
 	DLL_EXT :: ".dylib"
+	PATH_SEP :: "/"
 } else {
 	DLL_EXT :: ".so"
+	PATH_SEP :: "/"
+}
+
+base_path : string
+
+dll_path :: proc(name: string) -> string {	
+	return fmt.tprintf("{0}" + PATH_SEP + "build" + PATH_SEP + "dev" + PATH_SEP + "{1}", base_path, name)
 }
 
 copy_dll :: proc(to: string) -> bool {
 	exit: i32
+	from := dll_path("game" + DLL_EXT)
+
 	when ODIN_OS == .Windows {
-		exit = libc.system(fmt.ctprintf("copy game.dll {0}", to))
+		exit = libc.system(fmt.ctprintf("copy {0} {1}", from, to))
 	} else {
-		exit = libc.system(fmt.ctprintf("cp game" + DLL_EXT + " {0}", to))
+		exit = libc.system(fmt.ctprintf("cp {0} {1}", from, to))
 	}
 
 	if exit != 0 {
-		fmt.printfln("Failed to copy game" + DLL_EXT + " to {0}", to)
+		fmt.printfln("Failed to copy {0} to {1}", from, to)
 		return false
 	}
 
@@ -50,7 +62,7 @@ GameAPI :: struct {
 }
 
 load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
-	mod_time, mod_time_error := os.last_write_time_by_name("game" + DLL_EXT)
+	mod_time, mod_time_error := os.last_write_time_by_name(dll_path("game" + DLL_EXT))
 	if mod_time_error != os.ERROR_NONE {
 		fmt.printfln(
 			"Failed getting last write time of game" + DLL_EXT + ", error code: {1}",
@@ -61,7 +73,8 @@ load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
 
 	// NOTE: this needs to be a relative path for Linux to work.
 	game_dll_name := fmt.tprintf("{0}game_{1}" + DLL_EXT, "./" when ODIN_OS != .Windows else "", api_version)
-	copy_dll(game_dll_name) or_return
+	path := dll_path(game_dll_name)
+	copy_dll(path) or_return
 
 	_, ok = dynlib.initialize_symbols(&api, game_dll_name, "game_", "lib")
 	if !ok {
@@ -82,12 +95,15 @@ unload_game_api :: proc(api: ^GameAPI) {
 		}
 	}
 
-	if os.remove(fmt.tprintf("game_{0}" + DLL_EXT, api.api_version)) != 0 {
-		fmt.printfln("Failed to remove game_{0}" + DLL_EXT + " copy", api.api_version)
+	file := fmt.tprintf("game_{0}" + DLL_EXT, api.api_version)
+	if os.remove(dll_path(file)) != 0 {
+		fmt.printfln("Failed to remove {0} copy", file)
 	}
 }
 
 main :: proc() {
+	base_path = os.get_current_directory()
+
 	context.logger = log.create_console_logger()
 
 	default_allocator := context.allocator
@@ -127,7 +143,7 @@ main :: proc() {
 		force_reload := game_api.force_reload()
 		force_restart := game_api.force_restart()
 		reload := force_reload || force_restart
-		game_dll_mod, game_dll_mod_err := os.last_write_time_by_name("game" + DLL_EXT)
+		game_dll_mod, game_dll_mod_err := os.last_write_time_by_name(dll_path("game" + DLL_EXT))
 
 		if game_dll_mod_err == os.ERROR_NONE && game_api.modification_time != game_dll_mod {
 			reload = true
