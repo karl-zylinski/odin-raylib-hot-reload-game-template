@@ -17,7 +17,7 @@ odin build src/main_hot_reload -use-separate-modules -out:build/dev/game.exe -st
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem copy raylib.dll from odin folder to here
-if not exist "raylib.dll" (
+if not exist "build/dev/raylib.dll" (
 	echo "Please copy raylib.dll from <your_odin_compiler>/vendor/raylib/windows/raylib.dll to the same directory as game.exe"
 	exit /b 1
 )
