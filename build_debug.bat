@@ -1,2 +1,7 @@
 @echo off
-odin build main_release -define:RAYLIB_SHARED=false -out:game_debug.exe -no-bounds-check -subsystem:windows -debug
+
+if not exist "./build/debug" (
+	mkdir "./build/debug"
+)
+
+odin build src/main_release -define:RAYLIB_SHARED=false -out:build/debug/game.exe -no-bounds-check -subsystem:windows -debug
