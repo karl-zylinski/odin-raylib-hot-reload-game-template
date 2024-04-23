@@ -109,7 +109,7 @@ main :: proc() {
 	default_allocator := context.allocator
 	tracking_allocator: mem.Tracking_Allocator
 	mem.tracking_allocator_init(&tracking_allocator, default_allocator)
-	context.allocator =  mem.tracking_allocator(&tracking_allocator)
+	context.allocator = mem.tracking_allocator(&tracking_allocator)
 
 	reset_tracking_allocator :: proc(a: ^mem.Tracking_Allocator) -> bool {
 		err := false
@@ -176,17 +176,23 @@ main :: proc() {
 			}
 		}
 
-		for b in tracking_allocator.bad_free_array {
-			log.error("Bad free at: %v", b.location)
+		if len(tracking_allocator.bad_free_array) > 0 {
+			for b in tracking_allocator.bad_free_array {
+				log.errorf("Bad free at: %v", b.location)
+			}
+
+			libc.getchar()
+			panic("Bad free detected")
 		}
 
-		clear(&tracking_allocator.bad_free_array)
 		free_all(context.temp_allocator)
 	}
 
 	free_all(context.temp_allocator)
 	game_api.shutdown()
-	reset_tracking_allocator(&tracking_allocator)
+	if reset_tracking_allocator(&tracking_allocator) {
+		libc.getchar()
+	}
 
 	for &g in old_game_apis {
 		unload_game_api(&g)
