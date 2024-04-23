@@ -45,6 +45,40 @@ split_rect_right :: proc(r: Rect, x: f32, m: f32) -> (left, right: Rect) {
 	return
 }
 
+cut_rect_top :: proc(r: ^Rect, y: f32, m: f32) -> Rect {
+	res := r^
+	res.y += m
+	res.height = y
+	r.y += y + m
+	r.height -= y + m
+	return res
+}
+
+cut_rect_bottom :: proc(r: ^Rect, h: f32, m: f32) -> Rect {
+	res := r^
+	res.height = h
+	res.y = r.y + r.height - h - m
+	r.height -= h + m
+	return res
+}
+
+cut_rect_left :: proc(r: ^Rect, x, m: f32) -> Rect {
+	res := r^
+	res.x += m
+	res.width = x
+	r.x += x + m
+	r.width -= x + m
+	return res
+}
+
+cut_rect_right :: proc(r: ^Rect, w, m: f32) -> Rect {
+	res := r^
+	res.width = w
+	res.x = r.x + r.width - w - m
+	r.width -= w + m
+	return res
+}
+
 rect_middle :: proc(r: Rect) -> Vec2 {
 	return {
 		r.x + f32(r.width) * 0.5,
