@@ -7,13 +7,13 @@
             "label": "Build Debug",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/build_debug.bat",
+                "command": "${workspaceFolder}/build_debug.bat"
             },
             "linux": {
-                "command": "${workspaceFolder}/build_debug.sh",
+                "command": "${workspaceFolder}/build_debug.sh"
             },
             "osx": {
-                "command": "${workspaceFolder}/build_debug.sh",
+                "command": "${workspaceFolder}/build_debug.sh"
             },
             "group": "build"
         },
@@ -21,13 +21,13 @@
             "label": "Build Release",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/build_release.bat",
+                "command": "${workspaceFolder}/build_release.bat"
             },
             "linux": {
-                "command": "${workspaceFolder}/build_release.sh",
+                "command": "${workspaceFolder}/build_release.sh"
             },
             "osx": {
-                "command": "${workspaceFolder}/build_release.sh",
+                "command": "${workspaceFolder}/build_release.sh"
             },
             "group": "build"
         },
@@ -35,13 +35,13 @@
             "label": "Build Hot Reload",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/build_hot_reload.bat; start build/dev/game_hot_reload.exe",
+                "command": "${workspaceFolder}/build_hot_reload.bat"
             },
             "linux": {
-                "command": "${workspaceFolder}/build_hot_reload.sh",
+                "command": "${workspaceFolder}/build_hot_reload.sh"
             },
             "osx": {
-                "command": "${workspaceFolder}/build_hot_reload.sh",
+                "command": "${workspaceFolder}/build_hot_reload.sh"
             },
             "presentation": {
                 "echo": true,
@@ -54,7 +54,21 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "Start Hot Reload Instance",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/build/dev/game_hot_reload.exe"
             },
+            "linux": {
+                "command": "${workspaceFolder}/build/dev/game_hot_reload.bin"
+            },
+            "osx": {
+                "command": "${workspaceFolder}/build/dev/game_hot_reload.bin"
+            },
+            "problemMatcher": []
         }
     ]
 }

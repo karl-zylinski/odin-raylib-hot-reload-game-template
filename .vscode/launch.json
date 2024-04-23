@@ -26,6 +26,6 @@
             "program": "odin",
             "args": ["run", "${fileBasename}", "-file"],
             "cwd": "${workspaceFolder}"
-        }
+        },
     ]
 }
