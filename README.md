@@ -57,7 +57,8 @@ I did a stream where I prototype a game by starting from scratch with this templ
 | ---- | ---- | ----------- |
 | [Subfolders](https://github.com/alfredbaudisch/odin-raylib-hot-reload-game-template/tree/build-subfolders) | Extended Template | Adds sub folders for built binaries and the game DLL's source code |
 
-Got a project based on this template? Add it to the list! Just send me a link on Discord or on karl@zylinski.se, or PR the entry into this README 😻
+Got a project based on this template? I'd gladly have it on this list! It can be a game based on the template or an extension/spinoff of the template. Just send me a link on [Discord](https://discord.gg/4FsHgtBmFK) or on karl@zylinski.se, or PR the entry into this README 😻 
+
 
 ## Questions?
 
