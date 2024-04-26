@@ -1,4 +1,21 @@
-## Description
+## Sub-Folders Fork Special Changes
+
+- Source code is moved out of the root to inside `/src`.
+- Project source code moved to `/src/game`.
+- Main modules (hot reload and release) moved to `/src/main_*`.
+- Added a `/res` folder for resources (moved sample shader to there).
+- Compilation and builds moved to `/build/*`:
+    - hot reload: `/build/dev/`
+        - Adjusted `main_hot_reload.odin` in order to correctly use the `/build/dev` folder for the `game_*` dlls.
+    - release and debug: `/build/release` and `/build/debug`
+- Adjusted the build .bat scripts and VS Code and Sublime Text tasks in order to work with these new subfolders.
+    - The .bat scripts automatically create the `/build` and `/build/*` folders.
+- Added a new script `build_copy_resources.bat` in order to copy resources to the `/build/*` folder if needed (for deployment, for example).
+    - Running from the root folder with VS Code and Sublime Text does not require copying the resource folders to `/build/*`.
+
+**WARNING:** I only adjusted the Windows .bat files and did not adjust the .sh files as I don't have a way to test for Linux and OS X. But it should be easy.
+
+## Original Description
 
 This is an Odin + Raylib game template with Hot Reloading pre-setup. My game projects tend to have some things in common, so I made this template so I can get up and running quickly.
 
