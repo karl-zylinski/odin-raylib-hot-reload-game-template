@@ -17,7 +17,7 @@ some_struct := SomeStruct {
 
 // this will fail to compile. You must add a serialize_some_struct proc and add
 // it to the serialize overload:
-serialize(&s, &some_struct, &ints)
+serialize(&s, &some_struct)
 
 if data, ok && json.marshal(&some_struct); ok {
 	os.write_entire_file("my_data.json", data)
