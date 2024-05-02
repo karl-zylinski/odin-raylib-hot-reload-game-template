@@ -64,13 +64,13 @@ ha_get :: proc(a: HandleArray($T, $N), h: Handle(T)) -> (T, bool) {
 	return {}, false
 }
 
-ha_get_ptr :: proc(a: HandleArray($T, $N), h: Handle(T)) -> ^T {
+ha_get_ptr :: proc(a: ^HandleArray($T, $N), h: Handle(T)) -> ^T {
 	if h.idx == 0 {
 		return nil
 	}
 
 	if int(h.idx) < len(a.items) && h.idx < a.num_items && a.items[h.idx].handle == h {
-		return &ha.items[h.idx].item
+		return &a.items[h.idx].item
 	}
 
 	return nil
