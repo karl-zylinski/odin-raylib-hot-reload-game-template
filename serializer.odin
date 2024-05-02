@@ -222,7 +222,7 @@ serialize_array_element :: proc(s: ^Serializer, idx: int, v: ^$T) -> bool {
 		serialize_union_tag_field(s, "__tag", v) or_return
 	}
 
-	ser(s, v) or_return
+	serialize(s, v) or_return
 	s.cur = prev_cur
 	return true
 }
