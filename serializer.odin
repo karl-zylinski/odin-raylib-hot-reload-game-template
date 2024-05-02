@@ -19,7 +19,7 @@ some_struct := SomeStruct {
 // it to the serialize overload:
 serialize(&s, &some_struct)
 
-if data, ok && json.marshal(&some_struct); ok {
+if data, err := json.marshal(&some_struct); err == nil {
 	os.write_entire_file("my_data.json", data)
 }
 
@@ -27,8 +27,8 @@ Usage (reading):
 
 some_struct: SomeStruct
 
-if data, ok && os.read_entire_file("my_data.json", data); ok {
-	if j, ok := json.parse(data); ok {
+if data, ok := os.read_entire_file("my_data.json"); ok {
+	if j, err := json.parse(data, parse_integers = true); err == nil {
 		s: Serializer
 		serialize_init_reader(&s, j)
 		serialize(&s, &some_struct)
