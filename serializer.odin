@@ -44,7 +44,7 @@ readable JSON. Good for storing data saved by an editor.
 package game
 
 import "core:fmt"
-import "core:intrinsics"
+import "base:intrinsics"
 import "core:strings"
 import "core:encoding/json"
 

@@ -2,12 +2,12 @@
 
 package main
 
-import "core:dynlib"
-import "core:fmt"
-import "core:c/libc"
-import "core:os"
-import "core:log"
-import "core:mem"
+import "base:dynlib"
+import "base:fmt"
+import "base:c/libc"
+import "base:os"
+import "base:log"
+import "base:mem"
 
 when ODIN_OS == .Windows {
 	DLL_EXT :: ".dll"
