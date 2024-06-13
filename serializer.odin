@@ -7,11 +7,11 @@ Usage (writing):
 s: Serializer
 serialize_init_writer(&s)
 
-SomeStruct :: struct {
+Some_Struct :: struct {
 	field: int,
 }
 
-some_struct := SomeStruct {
+some_struct := Some_Struct {
 	field = 7,
 }
 
@@ -25,7 +25,7 @@ if data, err := json.marshal(&some_struct); err == nil {
 
 Usage (reading):
 
-some_struct: SomeStruct
+some_struct: Some_Struct
 
 if data, ok := os.read_entire_file("my_data.json"); ok {
 	if j, err := json.parse(data, parse_integers = true); err == nil {
