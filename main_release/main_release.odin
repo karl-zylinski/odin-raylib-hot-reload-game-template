@@ -55,7 +55,7 @@ main :: proc() {
 	game.game_shutdown_window()
 	
 	if logh_err == os.ERROR_NONE {
-		log.destroy_file_logger(&logger)
+		log.destroy_file_logger(logger)
 	}
 
 	when UseTrackingAllocator {

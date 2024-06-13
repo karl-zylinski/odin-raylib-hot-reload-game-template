@@ -44,16 +44,16 @@ ui_camera :: proc() -> rl.Camera2D {
 update :: proc() {
 	input: Vec2
 
-	if rl.IsKeyDown(.UP) {
+	if rl.IsKeyDown(.UP) || rl.IsKeyDown(.W) {
 		input.y -= 1
 	}
-	if rl.IsKeyDown(.DOWN) {
+	if rl.IsKeyDown(.DOWN) || rl.IsKeyDown(.S) {
 		input.y += 1
 	}
-	if rl.IsKeyDown(.LEFT) {
+	if rl.IsKeyDown(.LEFT) || rl.IsKeyDown(.A) {
 		input.x -= 1
 	}
-	if rl.IsKeyDown(.RIGHT) {
+	if rl.IsKeyDown(.RIGHT) || rl.IsKeyDown(.D) {
 		input.x += 1
 	}
 
