@@ -41,7 +41,7 @@ animation_update :: proc(a: ^Animation, dt: f32) {
 animation_rect :: proc(a: Animation) -> Rect {
 	if a.num_frames == 0 {
 		log.error("Animation has zero frames")
-		return RectEmpty
+		return RECT_EMPTY
 	}
 
 	w := f32(a.texture.width) / f32(a.num_frames)

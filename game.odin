@@ -15,21 +15,21 @@ import "core:math/linalg"
 import "core:fmt"
 import rl "vendor:raylib"
 
-PixelWindowHeight :: 180
+PIXEL_WINDOW_HEIGHT :: 180
 
-GameMemory :: struct {	
+Game_Memory :: struct {	
 	player_pos: Vec2,
 	some_number: int,
 }
 
-g_mem: ^GameMemory
+g_mem: ^Game_Memory
 
 game_camera :: proc() -> rl.Camera2D {
 	w := f32(rl.GetScreenWidth())
 	h := f32(rl.GetScreenHeight())
 
 	return {
-		zoom = h/PixelWindowHeight,
+		zoom = h/PIXEL_WINDOW_HEIGHT,
 		target = g_mem.player_pos,
 		offset = { w/2, h/2 },
 	}
@@ -37,7 +37,7 @@ game_camera :: proc() -> rl.Camera2D {
 
 ui_camera :: proc() -> rl.Camera2D {
 	return {
-		zoom = f32(rl.GetScreenHeight())/PixelWindowHeight,
+		zoom = f32(rl.GetScreenHeight())/PIXEL_WINDOW_HEIGHT,
 	}
 }
 
@@ -96,9 +96,9 @@ game_init_window :: proc() {
 
 @(export)
 game_init :: proc() {
-	g_mem = new(GameMemory)
+	g_mem = new(Game_Memory)
 
-	g_mem^ = GameMemory {
+	g_mem^ = Game_Memory {
 		some_number = 100,
 	}
 
@@ -122,12 +122,12 @@ game_memory :: proc() -> rawptr {
 
 @(export)
 game_memory_size :: proc() -> int {
-	return size_of(GameMemory)
+	return size_of(Game_Memory)
 }
 
 @(export)
 game_hot_reloaded :: proc(mem: rawptr) {
-	g_mem = (^GameMemory)(mem)
+	g_mem = (^Game_Memory)(mem)
 }
 
 @(export)

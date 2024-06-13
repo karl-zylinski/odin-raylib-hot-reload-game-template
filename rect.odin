@@ -6,7 +6,7 @@ import rl "vendor:raylib"
 
 Rect :: rl.Rectangle
 
-RectEmpty :: Rect{}
+RECT_EMPTY :: Rect{}
 
 split_rect_top :: proc(r: Rect, y: f32, m: f32) -> (top, bottom: Rect) {
 	top = r

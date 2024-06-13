@@ -33,7 +33,7 @@ copy_dll :: proc(to: string) -> bool {
 	return true
 }
 
-GameAPI :: struct {
+Game_API :: struct {
 	lib: dynlib.Library,
 	init_window: proc(),
 	init: proc(),
@@ -49,7 +49,7 @@ GameAPI :: struct {
 	api_version: int,
 }
 
-load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
+load_game_api :: proc(api_version: int) -> (api: Game_API, ok: bool) {
 	mod_time, mod_time_error := os.last_write_time_by_name("game" + DLL_EXT)
 	if mod_time_error != os.ERROR_NONE {
 		fmt.printfln(
@@ -75,7 +75,7 @@ load_game_api :: proc(api_version: int) -> (api: GameAPI, ok: bool) {
 	return
 }
 
-unload_game_api :: proc(api: ^GameAPI) {
+unload_game_api :: proc(api: ^Game_API) {
 	if api.lib != nil {
 		if !dynlib.unload_library(api.lib) {
 			fmt.printfln("Failed unloading lib: {0}", dynlib.last_error())
@@ -119,7 +119,7 @@ main :: proc() {
 	game_api.init_window()
 	game_api.init()
 
-	old_game_apis := make([dynamic]GameAPI, default_allocator)
+	old_game_apis := make([dynamic]Game_API, default_allocator)
 
 	window_open := true
 	for window_open {
