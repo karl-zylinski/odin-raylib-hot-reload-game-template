@@ -5,8 +5,8 @@ odin build . -show-timings -use-separate-modules -define:RAYLIB_SHARED=true -bui
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem If game.exe already running: Then only compile game.dll and exit cleanly
-QPROCESS "game.exe">NUL
-IF %ERRORLEVEL% EQU 0 exit /b 1
+set EXE=game.exe
+FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% exit /b 1
 
 rem build game.exe
 odin build main_hot_reload -use-separate-modules -out:game.exe -strict-style -vet-using-stmt -vet-using-param -vet-style -vet-semicolon -debug

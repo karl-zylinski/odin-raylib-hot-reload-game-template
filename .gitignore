@@ -4,6 +4,7 @@
 *.raddbgi
 *.dll
 *.exp
+*.obj
 *.lib
 log.txt
 *.bin
