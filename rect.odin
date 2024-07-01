@@ -111,3 +111,28 @@ mouse_in_rect :: proc(r: Rect) -> bool {
 mouse_in_world_rect :: proc(r: Rect, camera: rl.Camera2D) -> bool {
 	return rl.CheckCollisionPointRec(rl.GetScreenToWorld2D(rl.GetMousePosition(), camera), r)
 }
+
+rect_intersect :: proc(r1, r2: Rect) -> Rect {
+	x1 := max(r1.x, r2.x)
+	y1 := max(r1.y, r2.y)
+	x2 := min(r1.x + r1.width, r2.x + r2.width)
+	y2 := min(r1.y + r1.height, r2.y + r2.height)
+	if x2 < x1 { x2 = x1 }
+	if y2 < y1 { y2 = y1 }
+	return {x1, y1, x2 - x1, y2 - y1}
+}
+
+rect_from_pos_size :: proc(p: Vec2, s: Vec2) -> Rect {
+	return {
+		p.x, p.y,
+		s.x, s.y,
+	}
+}
+
+pos_from_rect :: proc(r: rl.Rectangle) -> Vec2 {
+	return {r.x, r.y}
+}
+
+size_from_rect :: proc(r: rl.Rectangle) -> Vec2 {
+	return {abs(r.width), abs(r.height)}
+}
