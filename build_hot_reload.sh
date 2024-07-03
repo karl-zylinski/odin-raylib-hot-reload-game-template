@@ -42,6 +42,8 @@ odin build . -use-separate-modules -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -sh
 mv game_tmp$DLL_EXT game$DLL_EXT
 
 # Do not build the game.bin if it is already running.
-if ! pgrep game.bin > /dev/null; then
+if pgrep game.bin > /dev/null; then
+    exit 1
+else
     odin build main_hot_reload -use-separate-modules -out:game.bin $VET -debug
 fi
