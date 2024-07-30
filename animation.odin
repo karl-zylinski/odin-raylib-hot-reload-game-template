@@ -7,16 +7,17 @@
 package game
 
 import "core:log"
+import rl "vendor:raylib"
 
 Animation :: struct {
-	texture: Texture,
+	texture: rl.Texture,
 	num_frames: int,
 	current_frame: int,
 	frame_timer: f32,
 	frame_length: f32,
 }
 
-animation_create :: proc(tex: Texture, num_frames: int, frame_length: f32) -> Animation {
+animation_create :: proc(tex: rl.Texture, num_frames: int, frame_length: f32) -> Animation {
 	return Animation {
 		texture = tex,
 		num_frames = num_frames,

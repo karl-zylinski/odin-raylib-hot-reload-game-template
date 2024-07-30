@@ -3,7 +3,8 @@
 // it contains metadata about where in the atlas the stuff is.
 //
 // The atlas builder can also split up tilesets and fonts and splat those out into the atlas. Look for
-// the code below that processes `.ttf` and images with filenames that start with `tileset`.
+// the code below that processes `.ttf` and images with filenames that start with `tileset`. Note: Set
+// TILE_SIZE and TILESET_WIDTH to the correct values if you use a tileset.
 
 package ase_to_atlas
 
@@ -20,6 +21,9 @@ import "core:image/png"
 import "vendor:stb/rect_pack"
 import ase "aseprite"
 import rl "vendor:raylib"
+
+TILESET_WIDTH :: 10
+TILE_SIZE :: 10
 
 dir_path_to_file_infos :: proc(path: string) -> []os.File_Info {
 	d, derr := os.open(path, os.O_RDONLY)
@@ -90,9 +94,6 @@ rect_intersect :: proc(r1, r2: rl.Rectangle) -> rl.Rectangle {
 	if y2 < y1 { y2 = y1 }
 	return {x1, y1, x2 - x1, y2 - y1}
 }
-
-TILESET_WIDTH :: 10
-TILE_SIZE :: 10
 
 Tileset :: struct {
 	pixels: []rl.Color,
@@ -182,10 +183,7 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 		return
 	}
 
-	defer delete(data)
-
 	doc: ase.Document
-	defer ase.destroy_doc(&doc)
 
 	_, umerr := ase.unmarshal(data[:], &doc)
 	if umerr != nil {
@@ -197,6 +195,11 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 	frame_idx := 0
 	animated := len(doc.frames) > 1
 	indexed := doc.header.color_depth == .Indexed
+
+	document_rect := rl.Rectangle {
+		0, 0,
+		f32(doc.header.width), f32(doc.header.height),
+	}
 
 	for f in doc.frames {
 		duration: f32 = f32(f.header.duration)/1000.0
@@ -222,82 +225,108 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 			continue
 		}
 
-		for c in f.chunks {
-			#partial switch cv in c {
-				case ase.Cel_Chunk:
-					if cl, ok := cv.cel.(ase.Com_Image_Cel); ok {
-						td := Texture_Data {
-							source_size = {int(cl.width), int(cl.height)},
-							pixels_size = {int(cl.width), int(cl.height)},
-							document_size = {int(doc.header.width), int(doc.header.height)},
-							offset = {int(cv.x), int(cv.y)},
-							duration = duration,
-							name = animated ? fmt.tprint(base_name, frame_idx, sep = "") : base_name,
-						}
+		cels: [dynamic]^ase.Cel_Chunk
+		cel_min := Vec2i { max(int), max(int) }
+		cel_max := Vec2i { min(int), min(int) }
 
-						if indexed {
-							td.pixels = make([]rl.Color, int(cl.width) * int(cl.height))
-							for p, idx in cl.pixel {
-								td.pixels[idx] = rl.Color(palette.entries[u32(p)].color.abgr)
-							}
-						} else {
-							td.pixels = slice.clone(transmute([]rl.Color)(cl.pixel))
-						}
-
-						cel_rect := rl.Rectangle {
-							f32(cv.x),
-							f32(cv.y),
-							f32(cl.width),
-							f32(cl.height),
-						}
-
-						document_rect := rl.Rectangle {
-							0, 0,
-							f32(doc.header.width), f32(doc.header.height),
-						}
-
-						visible_rect := rect_intersect(document_rect, cel_rect)
-
-						if visible_rect.width != cel_rect.width || visible_rect.height != cel_rect.height {
-							from := rl.Image {
-								data = raw_data(td.pixels),
-								width = i32(cl.width),
-								height = i32(cl.height),
-								mipmaps = 1,
-								format = .UNCOMPRESSED_R8G8B8A8,
-							}
-
-							visible_pixels := make([]rl.Color, int(visible_rect.width * visible_rect.height))
-
-							to := rl.Image {
-								data = raw_data(visible_pixels),
-								width = i32(visible_rect.width),
-								height = i32(visible_rect.height),
-								mipmaps = 1,
-								format = .UNCOMPRESSED_R8G8B8A8,
-							}
-
-							source := visible_rect
-							source.x -= cel_rect.x
-							source.y -= cel_rect.y 
-							dest := visible_rect
-							dest.x += min(document_rect.x - cel_rect.x, 0)
-							dest.y += min(document_rect.y - cel_rect.y, 0)
-
-							rl.ImageDraw(&to, from, source, dest, rl.WHITE)
-
-							td.pixels = visible_pixels
-							td.source_size = {int(visible_rect.width), int(visible_rect.height)}
-							td.pixels_size = td.source_size
-							td.offset = {int(visible_rect.x), int(visible_rect.y)}
-						}
-
-						append(textures, td)
-
-						frame_idx += 1
-					}
+		for &c in f.chunks {
+			#partial switch &c in c {
+			case ase.Cel_Chunk:
+				if cl, ok := &c.cel.(ase.Com_Image_Cel); ok {
+					cel_min.x = min(cel_min.x, int(c.x))
+					cel_min.y = min(cel_min.y, int(c.y))
+					cel_max.x = max(cel_max.x, int(c.x) + int(cl.width))
+					cel_max.y = max(cel_max.y, int(c.y) + int(cl.height))
+					append(&cels, &c)
+				}
 			}
 		}
+
+		if len(cels) == 0 {
+			continue
+		}
+
+		slice.sort_by(cels[:], proc(i, j: ^ase.Cel_Chunk) -> bool {
+			return i.layer_index < j.layer_index
+		})
+
+		s := cel_max - cel_min
+		pixels := make([]rl.Color, int(s.x*s.y))
+
+		combined_layers := rl.Image {
+			data = raw_data(pixels),
+			width = i32(s.x),
+			height = i32(s.y),
+			mipmaps = 1,
+			format = .UNCOMPRESSED_R8G8B8A8,
+		}
+
+		drawn_min := Vec2i { max(int), max(int) }
+		drawn_max := Vec2i { min(int), min(int) }
+
+		for c in cels {
+			cl := c.cel.(ase.Com_Image_Cel)
+			pixels: []rl.Color
+
+			if indexed {
+				pixels = make([]rl.Color, int(cl.width) * int(cl.height))
+				for p, idx in cl.pixel {
+					pixels[idx] = rl.Color(palette.entries[u32(p)].color.abgr)
+				}
+			} else {
+				pixels = transmute([]rl.Color)(cl.pixel)
+			}
+
+			source := rl.Rectangle {
+				0, 0,
+				f32(cl.width), f32(cl.height),
+			}
+
+			from := rl.Image {
+				data = raw_data(pixels),
+				width = i32(cl.width),
+				height = i32(cl.height),
+				mipmaps = 1,
+				format = .UNCOMPRESSED_R8G8B8A8,
+			}
+
+			dest := rl.Rectangle {
+				f32(c.x) - f32(cel_min.x),
+				f32(c.y) - f32(cel_min.y),
+				f32(cl.width),
+				f32(cl.height),
+			}
+
+			rl.ImageDraw(&combined_layers, from, source, dest, rl.WHITE)
+		}
+
+		cels_rect := rl.Rectangle {
+			f32(cel_min.x), f32(cel_min.y),
+			f32(s.x), f32(s.y),
+		}
+
+		source_rect := rect_intersect(cels_rect, document_rect)
+
+		td := Texture_Data {
+			source_size = { int(source_rect.width), int(source_rect.height)},
+			source_offset = { int(source_rect.x - cels_rect.x), int(source_rect.y - cels_rect.y) },
+			pixels_size = s,
+			document_size = {int(doc.header.width), int(doc.header.height)},
+			duration = duration,
+			name = animated ? fmt.tprint(base_name, frame_idx, sep = "") : base_name,
+			pixels = pixels,
+		}
+
+		if cel_min.x > 0 {
+			td.offset.x = cel_min.x
+		}
+
+		if cel_min.y > 0 {
+			td.offset.y = cel_min.y
+		}
+
+		append(textures, td)
+		frame_idx += 1
 	}
 
 	if animated && frame_idx > 1 {
@@ -445,7 +474,6 @@ main :: proc() {
 	}
 
 	if tileset.pixels_size.x != 0 && tileset.pixels_size.y != 0 {
-		assert(tileset.pixels_size.x + tileset.offset.x >= TILESET_WIDTH * TILE_SIZE, "Tileset texture too narrow")
 		h := tileset.visible_pixels_size.y / TILE_SIZE
 		top_left: rl.Vector2 = {-f32(tileset.offset.x), -f32(tileset.offset.y)}
 
@@ -477,8 +505,8 @@ main :: proc() {
 
 				append(&pack_rects, rect_pack.Rect {
 					id = make_pack_rect_id(make_tile_id(x, y), .Tile),
-					w = 19,
-					h = 19,
+					w = TILE_SIZE+1,
+					h = TILE_SIZE+1,
 				})
 			}
 		}
@@ -682,7 +710,7 @@ main :: proc() {
 	fmt.fprintln(f, "package game")
 	fmt.fprintln(f, "")
 
-	fmt.fprintln(f, "TextureName :: enum {")
+	fmt.fprintln(f, "Texture_Name :: enum {")
 	fmt.fprint(f, "\tNone,\n")
 	for r in atlas_textures {
 		fmt.fprintf(f, "\t%s,\n", r.name)
@@ -690,7 +718,7 @@ main :: proc() {
 	fmt.fprintln(f, "}")
 	fmt.fprintln(f, "")
 
-	fmt.fprintln(f, "AtlasTexture :: struct {")
+	fmt.fprintln(f, "Atlas_Texture :: struct {")
 	fmt.fprintln(f, "\trect: Rect,")
 	fmt.fprintln(f, "\toffset: Vec2i,")
 	fmt.fprintln(f, "\tdocument_size: Vec2i,")
@@ -698,7 +726,7 @@ main :: proc() {
 	fmt.fprintln(f, "}")
 	fmt.fprintln(f, "")
 
-	fmt.fprintln(f, "atlas_textures: [TextureName]AtlasTexture = {")
+	fmt.fprintln(f, "atlas_textures: [Texture_Name]Atlas_Texture = {")
 	fmt.fprintln(f, "\t.None = {},")
 
 	for r in atlas_textures {
@@ -754,8 +782,8 @@ main :: proc() {
 	fmt.fprintln(f, "")
 
 	fmt.fprintln(f, "Atlas_Animation :: struct {")
-	fmt.fprintln(f, "\tfirst_frame: TextureName,")
-	fmt.fprintln(f, "\tlast_frame: TextureName,")
+	fmt.fprintln(f, "\tfirst_frame: Texture_Name,")
+	fmt.fprintln(f, "\tlast_frame: Texture_Name,")
 	fmt.fprintln(f, "}")
 	fmt.fprintln(f, "")
 
