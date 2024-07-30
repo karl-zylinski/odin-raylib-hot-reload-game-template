@@ -51,9 +51,12 @@ Only `game.odin` and `math.odin` are required to compile the game DLL. You can d
 
 The `atlas_builder` subfolder contains a program that builds a texture atlas from separate aseprite and png files. You can look in `build_hot_reload.bat` for more info on how to enable it. The atlas builder outputs both an atlas PNG file as well as an `atlas.odin` file that contains metadata about where in the atlas the images are.
 
-## Demo video
+## Demo streams
 
-I did a stream where I prototype a game by starting from scratch with this template. You can watch it here: https://www.youtube.com/watch?v=cl8EOjOaoXc It is very long, but it's mostly the front part that is interesting with regards to how to use this template.
+Streams that start from this template:
+"point & click" prototype: https://www.youtube.com/watch?v=iRvs1Xr1W6o
+Metroidvania / platform prototype: https://www.youtube.com/watch?v=kIxEMchPc3Y
+Top-down adventure prototype: https://www.youtube.com/watch?v=cl8EOjOaoXc
 
 ## Projects based on this template
 
