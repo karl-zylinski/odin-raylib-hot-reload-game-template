@@ -474,7 +474,8 @@ main :: proc() {
 	}
 
 	if tileset.pixels_size.x != 0 && tileset.pixels_size.y != 0 {
-		h := tileset.visible_pixels_size.y / TILE_SIZE
+		h := tileset.pixels_size.y / TILE_SIZE
+		w := tileset.pixels_size.x / TILE_SIZE
 		top_left: rl.Vector2 = {-f32(tileset.offset.x), -f32(tileset.offset.y)}
 
 		t_img := rl.Image {
@@ -484,17 +485,17 @@ main :: proc() {
 			format = .UNCOMPRESSED_R8G8B8A8,
 		}
 		
-		for x in 0 ..<TILESET_WIDTH {
+		for x in 0 ..<w {
 			for y in 0..<h {
 				tx := f32(TILE_SIZE * x) + top_left.x
 				ty := f32(TILE_SIZE * y) + top_left.y
 
 				all_blank := true
-				for txx in tx..<tx+TILE_SIZE {
+				txx_loop: for txx in tx..<tx+TILE_SIZE {
 					for tyy in ty..<ty+TILE_SIZE {
 						if rl.GetImageColor(t_img, i32(txx), i32(tyy)) != rl.BLANK {
 							all_blank = false
-							break
+							break txx_loop
 						}
 					}
 				}
@@ -505,8 +506,8 @@ main :: proc() {
 
 				append(&pack_rects, rect_pack.Rect {
 					id = make_pack_rect_id(make_tile_id(x, y), .Tile),
-					w = TILE_SIZE+1,
-					h = TILE_SIZE+1,
+					w = TILE_SIZE+2,
+					h = TILE_SIZE+2,
 				})
 			}
 		}
@@ -612,6 +613,7 @@ main :: proc() {
 			
 			source := rl.Rectangle {x + top_left.x, y + top_left.y, TILE_SIZE, TILE_SIZE}
 			dest := rl.Rectangle {f32(rp.x) + 1, f32(rp.y) + 1, source.width, source.height}
+
 			rl.ImageDraw(&atlas, t_img, source, dest, rl.WHITE)
 
 			// Add padding lines
