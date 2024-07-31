@@ -48,6 +48,7 @@ The `atlas_builder` subfolder contains a program that builds a texture atlas fro
 ## Demo streams
 
 Streams that start from this template:
+- CAR RACER prototype: https://www.youtube.com/watch?v=KVbHJ_CLdkA
 - "point & click" prototype: https://www.youtube.com/watch?v=iRvs1Xr1W6o
 - Metroidvania / platform prototype: https://www.youtube.com/watch?v=kIxEMchPc3Y
 - Top-down adventure prototype: https://www.youtube.com/watch?v=cl8EOjOaoXc
