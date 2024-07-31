@@ -61,6 +61,8 @@ Streams that start from this template:
 
 Got a project based on this template? I'd gladly have it on this list! It can be a game based on the template or an extension/spinoff of the template. Just send me a link on [Discord](https://discord.gg/4FsHgtBmFK) or on karl@zylinski.se, or PR the entry into this README 😻 
 
+## Support me on Patreon
+https://www.patreon.com/karl_zylinski
 
 ## Questions?
 
