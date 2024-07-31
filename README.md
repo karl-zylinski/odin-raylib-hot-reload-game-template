@@ -27,12 +27,6 @@ The template also supports Linux and MacOS, all mentions of `.bat` scripts have 
 
 Unlike Windows, there is no need to copy any Raylib library to the root of this repo.
 
-#### Important note on Linux
-
-The Raylib bindings are currently a bit broken regarding shared libraries, there is this PR that is trying to fix it: https://github.com/odin-lang/Odin/pull/3369.
-
-So this will work nicely out of the box when that is corrected & merged, what you should be able to do at the moment as a workaround is go into the `vendor/raylib/raylib.odin` file and change the `"linux/libraylib.so.500"` to `"linux/libraylib.so"`.
-
 ## Sublime Text
 
 There's sublime project called `project.sublime-project` in case you use Sublime Text. It comes with a build system, you should be able to open the project, select the build system (Main Menu -> Tools -> Build System -> Game template) and then compile + run the game by pressing F7/Ctrl+B/Cmd+B. Edit the project file to change the name of the build system.
