@@ -1,5 +1,5 @@
 // This atlas builder looks into a 'textures' folder for pngs, ase and aseprite files and makes an atlas
-// from those. It outputs both atlas.png and atlas.odin. The odin file you compile as part of your game
+// from those. It outputs both atlas.png and atlas.odin. The odin file you compile as part of your game,
 // it contains metadata about where in the atlas the stuff is.
 //
 // The atlas builder can also split up tilesets and fonts and splat those out into the atlas. Look for
