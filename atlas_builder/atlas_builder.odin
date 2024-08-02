@@ -239,6 +239,16 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 					cel_max.y = max(cel_max.y, int(c.y) + int(cl.height))
 					append(&cels, &c)
 				}
+				
+			case ase.Tags_Chunk:
+				for tag in c {
+                    a := Animation {
+             			name = fmt.tprint(base_name, tag.name, sep = "_"),
+             			first_texture = fmt.tprint(base_name, tag.from_frame, sep = ""),
+             			last_texture = fmt.tprint(base_name, tag.to_frame, sep = ""),
+                    }
+                    append(animations, a)
+                }
 			}
 		}
 
