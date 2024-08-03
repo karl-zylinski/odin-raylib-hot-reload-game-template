@@ -25,6 +25,9 @@ import rl "vendor:raylib"
 TILESET_WIDTH :: 10
 TILE_SIZE :: 10
 
+PACKAGE_NAME :: "game"
+TEXTURES_DIR :: "textures"
+
 dir_path_to_file_infos :: proc(path: string) -> []os.File_Info {
 	d, derr := os.open(path, os.O_RDONLY)
 	if derr != 0 {
@@ -174,6 +177,8 @@ Animation :: struct {
 	name: string,
 	first_texture: string,
 	last_texture: string,
+	loop_direction: ase.Tag_Loop_Dir,
+	repeat: u16,
 }
 
 load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data, animations: ^[dynamic]Animation) {
@@ -246,6 +251,8 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 						name = fmt.tprint(base_name, tag.name, sep = "_"),
 						first_texture = fmt.tprint(base_name, tag.from_frame, sep = ""),
 						last_texture = fmt.tprint(base_name, tag.to_frame, sep = ""),
+						loop_direction = tag.loop_direction,
+						repeat = tag.repeat,
 					}
 					append(animations, a)
 				}
@@ -394,7 +401,7 @@ main :: proc() {
 	textures: [dynamic]Texture_Data
 	animations: [dynamic]Animation
 
-	file_infos := dir_path_to_file_infos("textures")
+	file_infos := dir_path_to_file_infos(TEXTURES_DIR)
 
 	slice.sort_by(file_infos, proc(i, j: os.File_Info) -> bool {
 		return time.diff(i.creation_time, j.creation_time) > 0
@@ -406,7 +413,7 @@ main :: proc() {
 		is_ase := strings.has_suffix(fi.name, ".ase") || strings.has_suffix(fi.name, ".aseprite")
 		is_png := strings.has_suffix(fi.name, ".png")
 		if is_ase || is_png {
-			path := fmt.tprintf("textures/%s", fi.name)
+			path := fmt.tprintf("%s/%s", TEXTURES_DIR, fi.name)
 			if strings.has_prefix(fi.name, "tileset") {
 				load_tileset(path, &tileset)
 			} else if is_ase {
@@ -719,9 +726,9 @@ main :: proc() {
 	f, _ := os.open("atlas.odin", os.O_WRONLY | os.O_CREATE | os.O_TRUNC)
 	defer os.close(f)
 
-	fmt.fprintln(f, "package game")
+	fmt.fprintf(f, "package %s\n", PACKAGE_NAME)
 	fmt.fprintln(f, "")
-
+	
 	fmt.fprintln(f, "Texture_Name :: enum {")
 	fmt.fprint(f, "\tNone,\n")
 	for r in atlas_textures {
@@ -793,9 +800,19 @@ main :: proc() {
 	fmt.fprintln(f, "}")
 	fmt.fprintln(f, "")
 
+	fmt.fprintln(f, "Tag_Loop_Dir :: enum {")
+	fmt.fprintln(f, "\tForward,")
+	fmt.fprintln(f, "\tReverse,")
+	fmt.fprintln(f, "\tPing_Pong,")
+	fmt.fprintln(f, "\tPing_Pong_Reverse,")
+	fmt.fprintln(f, "}")
+	fmt.fprintln(f, "")
+	
 	fmt.fprintln(f, "Atlas_Animation :: struct {")
 	fmt.fprintln(f, "\tfirst_frame: Texture_Name,")
 	fmt.fprintln(f, "\tlast_frame: Texture_Name,")
+	fmt.fprintln(f, "\tloop_direction: Tag_Loop_Dir,")
+	fmt.fprintln(f, "\trepeat: u16,")
 	fmt.fprintln(f, "}")
 	fmt.fprintln(f, "")
 
@@ -803,8 +820,8 @@ main :: proc() {
 	fmt.fprint(f, "\t.None = {},\n")
 
 	for a in animations {
-		fmt.fprintf(f, "\t.%v = {{ first_frame = .%v, last_frame = .%v }},\n",
-			a.name, a.first_texture, a.last_texture)
+		fmt.fprintf(f, "\t.%v = {{ first_frame = .%v, last_frame = .%v, loop_direction = .%v, repeat = %v }},\n",
+			a.name, a.first_texture, a.last_texture, a.loop_direction, a.repeat)
 	}
 
 	fmt.fprintln(f, "}\n")
