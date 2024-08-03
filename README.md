@@ -45,6 +45,15 @@ Only `game.odin` and `math.odin` are required to compile the game DLL. You can d
 
 The `atlas_builder` subfolder contains a program that builds a texture atlas from separate aseprite and png files. You can look in `build_hot_reload.bat` for more info on how to enable it. The atlas builder outputs both an atlas PNG file as well as an `atlas.odin` file that contains metadata about where in the atlas the images are.
 
+The atlas builder is meant to be run before the game DLL is compiled. Then, in your gameplay you can use `atlas_textures` in `atlas.odin` to know where in the atlas your textures ended up. Load the `atlas.png` using `rl.LoadTexture()` and then draw using it, something like:
+
+```
+atlas_rect := atlas_textures[.Some_Texture]
+rl.DrawTextureRec(atlas_texture, atlas_rect, some_position, rl.WHITE)
+```
+
+For aseprite files with multiple frames animations will be outputted, which you find in the array `atlas_animations` of `atlas.odin`.
+
 ## Demo streams
 
 Streams that start from this template:
