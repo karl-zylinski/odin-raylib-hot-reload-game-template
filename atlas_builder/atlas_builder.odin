@@ -805,7 +805,8 @@ main :: proc() {
 	fmt.fprintln(f, "\tReverse,")
 	fmt.fprintln(f, "\tPing_Pong,")
 	fmt.fprintln(f, "\tPing_Pong_Reverse,")
-	fmt.fprintln(f, "}\n")
+	fmt.fprintln(f, "}")
+	fmt.fprintln(f, "")
 	
 	fmt.fprintln(f, "Atlas_Animation :: struct {")
 	fmt.fprintln(f, "\tfirst_frame: Texture_Name,")
