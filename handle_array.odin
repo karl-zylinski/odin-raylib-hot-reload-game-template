@@ -23,7 +23,6 @@
 
 package game
 
-import "core:mem"
 import "core:fmt"
 
 _ :: fmt
