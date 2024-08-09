@@ -3,7 +3,7 @@
 VET="-strict-style -vet-unused -vet-using-stmt -vet-using-param -vet-style -vet-semicolon"
 
 # Uncomment these lines if you want to build an atlas from any aseprite files in a `textures` subfolder.
-# odin build atlas_builder -use-separate-modules -out:atlas_builder.bin -strict-style -vet-using-stmt -vet-using-param -vet-semicolon -debug
+# odin build atlas_builder -out:atlas_builder.bin -strict-style -vet-using-stmt -vet-using-param -vet-semicolon -debug
 # if [ ! $? -eq 0 ]; then
 #     exit 1
 # fi
@@ -47,7 +47,7 @@ case $(uname) in
 esac
 
 # Build the game.
-odin build . -use-separate-modules -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -show-timings -define:RAYLIB_SHARED=true -build-mode:dll -out:game_tmp$DLL_EXT -debug $VET
+odin build . -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -show-timings -define:RAYLIB_SHARED=true -build-mode:dll -out:game_tmp$DLL_EXT -debug $VET
 
 # Need to use a temp file on Linux because it first writes an empty `game.so`, which the game will load before it is actually fully written.
 mv game_tmp$DLL_EXT game$DLL_EXT
@@ -56,5 +56,5 @@ mv game_tmp$DLL_EXT game$DLL_EXT
 if pgrep game.bin > /dev/null; then
     exit 1
 else
-    odin build main_hot_reload -use-separate-modules -out:game.bin $VET -debug
+    odin build main_hot_reload -out:game.bin $VET -debug
 fi
