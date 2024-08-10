@@ -199,6 +199,7 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 	base_name := asset_name(filename)
 	frame_idx := 0
 	animated := len(doc.frames) > 1
+	skip_writing_main_anim := false
 	indexed := doc.header.color_depth == .Indexed
 	palette: ase.Palette_Chunk
 	if indexed {
@@ -242,6 +243,8 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 						loop_direction = tag.loop_direction,
 						repeat = tag.repeat,
 					}
+					
+					skip_writing_main_anim = true
 					append(animations, a)
 				}
 			}
@@ -338,7 +341,7 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 		frame_idx += 1
 	}
 
-	if animated && frame_idx > 1 {
+	if animated && frame_idx > 1 && !skip_writing_main_anim {
 		a := Animation {
 			name = base_name,
 			first_texture = fmt.tprint(base_name, 0, sep = ""),
