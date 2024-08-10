@@ -236,7 +236,7 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 			case ase.Tags_Chunk:
 				for tag in c {
 					a := Animation {
-						name = fmt.tprint(base_name, tag.name, sep = "_"),
+						name = fmt.tprint(base_name, strings.to_ada_case(tag.name, context.temp_allocator), sep = "_"),
 						first_texture = fmt.tprint(base_name, tag.from_frame, sep = ""),
 						last_texture = fmt.tprint(base_name, tag.to_frame, sep = ""),
 						loop_direction = tag.loop_direction,
