@@ -32,7 +32,7 @@ unmarshal_from_bufio :: proc(r: ^bufio.Reader, doc: ^Document, allocator := cont
 
 unmarshal_from_filename :: proc(name: string, doc: ^Document, allocator := context.allocator) -> (total_read: int, err: Unmarshal_Error) {
     fd, err_no := os.open(name, os.O_RDONLY, 0)
-    if err_no != 0 {
+    if err_no != nil {
         return total_read, .Unable_To_Open_File
     }
     defer os.close(fd)

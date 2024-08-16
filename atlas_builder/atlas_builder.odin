@@ -30,7 +30,7 @@ TEXTURES_DIR :: "textures"
 
 dir_path_to_file_infos :: proc(path: string) -> []os.File_Info {
 	d, derr := os.open(path, os.O_RDONLY)
-	if derr != 0 {
+	if derr != nil {
 		panic("open failed")
 	}
 	defer os.close(d)
@@ -39,7 +39,7 @@ dir_path_to_file_infos :: proc(path: string) -> []os.File_Info {
 		file_info, ferr := os.fstat(d)
 		defer os.file_info_delete(file_info)
 
-		if ferr != 0 {
+		if ferr != nil {
 			panic("stat failed")
 		}
 		if !file_info.is_dir {
