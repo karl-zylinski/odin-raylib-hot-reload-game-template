@@ -64,12 +64,15 @@ Handle_Array :: struct($T: typeid, $HT: typeid) {
 ha_delete :: proc(ha: Handle_Array($T, $HT), loc := #caller_location) {
 	delete(ha.items, loc)
 	delete(ha.unused_items, loc)
+	new_items_arena := ha.new_items_arena
+	vmem.arena_destroy(&new_items_arena)
 }
 
 ha_clear :: proc(ha: ^Handle_Array($T, $HT), loc := #caller_location) {
 	clear(&ha.items)
 	clear(&ha.unused_items)
-	clear(&ha.new_items)
+	vmem.arena_free_all(&ha.new_items_arena)
+	ha.new_items = {}
 }
 
 // Call this at a safe space when there are no pointers in flight. It will move things from
