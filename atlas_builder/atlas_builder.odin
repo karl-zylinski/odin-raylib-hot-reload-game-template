@@ -22,16 +22,22 @@ import "vendor:stb/rect_pack"
 import ase "aseprite"
 import rl "vendor:raylib"
 
+ATLAS_SIZE :: 512
+
 TILESET_WIDTH :: 10
 TILE_SIZE :: 10
 
 PACKAGE_NAME :: "game"
 TEXTURES_DIR :: "textures"
 
+LETTERS_IN_FONT :: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?!&.,"
+FONT_FILENAME :: "font.ttf"
+
 dir_path_to_file_infos :: proc(path: string) -> []os.File_Info {
 	d, derr := os.open(path, os.O_RDONLY)
 	if derr != nil {
-		panic("open failed")
+		fmt.printfln("no %s folder found", TEXTURES_DIR)
+		return {}
 	}
 	defer os.close(d)
 
@@ -389,10 +395,6 @@ load_png_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 	append(textures, td)
 }
 
-ATLAS_SIZE :: 512
-
-LETTERS_IN_FONT :: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?&.,"
-
 main :: proc() {
 	textures: [dynamic]Texture_Data
 	animations: [dynamic]Animation
@@ -464,7 +466,7 @@ main :: proc() {
 		return PackRectType(i >> 29)
 	}
 
-	if font_data, ok := os.read_entire_file("easvhs.ttf"); ok {
+	if font_data, ok := os.read_entire_file(FONT_FILENAME); ok {
 		glyphs = rl.LoadFontData(&font_data[0], i32(len(font_data)), FONT_SIZE, raw_data(letters), i32(num_letters), .BITMAP)
 
 		for i in 0..<len(letters) {
@@ -476,6 +478,8 @@ main :: proc() {
 				h = rect_pack.Coord(g.image.height) + 1,
 			})
 		}
+	} else {
+		fmt.printfln("No %s file found", FONT_FILENAME)
 	}
 
 	for t, idx in textures {
