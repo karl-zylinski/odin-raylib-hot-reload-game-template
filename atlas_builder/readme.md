@@ -19,7 +19,7 @@ TODO: Should I just use `Vec2 :: rl.Vector2` instead of an integer vector?
 
 
 # How to run the atlas builder
-- In the root of the template repo, a textures folder and put .ase, .aseprite or .png files in it
+- In the root of the template repo (this repository! You are within a subfolder of a bigger Odin + Raylib + Hot Reload template), a textures folder and put .ase, .aseprite or .png files in it
 - From the root of the template ropo, execute `odin run atlas_builder`
 - `atlas.png` and `atlas.odin` are ouputted
 
