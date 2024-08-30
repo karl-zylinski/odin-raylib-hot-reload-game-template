@@ -36,10 +36,13 @@ g_mem.atlas = rl.LoadTexture(TEXTURE_ATLAS_FILENAME)
 
 # Draw textures from atlas
 
-Draw like this using Raylib:.aseprite or .png):
+Draw like this using Raylib:
 
 ```
 rl.DrawTextureRec(g_mem.atlas, atlas_textures[.Bush].rect, position, rl.WHITE)
+```
+or
+```
 rl.DrawTexturePro(g_mem.atlas, atlas_textures[.Bush].rect, destination_rect, rl.WHITE)
 ```
 
@@ -185,4 +188,4 @@ If a texture name starts with `tileset_` then it will be treated as a tileset. I
 
 The tile IDs are of the format `T0Y0X0`, `T0Y0X1` etc. I.e. just coordinates of which tile is which. You can check if a tile exists by doing `if atlas_tiles[some_tile_id] != {} { }`
 
-See `FONT_FILENAME` and `tileset_` in `atlas_builder.odin` to see how that works. Note: Set TILE_SIZE and TILESET_WIDTH to the correct values if you use a tileset.
+Note: Set `TILE_SIZE` and `TILESET_WIDTH` in `atlas_builder.odin` to the correct values for your tileset.
