@@ -84,7 +84,7 @@ After this whenever you call `rl.DrawRectangleRec` or any of the the other shape
 
 # Animations
 
-There's an `atlas_animations` list. Any aseprite file that has more than one frame will be treated as an animation and added to that list. Each atlas animation entry knows which is the first and last texture in the animation. The animation update code then simply becomes to step to the next frame when necesarry. There's a duration on each Atlas_Texture struch that can will contain the value of the duration of the frame as set in aseprite.
+There's an `atlas_animations` list. Any aseprite file that has more than one frame will be treated as an animation and added to that list. Also, tags within the ase file will result in separate animations. Each atlas animation entry knows which is the first and last texture in the animation. The animation update code then simply becomes to step to the next frame when necesarry. There's a duration on each Atlas_Texture struct that contains the duration of the frame as set in aseprite.
 
 Here's an implementation of how to animate using the atlased animations:
 
@@ -136,7 +136,7 @@ animation_length :: proc(anim: Animation_Name) -> f32 {
 	return l
 }
 
-animation_draw :: proc(anim: Animation_Name, pos: rl.Vector2) -> f32 {
+animation_draw :: proc(anim: Animation, pos: rl.Vector2) {
 	if anim.current_frame == .None {
 		return
 	}
@@ -151,6 +151,23 @@ animation_draw :: proc(anim: Animation_Name, pos: rl.Vector2) -> f32 {
 
 	rl.DrawTextureRec(g_mem.atlas, texture.rect, offset_pos, rl.WHITE)
 }
+```
+
+create an animation using
+
+```
+anim := animation_create(.Some_Animation_Name) 
+```
+and save that animation somewhere. Update it each frame:
+
+```
+animation_update(&where_ever_you_put_the_anim, rl.GetFrameTime())
+```
+
+and finally draw the animation
+
+```
+animation_draw(where_ever_you_put_the_anim, position)
 ```
 
 # Tilesets
