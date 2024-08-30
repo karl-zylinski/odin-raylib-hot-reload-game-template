@@ -6,7 +6,7 @@ Support me at https://www.patreon.com/karl_zylinski
 
 This atlas builder looks into a 'textures' folder for pngs, ase and aseprite files and makes an atlas from those. It outputs both atlas.png and atlas.odin. The odin file you compile as part of your game. It contains metadata about where in the atlas the textures ended up.
 
-The atlas builder can also split up tilesets and fonts and splat those out into the atlas. It detects if a texture is a tileset by checking if the name starts with `tileset_`. Search for `FONT_FILENAME` and `tileset_` in `atlas_builder.odin` to see how that works. Note: Set TILE_SIZE and TILESET_WIDTH to the correct values if you use a tileset.
+The atlas builder can also split up tilesets and fonts and splat those out into the atlas. It detects if a texture is a tileset by checking if the name starts with `tileset_`.
 
 A big benefit with using an atlas is that you can drastically lower the number of draw calls due to everything being in a single texture.
 
@@ -19,14 +19,14 @@ TODO: Should I just use `Vec2 :: rl.Vector2` instead of an integer vector?
 
 
 # How to run the atlas builder
-- In the root of the template repo (this repository! You are within a subfolder of a bigger Odin + Raylib + Hot Reload template), a textures folder and put .ase, .aseprite or .png files in it
+- In the root of this repository, create a folder called 'textures' and put .ase, .aseprite or .png files in it
 - From the root of the template ropo, execute `odin run atlas_builder`
 - `atlas.png` and `atlas.odin` are ouputted
 
 
 # Loading the atlas
 
-In your game load the atlas once (here I put it in a globally accessible struct called g_mem):
+In your game load the atlas once (here I put it in a globally accessible struct called `g_mem`):
 ```
 g_mem.atlas = rl.LoadTexture(TEXTURE_ATLAS_FILENAME)
 ```
@@ -34,19 +34,22 @@ g_mem.atlas = rl.LoadTexture(TEXTURE_ATLAS_FILENAME)
 
 # Draw textures from atlas
 
-Draw like this using Raylib. This uses texture name "Bush" which will exist if there is a texture called `textures/bush.ase` (or .aseprite or .png):
+Draw like this using Raylib:.aseprite or .png):
 
 ```
 rl.DrawTextureRec(g_mem.atlas, atlas_textures[.Bush].rect, position, rl.WHITE)
 rl.DrawTexturePro(g_mem.atlas, atlas_textures[.Bush].rect, destination_rect, rl.WHITE)
 ```
 
-(atlas_textures lives in atlas.odin)
+This uses texture name "Bush" which will exist if there is a texture called `textures/bush.ase`. `atlas_textures` lives in atlas.odin.
 
-There's also a atlas_textures[.Bush].offset you can add to your position. The offset is non-zero if there was empty pixels in the upper regions of the texture. This saves atlas-space, since it would have to write empty pixels otherwise!
+There's also a `atlas_textures[.Bush].offset` you can add to your position. The offset is non-zero if there was empty pixels in the upper regions of the texture. This saves atlas-space, since it would have to write empty pixels otherwise! See the [animation examples](#animations) for how I use it.
 
+# Atlas-based Raylib font
 
-# How to create a Raylib font based on the letters in the atlas
+Set `FONT_FILENAME` and `LETTERS_IN_FONT` inside `atlas_builder.odin` before running the atlas builder.
+
+Then in your game you create a font based on the letters in the atlas like this:
 
 ```
 num_glyphs := len(atlas_glyphs)
@@ -73,7 +76,11 @@ font := rl.Font {
 }
 ```
 
-# How to make Raylib shapes drawing use atlas
+Here `atlas_glyphs` and `ATLAS_FONT_SIZE` exist within `atlas.odin`.
+
+# Make Raylib draw shapes using atlas
+
+Do this once at startup:
 
 ```
 rl.SetShapesTexture(g_mem.atlas, shapes_texture_rect)
@@ -175,3 +182,5 @@ animation_draw(where_ever_you_put_the_anim, position)
 If a texture name starts with `tileset_` then it will be treated as a tileset. In that case `atlas_tiles` contains the mapping from tile IDs the atlas rects.
 
 The tile IDs are of the format `T0Y0X0`, `T0Y0X1` etc. I.e. just coordinates of which tile is which. You can check if a tile exists by doing `if atlas_tiles[some_tile_id] != {} { }`
+
+See `FONT_FILENAME` and `tileset_` in `atlas_builder.odin` to see how that works. Note: Set TILE_SIZE and TILESET_WIDTH to the correct values if you use a tileset.
