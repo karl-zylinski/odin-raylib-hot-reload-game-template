@@ -1,4 +1,4 @@
-// By Karl Zylinski, karl@zylinski.se
+// By Karl Zylinski, http://zylinski.se
 // Support me at https://www.patreon.com/karl_zylinski
 //
 // See readme.md for documentation.

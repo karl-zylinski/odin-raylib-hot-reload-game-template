@@ -1,4 +1,5 @@
-By Karl Zylinski, karl@zylinski.se
+By Karl Zylinski, http://zylinski.se
+
 Support me at https://www.patreon.com/karl_zylinski
 
 # What's this?
@@ -141,6 +142,7 @@ animation_draw :: proc(anim: Animation_Name, pos: rl.Vector2) -> f32 {
 	}
 
 	rl.DrawTextureRec(g_mem.atlas, atlas_textures[anim.current_frame].rect, pos, rl.WHITE)
+}
 ```
 
 # Tilesets
