@@ -1,12 +1,9 @@
-// This atlas builder looks into a 'textures' folder for pngs, ase and aseprite files and makes an atlas
-// from those. It outputs both atlas.png and atlas.odin. The odin file you compile as part of your game,
-// it contains metadata about where in the atlas the stuff is.
+// By Karl Zylinski, karl@zylinski.se
+// Support me at https://www.patreon.com/karl_zylinski
 //
-// The atlas builder can also split up tilesets and fonts and splat those out into the atlas. Look for
-// the code below that processes `.ttf` and images with filenames that start with `tileset`. Note: Set
-// TILE_SIZE and TILESET_WIDTH to the correct values if you use a tileset.
+// See readme.md for documentation.
 
-package ase_to_atlas
+package atlas_builder
 
 import "core:c"
 import "core:fmt"
@@ -729,6 +726,10 @@ main :: proc() {
 	defer os.close(f)
 
 	fmt.fprintf(f, "package %s\n", PACKAGE_NAME)
+	fmt.fprintln(f, "")
+	fmt.fprintln(f, "// Note: The types Rect and Vec2i can be defined as:")
+	fmt.fprintln(f, "// Rect :: rl.Rectangle")
+	fmt.fprintln(f, "// Vec2i :: [2]int")
 	fmt.fprintln(f, "")
 
 	fmt.fprintln(f, "Texture_Name :: enum {")
