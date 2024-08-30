@@ -25,10 +25,12 @@ TODO: Should I just use `Vec2 :: rl.Vector2` instead of an integer vector?
 - From the root of the template ropo, execute `odin run atlas_builder`
 - `atlas.png` and `atlas.odin` are ouputted
 
+Change `ATLAS_SIZE` in `atlas_builder.odin` to change the maximum width and height of the atlas.
+Note: The final atlas is cropped to the actual contents inside it, it may be smaller than `ATLAS_SIZE`. Remove the `rl.ImageAlphaCrop(&atlas, 0)` line in `atlas_builder.odin` if you do not what this cropping.
 
 # Loading the atlas
 
-In your game load the atlas once (here I put it in a globally accessible struct called `g_mem`):
+In your game load the atlas once. Here I put it in a globally accessible struct called `g_mem`:
 ```
 g_mem.atlas = rl.LoadTexture(TEXTURE_ATLAS_FILENAME)
 ```
