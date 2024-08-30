@@ -141,7 +141,15 @@ animation_draw :: proc(anim: Animation_Name, pos: rl.Vector2) -> f32 {
 		return
 	}
 
-	rl.DrawTextureRec(g_mem.atlas, atlas_textures[anim.current_frame].rect, pos, rl.WHITE)
+	texture := atlas_textures[anim.current_frame]
+	
+	// Note: The texture.offset may contain a non-zero offset. This offset occurs
+	// when textures have some empty pixels in the upper regions. Instead of the
+	// packer writing in those empty pixels (wasting space), it record how much
+	// you need to offset your texture to compensate for the missing empty pixels.
+	offset_pos := pos + {f32(texture.offset.x), f32(texture.offset.y)}
+
+	rl.DrawTextureRec(g_mem.atlas, texture.rect, offset_pos, rl.WHITE)
 }
 ```
 
