@@ -1,6 +1,6 @@
 @echo off
 
-set BUILD_PARAMS=-strict-style -vet-using-stmt -vet-using-param -vet-style -vet-semicolon -debug
+set BUILD_PARAMS=-strict-style -vet-unused -vet-using-stmt -vet-using-param -vet-style -vet-semicolon -debug
 
 rem Run atlas builder, which outputs game/atlas.odin and atlas.png
 odin run atlas_builder %BUILD_PARAMS%
