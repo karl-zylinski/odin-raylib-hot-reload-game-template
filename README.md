@@ -15,7 +15,7 @@ Overview of what happens:
 - It compiles the game. `game/atlas.odin` will be compiled as part of the game. You thus reason about texture and animation names at compile-time.
 - when `game.odin` compiles it loads the `atlas.png` into a compile-time-array of bytes, stored in `ATLAS_DATA` constant. This means your executable won't need `atlas.png`, it's inside the executable / game DLL.
 - when the game starts it loads a raylib texture from `ATLAS_DATA`
-- It uses the stuff in `animation.odin` to setup, update and draw an animation for the player, based on the animation `textures/player.ase` (which is accessible in `game/atlas.odin` under the enum value `Animation_Name.Player`)
+- It uses the stuff in `game/animation.odin` to setup, update and draw an animation for the player, based on the animation `textures/player.ase` (which is accessible in `game/atlas.odin` under the enum value `Animation_Name.Player`)
 - It also draws text using a font that lives in the atlas. This font is reconstructed into a raylib font in `game/game.odin`
 - It also draws raylib shapes (rl.DrawRectangleRec etc) using a shapes-drawing-texture that lives in the atlas.
 
