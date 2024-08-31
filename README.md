@@ -1,5 +1,6 @@
 # Odin + Raylib + Hot Reload template (+ Atlas Builder!)
 By Karl Zylinski, http://zylinski.se
+
 Support me at https://www.patreon.com/karl_zylinski
 
 ## Description
