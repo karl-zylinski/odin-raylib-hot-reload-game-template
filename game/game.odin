@@ -24,7 +24,9 @@ import "core:fmt"
 import "core:slice"
 import rl "vendor:raylib"
 
-// This loads the atlas at compile time and stores it in the dll, this data is used in `game_hot_reloaded`.
+// This loads the atlas at compile time and stores it in the executable, this data is used in `game_hot_reloaded`.
+// This means that you don't need atlas.png next to your game after compilation. It will live in
+// `game.dll` or `game_release.exe` for release builds.
 ATLAS_DATA :: #load("../atlas.png")
 PIXEL_WINDOW_HEIGHT :: 180
 
