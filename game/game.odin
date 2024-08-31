@@ -119,7 +119,9 @@ draw_player :: proc(p: Player) {
 		atlas_rect.width = -atlas_rect.width
 	}
 
-	// Use document_size for origin as anim_texture.rect.width (and height) may vary from frame to frame.
+	// I want origin of player to be at the feet.
+	// Use document_size for origin instead of anim_texture.rect.width (and height), because those
+	// may vary from frame to frame due to being tightly packed in atlas.
 	origin := Vec2 {
 		anim_texture.document_size.x/2,
 		anim_texture.document_size.y - 1, // -1 because there's an outline in the player anim that takes an extra pixel
