@@ -8,6 +8,9 @@
 //		game's memory.
 // game_hot_reloaded: Run after a hot reload so that the `g_mem` global variable
 //		can be set to whatever pointer it was in the old DLL.
+//
+// Note: When compiled as part of the release executable this whole package is imported as a normal
+// odin package instead of a DLL.
 
 package game
 
