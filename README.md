@@ -1,3 +1,7 @@
+# Odin + Raylib + Hot Reload template (+ Atlas Builder!)
+By Karl Zylinski, http://zylinski.se
+Support me at https://www.patreon.com/karl_zylinski
+
 ## Description
 
 This is an Odin + Raylib game template with Hot Reloading pre-setup. My game projects tend to have some things in common, so I made this template so I can get up and running quickly.
@@ -71,9 +75,6 @@ Streams that start from this template:
 | [Subfolders](https://github.com/alfredbaudisch/odin-raylib-hot-reload-game-template/tree/build-subfolders) | Extended Template | Adds sub folders for built binaries and the game DLL's source code |
 
 Got a project based on this template? I'd gladly have it on this list! It can be a game based on the template or an extension/spinoff of the template. Just send me a link on [Discord](https://discord.gg/4FsHgtBmFK) or on karl@zylinski.se, or PR the entry into this README 😻 
-
-## Support me on Patreon
-https://www.patreon.com/karl_zylinski
 
 ## Questions?
 
