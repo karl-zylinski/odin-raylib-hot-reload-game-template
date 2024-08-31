@@ -5,9 +5,7 @@
 
 package atlas_builder
 
-import "core:c"
 import "core:fmt"
-import "core:mem"
 import "core:os"
 import "core:path/slashpath"
 import "core:slice"
@@ -275,9 +273,6 @@ load_ase_texture_data :: proc(filename: string, textures: ^[dynamic]Texture_Data
 			mipmaps = 1,
 			format = .UNCOMPRESSED_R8G8B8A8,
 		}
-
-		drawn_min := Vec2i { max(int), max(int) }
-		drawn_max := Vec2i { min(int), min(int) }
 
 		for c in cels {
 			cl := c.cel.(ase.Com_Image_Cel)

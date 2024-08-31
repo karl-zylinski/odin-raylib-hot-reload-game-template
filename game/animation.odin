@@ -12,8 +12,6 @@
 
 package game
 
-import rl "vendor:raylib"
-
 Animation :: struct {
 	atlas_anim: Animation_Name,
 	current_frame: Texture_Name,
