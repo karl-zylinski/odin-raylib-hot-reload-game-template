@@ -16,8 +16,8 @@ Overview of what happens:
 - when `game.odin` compiles it loads the `atlas.png` into a compile-time-array of bytes, stored in `ATLAS_DATA` constant. This means your executable won't need `atlas.png`, it's inside the executable / game DLL.
 - when the game starts it loads a raylib texture from `ATLAS_DATA`
 - It uses the stuff in `game/animation.odin` to setup, update and draw an animation for the player, based on the animation `textures/player.ase` (which is accessible in `game/atlas.odin` under the enum value `Animation_Name.Player`)
-- It also draws text using a font that lives in the atlas. This font is reconstructed into a raylib font in `game/game.odin`
-- It also draws raylib shapes (rl.DrawRectangleRec etc) using a shapes-drawing-texture that lives in the atlas.
+- It also draws text using a font that lives in the atlas. This font is reconstructed into a raylib font. See `load_atlased_font` in `game/game.odin`
+- It also draws raylib shapes (rl.DrawRectangleRec etc) using a shapes-drawing-texture that lives in the atlas. See `rl.SetShapesTexture(atlas, shapes_texture_rect)` line in `game/game.odin`.
 
 The game will look like this, and at the bottom you see a capture in RenderDoc that shows hows how everything is done using 2 draw calls. One for the game and one for the UI.
 ![image](https://github.com/user-attachments/assets/d0c0ac59-4180-4bc0-90cf-f11d6db142f0)
