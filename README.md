@@ -1,7 +1,15 @@
-# Odin + Raylib + Hot Reload template (+ Atlas Builder!)
+# Odin + Raylib + Hot Reload template (+ Atlas Builder!) -- 
+
 By Karl Zylinski, http://zylinski.se
 
 Support me at https://www.patreon.com/karl_zylinski
+
+## This branch: Extended atlas example!
+
+This branch hosts an extended example. It shows how to use the atlas in code and also how to do atlased animations. There are lots of comments in `game/game.odin` that explains how it works.
+
+The game will look like this, and at the bottom you see a capture in RenderDoc that shows hows how everything is done using 2 draw calls. One for the game and one for the UI.
+![image](https://github.com/user-attachments/assets/d0c0ac59-4180-4bc0-90cf-f11d6db142f0)
 
 ## Description
 
