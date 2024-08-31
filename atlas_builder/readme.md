@@ -12,13 +12,26 @@ The atlas builder can also split up tilesets and fonts and splat those out into 
 
 A big benefit with using an atlas is that you can drastically lower the number of draw calls due to everything being in a single texture.
 
-Note: I use the types `Rect` and `Vec2i` in the outputted `atlas.odin` file. They should be defined in your code as:
+# Dependencies
+The generator itself only uses core and vendor libs, plus an aseprite package, which is included.
+
+As for `atlas.odin`, it has no dependencies. However, I use the types `Rect` and `Vec2` in `atlas.odin` file. Make sure you define them somehow in the same package as you use `atlas.odin` in. For example, if you use raylib:
 ```
 Rect :: rl.Rectangle
-Vec2i :: [2]int
+Vec2 :: rl.Vector2
 ```
-TODO: Should I just use `Vec2 :: rl.Vector2` instead of an integer vector?
-
+or like this if you don't use raylib:
+```
+// Names are not important in rect type, just the order of x, y, width and height.
+Rect :: struct {
+	x: f32,
+	y: f32,
+	width: f32,
+	height: f32,
+}
+Vec2 :: [2]f32
+```
+Just make sure you have something along those lines the same package as this file (or change the generator code in `atlas_builder.odin` to use other type names).
 
 # How to run the atlas builder
 - In the root of this repository, create a folder called 'textures' and put .ase, .aseprite or .png files in it
