@@ -6,7 +6,7 @@ Support me at https://www.patreon.com/karl_zylinski
 
 ## Extra description about this branch
 
-This branch hosts an extended example. It shows how to use the atlas in code and also how to do atlased animations. There are lots of comments in `game/game.odin` that explains how it works.
+This branch hosts an extended example. It shows how to use the atlas in code and also how to do atlased animations. It also uses an atlased font and the raylib shapes go via the atlas as well. There are lots of comments in `game/game.odin` that explains how it works.
 
 The game will look like this, and at the bottom you see a capture in RenderDoc that shows hows how everything is done using 2 draw calls. One for the game and one for the UI.
 ![image](https://github.com/user-attachments/assets/d0c0ac59-4180-4bc0-90cf-f11d6db142f0)
