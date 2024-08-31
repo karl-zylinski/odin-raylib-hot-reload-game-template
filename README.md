@@ -10,7 +10,7 @@ This branch hosts an extended example. It shows how to use the atlas builder and
 
 Overview of what happens:
 - `build_hot_reload` / `build_release` script runs atlas builder, which outputs `atlas.png` and `game/atlas.odin`.
-- `game/atlas.odin` contains info about where in `atlas.png` the textures in `textures` ended up, including animations (aseprite textures that had more than one frame... It also supports tags for multiple animations within a single aseprite file)
+- `game/atlas.odin` contains info about where in `atlas.png` the textures in the `textures` folder ended up, including animations (aseprite textures that had more than one frame... It also supports tags for multiple animations within a single aseprite file)
 - `game/atlas.odin` also contains info about where in `atlas.png` letters from the font `font.ttf` ended up
 - It compiles the game. `game/atlas.odin` will be compiled as part of the game. You thus reason about texture and animation names at compile-time.
 - when `game.odin` compiles it loads the `atlas.png` into a compile-time-array of bytes, stored in `ATLAS_DATA` constant. This means your executable won't need `atlas.png`, it's inside the executable / game DLL.
