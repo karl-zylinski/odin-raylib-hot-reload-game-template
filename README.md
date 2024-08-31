@@ -4,9 +4,9 @@ This is an Odin + Raylib game template with Hot Reloading pre-setup. My game pro
 
 This template is compatible with Windows, macOS and Linux. The instructions are mostly for Windows, but there is a [non-windows](#non-windows) section that explains the differences.
 
-`build_hot_reload.bat` will build `game.dll` from the odin code in the root of the repository. It will also build `game.exe` from the code in the directory `main_hot_reload`. When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything that is compiled as part of `game.dll` and re-run `build_hot_reload.bat`. `game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game.odin`.
+`build_hot_reload.bat` will build `game.dll` from the odin code in the `game` folder. It will also build `game.exe` from the code in the directory `main_hot_reload`. When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything that is compiled as part of `game.dll` and re-run `build_hot_reload.bat`. `game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game.odin`.
 
-There is also a `build_release.bat` file that makes a `game_release.exe` that does not have the hot reloading stuff, since you probably do not want that in the released version of your game.
+There is also a `build_release.bat` file that makes a `game_release.exe` that does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `game` directory as a normal Odin package.
 
 `build_debug.bat` is like `build_release.bat` but makes a debuggable executable, in case you need to debug your non-hot-reload-exe.
 
@@ -17,9 +17,9 @@ There are also some additional files with some helpers that I find useful. See [
 - Copy `raylib.dll` from `your_odin_compiler/vendor/raylib/windows` to the root of this repo.
 - Run `build_hot_reload.bat` to compile `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
 - Run `game.exe`
-- Make changes to the gameplay code (for example, make changes in the proc `update` or `draw` in `game.odin`)
+- Make changes to the gameplay code (for example, make changes in the proc `update` or `draw` in `game/game.odin`)
 - Run `build_hot_reload.bat` again while game.exe is running, it will recompile `game.dll`
-- `game.exe` will reload `game.dll` but use the same Game_Memory (a struct defined in `game.odin`) as before.
+- `game.exe` will reload `game.dll` but use the same Game_Memory (a struct defined in `game/game.odin`) as before.
 
 ### Non-Windows
 
@@ -53,6 +53,8 @@ rl.DrawTextureRec(atlas_texture, atlas_rect, some_position, rl.WHITE)
 ```
 
 For aseprite files with multiple frames animations will be outputted, which you find in the array `atlas_animations` of `atlas.odin`.
+
+See `readme.md` in the `atlas_builder` folder for more info.
 
 ## Demo streams
 
