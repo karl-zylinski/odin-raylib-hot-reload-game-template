@@ -61,7 +61,7 @@ rl.DrawTextureRec(atlas_texture, atlas_rect, some_position, rl.WHITE)
 
 For aseprite files with multiple frames animations will be outputted, which you find in the array `atlas_animations` of `atlas.odin`.
 
-See `readme.md` in the `atlas_builder` folder for more info.
+See `readme.md` in the `atlas_builder` folder for more info and the branch [atlas-animation-example](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template/tree/atlas-animation-example) for an example on how to use the atlas builder in practice.
 
 ## Demo streams
 
