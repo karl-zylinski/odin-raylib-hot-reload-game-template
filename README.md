@@ -6,7 +6,18 @@ Support me at https://www.patreon.com/karl_zylinski
 
 ## Extra description about this branch
 
-This branch hosts an extended example. It shows how to use the atlas in code and also how to do atlased animations. It also uses an atlased font and the raylib shapes go via the atlas as well. There are lots of comments in `game/game.odin` that explains how it works.
+This branch hosts an extended example. It shows how to use the atlas builder and also how to do atlased animations. It also uses an atlased font and the raylib shapes (rl.DrawRectangleRec etc) use the atlas as well. There are lots of comments in `game/game.odin` that explains how it works.
+
+Overview of what happens:
+- `build_hot_reload` / `build_release` script runs atlas builder, which outputs `atlas.png` and `game/atlas.odin`.
+- `game/atlas.odin` contains info about where in `atlas.png` the textures in the `textures` folder ended up, including animations (aseprite textures that had more than one frame... It also supports tags for multiple animations within a single aseprite file)
+- `game/atlas.odin` also contains info about where in `atlas.png` letters from the font `font.ttf` ended up
+- It compiles the game. `game/atlas.odin` will be compiled as part of the game. You thus reason about texture and animation names at compile-time.
+- when `game.odin` compiles it loads the `atlas.png` into a compile-time-array of bytes, stored in `ATLAS_DATA` constant. This means your executable won't need `atlas.png`, it's inside the executable / game DLL.
+- when the game starts it loads a raylib texture from `ATLAS_DATA`
+- It uses the stuff in `game/animation.odin` to setup, update and draw an animation for the player, based on the animation `textures/player.ase` (which is accessible in `game/atlas.odin` under the enum value `Animation_Name.Player`)
+- It also draws text using a font that lives in the atlas. This font is reconstructed into a raylib font. See `load_atlased_font` in `game/game.odin`
+- It also draws raylib shapes (rl.DrawRectangleRec etc) using a shapes-drawing-texture that lives in the atlas. See `rl.SetShapesTexture(atlas, shapes_texture_rect)` line in `game/game.odin`.
 
 The game will look like this, and at the bottom you see a capture in RenderDoc that shows hows how everything is done using 2 draw calls. One for the game and one for the UI.
 ![image](https://github.com/user-attachments/assets/d0c0ac59-4180-4bc0-90cf-f11d6db142f0)
