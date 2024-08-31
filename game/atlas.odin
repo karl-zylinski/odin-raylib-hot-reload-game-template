@@ -16,6 +16,9 @@ package game
 
 Texture_Name :: enum {
 	None,
+	Bush,
+	Player0,
+	Player1,
 }
 
 Atlas_Texture :: struct {
@@ -27,6 +30,9 @@ Atlas_Texture :: struct {
 
 atlas_textures: [Texture_Name]Atlas_Texture = {
 	.None = {},
+	.Bush = { rect = {33, 0, 45, 18}, offset = {2, 6}, document_size = {48, 24}, duration = 0.100},
+	.Player0 = { rect = {91, 0, 10, 18}, offset = {0, 0}, document_size = {10, 18}, duration = 0.100},
+	.Player1 = { rect = {205, 0, 10, 17}, offset = {0, 1}, document_size = {10, 18}, duration = 0.100},
 }
 
 Atlas_Glyph :: struct {
@@ -38,9 +44,82 @@ Atlas_Glyph :: struct {
 }
 
 atlas_glyphs: []Atlas_Glyph = {
+	{ rect = {430, 0, 13, 15}, value = 'A', offset_x = 0, offset_y = 8, advance_x = 12},
+	{ rect = {481, 16, 11, 15}, value = 'B', offset_x = 2, offset_y = 8, advance_x = 13},
+	{ rect = {131, 0, 12, 17}, value = 'C', offset_x = 1, offset_y = 7, advance_x = 12},
+	{ rect = {469, 16, 11, 15}, value = 'D', offset_x = 2, offset_y = 8, advance_x = 13},
+	{ rect = {287, 17, 9, 15}, value = 'E', offset_x = 2, offset_y = 8, advance_x = 11},
+	{ rect = {297, 17, 9, 15}, value = 'F', offset_x = 2, offset_y = 8, advance_x = 11},
+	{ rect = {144, 0, 12, 17}, value = 'G', offset_x = 1, offset_y = 7, advance_x = 13},
+	{ rect = {409, 16, 11, 15}, value = 'H', offset_x = 2, offset_y = 8, advance_x = 14},
+	{ rect = {508, 0, 2, 15}, value = 'I', offset_x = 2, offset_y = 8, advance_x = 5},
+	{ rect = {374, 0, 9, 16}, value = 'J', offset_x = 0, offset_y = 8, advance_x = 10},
+	{ rect = {397, 16, 11, 15}, value = 'K', offset_x = 2, offset_y = 8, advance_x = 13},
+	{ rect = {277, 17, 9, 15}, value = 'L', offset_x = 2, offset_y = 8, advance_x = 10},
+	{ rect = {416, 0, 13, 15}, value = 'M', offset_x = 2, offset_y = 8, advance_x = 16},
+	{ rect = {496, 0, 11, 15}, value = 'N', offset_x = 2, offset_y = 8, advance_x = 14},
+	{ rect = {117, 0, 13, 17}, value = 'O', offset_x = 1, offset_y = 7, advance_x = 14},
+	{ rect = {256, 17, 10, 15}, value = 'P', offset_x = 2, offset_y = 8, advance_x = 12},
+	{ rect = {6, 0, 14, 20}, value = 'Q', offset_x = 1, offset_y = 7, advance_x = 14},
+	{ rect = {457, 16, 11, 15}, value = 'R', offset_x = 2, offset_y = 8, advance_x = 12},
+	{ rect = {157, 0, 12, 17}, value = 'S', offset_x = 0, offset_y = 7, advance_x = 12},
+	{ rect = {483, 0, 12, 15}, value = 'T', offset_x = 0, offset_y = 8, advance_x = 12},
+	{ rect = {256, 0, 12, 16}, value = 'U', offset_x = 1, offset_y = 8, advance_x = 14},
+	{ rect = {444, 0, 12, 15}, value = 'V', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {397, 0, 18, 15}, value = 'W', offset_x = 0, offset_y = 8, advance_x = 17},
+	{ rect = {470, 0, 12, 15}, value = 'X', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {457, 0, 12, 15}, value = 'Y', offset_x = -1, offset_y = 8, advance_x = 10},
+	{ rect = {433, 16, 11, 15}, value = 'Z', offset_x = 1, offset_y = 8, advance_x = 12},
+	{ rect = {350, 17, 9, 13}, value = 'a', offset_x = 1, offset_y = 11, advance_x = 11},
+	{ rect = {170, 0, 11, 17}, value = 'b', offset_x = 1, offset_y = 7, advance_x = 12},
+	{ rect = {340, 17, 9, 13}, value = 'c', offset_x = 1, offset_y = 11, advance_x = 10},
+	{ rect = {194, 0, 10, 17}, value = 'd', offset_x = 1, offset_y = 7, advance_x = 12},
+	{ rect = {319, 17, 10, 13}, value = 'e', offset_x = 1, offset_y = 11, advance_x = 11},
+	{ rect = {237, 0, 8, 17}, value = 'f', offset_x = 0, offset_y = 6, advance_x = 6},
+	{ rect = {79, 0, 11, 18}, value = 'g', offset_x = 1, offset_y = 11, advance_x = 11},
+	{ rect = {363, 0, 10, 16}, value = 'h', offset_x = 1, offset_y = 7, advance_x = 12},
+	{ rect = {393, 0, 3, 16}, value = 'i', offset_x = 1, offset_y = 7, advance_x = 5},
+	{ rect = {0, 0, 5, 21}, value = 'j', offset_x = -1, offset_y = 7, advance_x = 5},
+	{ rect = {341, 0, 10, 16}, value = 'k', offset_x = 1, offset_y = 7, advance_x = 11},
+	{ rect = {246, 0, 4, 17}, value = 'l', offset_x = 1, offset_y = 7, advance_x = 5},
+	{ rect = {360, 17, 16, 12}, value = 'm', offset_x = 1, offset_y = 11, advance_x = 18},
+	{ rect = {377, 17, 10, 12}, value = 'n', offset_x = 1, offset_y = 11, advance_x = 12},
+	{ rect = {307, 17, 11, 13}, value = 'o', offset_x = 1, offset_y = 11, advance_x = 12},
+	{ rect = {182, 0, 11, 17}, value = 'p', offset_x = 1, offset_y = 11, advance_x = 12},
+	{ rect = {216, 0, 10, 17}, value = 'q', offset_x = 1, offset_y = 11, advance_x = 12},
+	{ rect = {388, 17, 7, 12}, value = 'r', offset_x = 1, offset_y = 11, advance_x = 7},
+	{ rect = {330, 17, 9, 13}, value = 's', offset_x = 0, offset_y = 11, advance_x = 9},
+	{ rect = {384, 0, 8, 16}, value = 't', offset_x = 0, offset_y = 8, advance_x = 7},
+	{ rect = {102, 18, 10, 12}, value = 'u', offset_x = 1, offset_y = 12, advance_x = 12},
+	{ rect = {130, 18, 11, 11}, value = 'v', offset_x = 0, offset_y = 12, advance_x = 10},
+	{ rect = {113, 18, 16, 11}, value = 'w', offset_x = 0, offset_y = 12, advance_x = 16},
+	{ rect = {154, 18, 10, 11}, value = 'x', offset_x = 0, offset_y = 12, advance_x = 10},
+	{ rect = {329, 0, 11, 16}, value = 'y', offset_x = 0, offset_y = 12, advance_x = 10},
+	{ rect = {165, 18, 9, 11}, value = 'z', offset_x = 0, offset_y = 12, advance_x = 9},
+	{ rect = {267, 17, 9, 15}, value = '1', offset_x = 1, offset_y = 8, advance_x = 11},
+	{ rect = {493, 16, 11, 15}, value = '2', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {305, 0, 11, 16}, value = '3', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {445, 16, 11, 15}, value = '4', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {317, 0, 11, 16}, value = '5', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {352, 0, 10, 16}, value = '6', offset_x = 1, offset_y = 8, advance_x = 11},
+	{ rect = {421, 16, 11, 15}, value = '7', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {293, 0, 11, 16}, value = '8', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {281, 0, 11, 16}, value = '9', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {269, 0, 11, 16}, value = '0', offset_x = 0, offset_y = 8, advance_x = 11},
+	{ rect = {227, 0, 9, 17}, value = '?', offset_x = 0, offset_y = 7, advance_x = 9},
+	{ rect = {251, 0, 4, 17}, value = '!', offset_x = 1, offset_y = 7, advance_x = 6},
+	{ rect = {102, 0, 14, 17}, value = '&', offset_x = 0, offset_y = 7, advance_x = 13},
+	{ rect = {191, 18, 4, 4}, value = '.', offset_x = 1, offset_y = 20, advance_x = 5},
+	{ rect = {186, 18, 4, 7}, value = ',', offset_x = 1, offset_y = 20, advance_x = 5},
+	{ rect = {204, 18, 11, 2}, value = '_', offset_x = 0, offset_y = 24, advance_x = 11},
+	{ rect = {505, 16, 4, 12}, value = ':', offset_x = 1, offset_y = 12, advance_x = 5},
+	{ rect = {27, 0, 5, 20}, value = '[', offset_x = 2, offset_y = 7, advance_x = 6},
+	{ rect = {21, 0, 5, 20}, value = ']', offset_x = 0, offset_y = 7, advance_x = 6},
+	{ rect = {196, 18, 7, 3}, value = '-', offset_x = 0, offset_y = 16, advance_x = 6},
+	{ rect = {142, 18, 11, 11}, value = '+', offset_x = 0, offset_y = 10, advance_x = 11},
 }
 
-shapes_texture_rect := Rect {0, 0, 10, 10}
+shapes_texture_rect := Rect {175, 18, 10, 10}
 
 Tile_Id :: enum {
 	T0Y0X0,
@@ -150,6 +229,7 @@ atlas_tiles := #partial [Tile_Id]Rect {
 
 Animation_Name :: enum {
 	None,
+	Player,
 }
 
 Tag_Loop_Dir :: enum {
@@ -169,8 +249,9 @@ Atlas_Animation :: struct {
 
 atlas_animations := [Animation_Name]Atlas_Animation {
 	.None = {},
+	.Player = { first_frame = .Player0, last_frame = .Player1, loop_direction = .Forward, repeat = 0, document_size = {10, 18} },
 }
 
 TEXTURE_ATLAS_FILENAME :: "atlas.png"
 ATLAS_FONT_SIZE :: 32
-LETTERS_IN_FONT :: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?!&.,_:[]"
+LETTERS_IN_FONT :: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?!&.,_:[]-+"

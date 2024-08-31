@@ -12,3 +12,6 @@ log.txt
 *.so
 *.dSYM
 linux
+game/atlas.odin
+atlas.png
+build/

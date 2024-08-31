@@ -28,7 +28,7 @@ TILE_SIZE :: 10
 PACKAGE_NAME :: "game"
 TEXTURES_DIR :: "textures"
 
-LETTERS_IN_FONT :: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?!&.,_:[]"
+LETTERS_IN_FONT :: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?!&.,_:[]-+"
 FONT_FILENAME :: "font.ttf"
 
 ATLAS_PNG_OUTPUT_PATH :: "atlas.png"
