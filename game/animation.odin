@@ -1,57 +1,66 @@
-// This implements simple animations using sprite sheets. The texture in the
-// `Animation` struct is assumed to contain a horizontal strip of the frames
-// in the animation. Call `animation_update` to update and then call
-// `animation_rect` when you wish to know the source rect to use in the texture
-// With the source rect you can run rl.DrawTextureRec to draw the current frame.
+// This implements animations using an atlased texture as defined in atlas.odin (which is generated
+// before the code in this folder is built, see build_hot_reload / build_release scripts).
+//
+// These animations target a specific `Animation_Name` from atlas.odin and when `animation_update`
+// runs it uses a timer to switch to the next frame. It uses the duration in the texture, which
+// may come from an aseprite frame.
+//
+// Use proc `animation_atlas_texture` to fetch the current frame's atlas texture, which you can
+// then draw using:
+// anim_texture := animation_atlas_texture(my_anim)
+// rl.DrawTextureRec(atlas, anim_texture.rect, position, rl.WHITE)
 
 package game
 
-import "core:log"
 import rl "vendor:raylib"
 
 Animation :: struct {
-	texture: rl.Texture,
-	num_frames: int,
-	current_frame: int,
-	frame_timer: f32,
-	frame_length: f32,
+	atlas_anim: Animation_Name,
+	current_frame: Texture_Name,
+	timer: f32,
 }
 
-animation_create :: proc(tex: rl.Texture, num_frames: int, frame_length: f32) -> Animation {
-	return Animation {
-		texture = tex,
-		num_frames = num_frames,
-		frame_length = frame_length,
-		frame_timer = frame_length,
-	}
-}
-
-animation_update :: proc(a: ^Animation, dt: f32) {
-	a.frame_timer -= dt
-
-	if a.frame_timer <= 0 {
-		a.frame_timer = a.frame_length + a.frame_timer
-		a.current_frame += 1
-
-		if a.current_frame >= a.num_frames {
-			a.current_frame = 0
-		}
-	}
-}
-
-animation_rect :: proc(a: Animation) -> Rect {
-	if a.num_frames == 0 {
-		log.error("Animation has zero frames")
-		return RECT_EMPTY
-	}
-
-	w := f32(a.texture.width) / f32(a.num_frames)
-	h := f32(a.texture.height)
+animation_create :: proc(anim: Animation_Name) -> Animation {
+	a := atlas_animations[anim]
 
 	return {
-		x = f32(a.current_frame) * w,
-		y = 0,
-		width = w,
-		height = h,
+		current_frame = a.first_frame,
+		atlas_anim = anim,
+		timer = atlas_textures[a.first_frame].duration,
 	}
+}
+
+animation_update :: proc(a: ^Animation, dt: f32) -> bool {
+	a.timer -= dt
+	looped := false
+
+	if a.timer <= 0 {
+		a.current_frame = Texture_Name(int(a.current_frame) + 1)
+		anim := atlas_animations[a.atlas_anim]
+
+		if a.current_frame > anim.last_frame {
+			a.current_frame = anim.first_frame
+			looped = true
+		}
+
+		a.timer = atlas_textures[a.current_frame].duration
+	}
+
+	return looped
+}
+
+animation_length :: proc(anim: Animation_Name) -> f32 {
+	l: f32
+	aa := atlas_animations[anim]
+
+	for i in aa.first_frame..=aa.last_frame {
+		t := atlas_textures[i]
+		l += t.duration
+	}
+
+	return l
+}
+
+animation_atlas_texture :: proc(anim: Animation) -> Atlas_Texture {
+	return atlas_textures[anim.current_frame]
 }
