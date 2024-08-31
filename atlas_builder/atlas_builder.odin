@@ -24,11 +24,15 @@ ATLAS_SIZE :: 512
 TILESET_WIDTH :: 10
 TILE_SIZE :: 10
 
+// for package line at top of atlas metadata file
 PACKAGE_NAME :: "game"
 TEXTURES_DIR :: "textures"
 
 LETTERS_IN_FONT :: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890?!&.,_:[]"
 FONT_FILENAME :: "font.ttf"
+
+ATLAS_PNG_OUTPUT_PATH :: "atlas.png"
+ATLAS_ODIN_OUTPUT_PATH :: "game/atlas.odin"
 
 dir_path_to_file_infos :: proc(path: string) -> []os.File_Info {
 	d, derr := os.open(path, os.O_RDONLY)
@@ -720,9 +724,9 @@ main :: proc() {
 
 	rl.ImageAlphaCrop(&atlas, 0)
 
-	rl.ExportImage(atlas, "atlas.png")
+	rl.ExportImage(atlas, ATLAS_PNG_OUTPUT_PATH)
 
-	f, _ := os.open("atlas.odin", os.O_WRONLY | os.O_CREATE | os.O_TRUNC)
+	f, _ := os.open(ATLAS_ODIN_OUTPUT_PATH, os.O_WRONLY | os.O_CREATE | os.O_TRUNC)
 	defer os.close(f)
 
 	fmt.fprintf(f, "package %s\n", PACKAGE_NAME)

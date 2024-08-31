@@ -5,7 +5,7 @@ package main_release
 import "core:log"
 import "core:os"
 
-import game ".."
+import game "../game"
 
 USE_TRACKING_ALLOCATOR :: #config(USE_TRACKING_ALLOCATOR, false)
 

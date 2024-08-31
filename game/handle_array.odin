@@ -41,6 +41,7 @@ import "core:slice"
 import vmem "core:mem/virtual"
 
 _ :: fmt
+_ :: slice
 
 Handle :: struct {
 	idx: u32,

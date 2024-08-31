@@ -8,7 +8,7 @@ rem odin run atlas_builder %BUILD_PARAMS%
 rem IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem Build game.dll, which is loaded by game.exe. The split of game.dll and game.exe is for hot reload reasons.
-odin build . -show-timings -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll %BUILD_PARAMS%
+odin build game -show-timings -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll %BUILD_PARAMS%
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem If game.exe already running: Then only compile game.dll and exit cleanly
