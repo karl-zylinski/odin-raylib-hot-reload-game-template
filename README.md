@@ -6,7 +6,7 @@ Support me at https://www.patreon.com/karl_zylinski
 
 ## Extra description about this branch
 
-This branch hosts an extended example. It shows how to use the atlas in code and also how to do atlased animations. It also uses an atlased font and the raylib shapes (rl.DrawRectangleRec etc) use the atlas as well. There are lots of comments in `game/game.odin` that explains how it works.
+This branch hosts an extended example. It shows how to use the atlas builder and also how to do atlased animations. It also uses an atlased font and the raylib shapes (rl.DrawRectangleRec etc) use the atlas as well. There are lots of comments in `game/game.odin` that explains how it works.
 
 Overview of what happens:
 - `build_hot_reload` / `build_release` script runs atlas builder, which outputs `atlas.png` and `game/atlas.odin`.
