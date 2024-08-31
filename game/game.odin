@@ -1,5 +1,7 @@
 // NOTE: You're on the atlas-animation-example branch! This is an extended example that shows
-// how to use the atlas builder and atlased animations.
+// how to use the atlas builder and atlased animations. There are lots of comments in this file
+// that tries to explain how it all works. Also, see the docs in the `atlas_builder` folder to
+// see how the atlas builder works.
 
 // This file is compiled as part of the `odin.dll` file. It contains the
 // procs that `game.exe` will call, such as:
