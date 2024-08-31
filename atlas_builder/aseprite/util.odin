@@ -3,6 +3,7 @@ package aseprite_file_handler
 import "core:log"
 import "core:reflect"
 import "core:encoding/endian"
+_::log
 
 get_chunk_type :: proc(c: Chunk) -> (type: WORD, err: Marshal_Error) {
     switch _ in c {
