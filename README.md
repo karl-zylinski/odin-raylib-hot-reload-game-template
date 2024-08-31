@@ -1,4 +1,4 @@
-# Odin + Raylib + Hot Reload template (+ Atlas Builder!) -- 
+# Odin + Raylib + Hot Reload template (+ Atlas Builder!)
 
 By Karl Zylinski, http://zylinski.se
 
