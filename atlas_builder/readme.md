@@ -6,6 +6,8 @@ Support me at https://www.patreon.com/karl_zylinski
 
 This atlas builder looks into a 'textures' folder for pngs, ase and aseprite files and makes an atlas from those. It outputs both atlas.png and atlas.odin. The odin file you compile as part of your game. It contains metadata about where in the atlas the textures ended up.
 
+Showcase & demo video: https://www.youtube.com/watch?v=u8Kt0Td76zI
+
 The atlas builder can also split up tilesets and fonts and splat those out into the atlas. It detects if a texture is a tileset by checking if the name starts with `tileset_`.
 
 A big benefit with using an atlas is that you can drastically lower the number of draw calls due to everything being in a single texture.
@@ -23,10 +25,12 @@ TODO: Should I just use `Vec2 :: rl.Vector2` instead of an integer vector?
 - From the root of the template ropo, execute `odin run atlas_builder`
 - `atlas.png` and `atlas.odin` are ouputted
 
+Change `ATLAS_SIZE` in `atlas_builder.odin` to change the maximum width and height of the atlas.
+Note: The final atlas is cropped to the actual contents inside it, it may be smaller than `ATLAS_SIZE`. Remove the `rl.ImageAlphaCrop(&atlas, 0)` line in `atlas_builder.odin` if you do not what this cropping.
 
 # Loading the atlas
 
-In your game load the atlas once (here I put it in a globally accessible struct called `g_mem`):
+In your game load the atlas once. Here I put it in a globally accessible struct called `g_mem`:
 ```
 g_mem.atlas = rl.LoadTexture(TEXTURE_ATLAS_FILENAME)
 ```
@@ -34,10 +38,13 @@ g_mem.atlas = rl.LoadTexture(TEXTURE_ATLAS_FILENAME)
 
 # Draw textures from atlas
 
-Draw like this using Raylib:.aseprite or .png):
+Draw like this using Raylib:
 
 ```
 rl.DrawTextureRec(g_mem.atlas, atlas_textures[.Bush].rect, position, rl.WHITE)
+```
+or
+```
 rl.DrawTexturePro(g_mem.atlas, atlas_textures[.Bush].rect, destination_rect, rl.WHITE)
 ```
 
@@ -183,4 +190,4 @@ If a texture name starts with `tileset_` then it will be treated as a tileset. I
 
 The tile IDs are of the format `T0Y0X0`, `T0Y0X1` etc. I.e. just coordinates of which tile is which. You can check if a tile exists by doing `if atlas_tiles[some_tile_id] != {} { }`
 
-See `FONT_FILENAME` and `tileset_` in `atlas_builder.odin` to see how that works. Note: Set TILE_SIZE and TILESET_WIDTH to the correct values if you use a tileset.
+Note: Set `TILE_SIZE` and `TILESET_WIDTH` in `atlas_builder.odin` to the correct values for your tileset.
