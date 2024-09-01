@@ -2,7 +2,6 @@
 
 package game
 
-import "core:reflect"
 import "core:strings"
 import "base:intrinsics"
 
@@ -14,10 +13,6 @@ increase_or_wrap_enum :: proc(e: $T) -> T {
 	}
 
 	return T(ei)
-}
-
-union_type :: proc(a: any) -> typeid {
-	return reflect.union_variant_typeid(a)
 }
 
 temp_cstring :: proc(s: string) -> cstring {
