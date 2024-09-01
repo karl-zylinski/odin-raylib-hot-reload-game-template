@@ -1,7 +1,5 @@
 # Odin + Raylib + Hot Reload template (+ Atlas Builder!)
-By Karl Zylinski, http://zylinski.se
-
-Support me at https://www.patreon.com/karl_zylinski
+By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
 
 See branch [atlas-animation-example](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template/tree/atlas-animation-example) for example on how to use atlas builder and atlased animations.
 
