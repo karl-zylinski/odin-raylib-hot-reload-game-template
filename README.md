@@ -1,8 +1,5 @@
-# Odin + Raylib + Hot Reload template (+ Atlas Builder!) -- This branch: Extended atlas example!
-
-By Karl Zylinski, http://zylinski.se
-
-Support me at https://www.patreon.com/karl_zylinski
+# Odin + Raylib + Hot Reload template (+ Atlas Builder!) -- This branch: Atlas & atlased animation example!
+By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
 
 ## Extra description about this branch
 
