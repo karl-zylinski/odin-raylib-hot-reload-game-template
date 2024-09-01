@@ -16,6 +16,8 @@ Overview of what happens:
 - It also draws text using a font that lives in the atlas. This font is reconstructed into a raylib font. See `load_atlased_font` in `game/game.odin`
 - It also draws raylib shapes (rl.DrawRectangleRec etc) using a shapes-drawing-texture that lives in the atlas. See `rl.SetShapesTexture(atlas, shapes_texture_rect)` line in `game/game.odin`.
 
+Video about atlas builder and minimizing draw calls: https://www.youtube.com/watch?v=u8Kt0Td76zI
+
 The game will look like this, and at the bottom you see a capture in RenderDoc that shows hows how everything is done using 2 draw calls. One for the game and one for the UI.
 ![image](https://github.com/user-attachments/assets/d0c0ac59-4180-4bc0-90cf-f11d6db142f0)
 
