@@ -1,0 +1,10 @@
+*.exe
+*.sublime-workspace
+*.pdb
+*.exp
+*.obj
+*.lib
+*.bin
+*.dylib
+*.so
+*.dSYM
