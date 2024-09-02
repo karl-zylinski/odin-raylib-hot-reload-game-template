@@ -19,7 +19,7 @@ Showcase & demo video: https://www.youtube.com/watch?v=u8Kt0Td76zI
 # Dependencies
 The generator itself only uses core and vendor libs, plus an aseprite package by blob1807, which is included.
 
-As for `atlas.odin`, it has no dependencies. However, I use the type `Rect` `atlas.odin` file. Make sure you define them somehow in the same package as you use `atlas.odin` in. For example, if you use raylib:
+`atlas.odin` uses the type `Rect` which defines a rectangle. Make sure you define such a type in the package where you are going to use `atlas.odin`. For example, if you use Raylib:
 ```
 Rect :: rl.Rectangle
 ```
@@ -33,7 +33,6 @@ Rect :: struct {
 	height: f32,
 }
 ```
-Just make sure you have something along those lines the same package as this file (or change the generator code in `atlas_builder.odin` to use other type names).
 
 # How to run the atlas builder
 
