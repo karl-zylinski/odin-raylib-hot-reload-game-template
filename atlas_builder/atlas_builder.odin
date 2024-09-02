@@ -45,7 +45,7 @@ ATLAS_PNG_OUTPUT_PATH :: "atlas.png"
 
 // Path to output atlas Odin metadata file to. Compile this as part of your game to get metadata
 // about where in atlas your textures etc are.
-ATLAS_ODIN_OUTPUT_PATH :: "game/atlas.odin"
+ATLAS_ODIN_OUTPUT_PATH :: "atlas.odin"
 
 dir_path_to_file_infos :: proc(path: string) -> []os.File_Info {
 	d, derr := os.open(path, os.O_RDONLY)
