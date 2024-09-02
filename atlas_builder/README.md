@@ -33,7 +33,6 @@ Rect :: struct {
 	height: f32,
 }
 ```
-Just make sure you have something along those lines the same package as this file (or change the generator code in `atlas_builder.odin` to use other type names).
 
 # How to run the atlas builder
 
