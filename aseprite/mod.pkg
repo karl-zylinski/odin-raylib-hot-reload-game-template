@@ -1,0 +1,8 @@
+{
+	"version": "0.0.1",
+	"description": "Handler for Aseprite's file formats.",
+	"url": "https://github.com/blob1807/odin-aseprite",
+	"readme": "README.md",
+	"license": "BSD 3-Clause",
+	"keywords": ["Aseprite", "ase"]
+}
