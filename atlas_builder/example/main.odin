@@ -63,25 +63,33 @@ draw_player :: proc(p: Player) {
 	// Fetch the texture for the current frame of the animation.
 	anim_texture := animation_atlas_texture(p.anim)
 
-	// The texture can have a non-zero offset. The offset records how far from the left and the top
-	// of the original document this texture starts. This is so the frames can be tightly packed in
-	// the atlas, skipping any empty pixels above or to the left of the frame.
-	offset_pos := p.pos + anim_texture.offset
-
 	// The region inside atlas.png where this animation frame lives
 	atlas_rect := anim_texture.rect
 
-	// Where on screen to draw the player
-	dest := Rect {
-		offset_pos.x,
-		offset_pos.y,
-		atlas_rect.width,
-		atlas_rect.height,
-	}
+	// The texture has four offset fields: offset_top, right, bottom and left. The offsets records
+	// the distance between the pixels in the atlas and the edge of the original document in the
+	// image editing software. Since the atlas is tightly packed, any empty pixels are removed.
+	// These offsets can be used to correct for that removal.
+	//
+	// This can be especially obvious in animations where different frames can have different
+	// amounts of empty pixels around it. By adding the offsets everything will look OK.
+	//
+	// Note that when when flip_x is true we need to add the offset_right instead of the offset_left.
+	offset := Vec2 { anim_texture.offset_left, anim_texture.offset_top }
 
-	// Flip player when walking to the left
+	// Flip player when walking to the left. This means both flipping the atlas_rect width, but also
+	// using the right offset instead of the left one.
 	if p.flip_x {
 		atlas_rect.width = -atlas_rect.width
+		offset.x = anim_texture.offset_right
+	}
+
+	// The dest rectangle tells us where on screen to draw the player.
+	dest := Rect {
+		p.pos.x + offset.x,
+		p.pos.y + offset.y,
+		anim_texture.rect.width,
+		anim_texture.rect.height,
 	}
 
 	// I want origin of player to be at the feet.

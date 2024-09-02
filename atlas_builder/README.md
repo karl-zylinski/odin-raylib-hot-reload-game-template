@@ -49,15 +49,17 @@ See the README.md in the `example` folder. But in short:
 
 There are a few constants at the top of `atlas_builder.odin`:
 
-- `ATLAS_SIZE`: Maximum size of `atlas.png` Note: The final atlas is cropped to the actual contents inside it, it may be smaller than `ATLAS_SIZE`. Remove the `rl.ImageAlphaCrop(&atlas, 0)` line in `atlas_builder.odin` if you do not what this cropping.
+- `ATLAS_SIZE`: Maximum size of `atlas.png`.
+- `ATLAS_PNG_OUTPUT_PATH`: Path to output the atlas PNG to
+- `ATLAS_ODIN_OUTPUT_PATH`: Path to output the atlas Odin metadata file to
+- `ATLAS_CROP`: If atlas should be cropped after generation. Default: true
 - `TILESET_WIDTH`: If you have any texture prefixed with `tileset_`, it will be treated as a tileset. This setting says how many tiles wide it is.
 - `TILESET_SIZE`: How many pixels each tile takes in the tileset
 - `PACKAGE_NAME`: The package name to use at the top of the `atlas.odin` file.
 - `TEXTURES_DIR`: The folder in which to look for textures to put into atlas.
 - `LETTERS_IN_FONT`: The letters to extract from the font.
 - `FONT_FILENAME`: The filename of the font to extract letters from.
-- `ATLAS_PNG_OUTPUT_PATH`: Path to output the atlas PNG to
-- `ATLAS_ODIN_OUTPUT_PATH`: Path to output the atlas Odin metadata file to
+- `FONT_SIZE`: The font size of letters extracted from font
 
 # Loading the atlas
 
@@ -80,7 +82,7 @@ rl.DrawTexturePro(atlas, atlas_textures[.Bush].rect, destination_rect, rl.WHITE)
 
 This uses texture name "Bush" which will exist if there is a texture called `textures/bush.ase`. `atlas_textures` lives in `atlas.odin`.
 
-There's also a `atlas_textures[.Bush].offset` you can add to your position. The offset is non-zero if there was empty pixels in the upper regions of the texture. This saves atlas-space, since it would have to write empty pixels otherwise! See the [animation examples](#animations) for how I use it.
+There's also four offsets on `atlas_textures[.Bush]`: `offset_top`, `offset_right`, `offset_bottom` and `offset_left`. The offsets records the distance between the pixels in the atlas and the edge of the original document in the image editing software. Since the atlas is tightly packed, any empty pixels are removed. These offsets can be used to correct for that removal. This saves atlas-space, since it would have to write empty pixels otherwise! Normally you'd need to add `{offset_left, offset_top}` to your position, but if you flip the texture in X or Y direction then you might need the `offset_right` or `offset_bottom`. See the [animation examples](#animations) for exampl I use it.
 
 # Atlas-based Raylib font
 
@@ -187,11 +189,17 @@ animation_draw :: proc(anim: Animation, pos: rl.Vector2) {
 
 	texture := atlas_textures[anim.current_frame]
 	
-	// Note: The texture.offset may contain a non-zero offset. This offset occurs
-	// when textures have some empty pixels in the upper regions. Instead of the
-	// packer writing in those empty pixels (wasting space), it record how much
-	// you need to offset your texture to compensate for the missing empty pixels.
-	offset_pos := pos + texture.offset}
+	// The texture has four offset fields: offset_top, right, bottom and left. The offsets records
+	// the distance between the pixels in the atlas and the edge of the original document in the
+	// image editing software. Since the atlas is tightly packed, any empty pixels are removed.
+	// These offsets can be used to correct for that removal.
+	//
+	// This can be especially obvious in animations where different frames can have different
+	// amounts of empty pixels around it. By adding the offsets everything will look OK.
+	//
+	// If you ever flip the animation in X or Y direction, then you might need to add the right or
+	// bottom offset instead.
+	offset_pos := pos + {texture.offset_left, texture.offset_top}
 
 	rl.DrawTextureRec(atlas, texture.rect, offset_pos, rl.WHITE)
 }
