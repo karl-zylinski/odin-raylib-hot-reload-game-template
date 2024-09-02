@@ -1,15 +1,13 @@
-# Odin + Raylib + Hot Reload template (+ Atlas Builder!)
+# Odin + Raylib + Hot Reload template
 By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
-
-See branch [atlas-animation-example](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template/tree/atlas-animation-example) for example on how to use atlas builder and atlased animations.
 
 ## Description
 
-This is an Odin + Raylib game template with Hot Reloading pre-setup. My game projects tend to have some things in common, so I made this template so I can get up and running quickly.
+This is an Odin + Raylib game template with Hot Reloading pre-setup.
 
 This template is compatible with Windows, macOS and Linux. The instructions are mostly for Windows, but there is a [non-windows](#non-windows) section that explains the differences.
 
-`build_hot_reload.bat` will build `game.dll` from the odin code in the `game` folder. It will also build `game.exe` from the code in the directory `main_hot_reload`. When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything that is compiled as part of `game.dll` and re-run `build_hot_reload.bat`. `game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game.odin`.
+`build_hot_reload.bat` will build `game.dll` from the odin code in the `game` folder. It will also build `game.exe` from the code in the directory `main_hot_reload`. When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything that is compiled as part of `game.dll` and re-run `build_hot_reload.bat`. `game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game/game.odin`.
 
 There is also a `build_release.bat` file that makes a `game_release.exe` that does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `game` directory as a normal Odin package.
 
@@ -44,7 +42,7 @@ A task to build and hot reload is also included, build, run and rebuild with `Ct
 
 ## Optional files
 
-Only `game.odin` and `math.odin` are required to compile the game DLL. You can delete the other `.odin` files in the root directrory of the repository if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
+Only `game/game.odin` and `math.odin` are required to compile the game DLL. You can delete the other `.odin` files in the root directrory of the repository if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
 
 ## Atlas builder
 
@@ -59,7 +57,7 @@ rl.DrawTextureRec(atlas_texture, atlas_rect, some_position, rl.WHITE)
 
 For aseprite files with multiple frames animations will be outputted, which you find in the array `atlas_animations` of `atlas.odin`.
 
-See `readme.md` in the `atlas_builder` folder for more info and the branch [atlas-animation-example](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template/tree/atlas-animation-example) for an example on how to use the atlas builder in practice.
+See `readme.md` in the `atlas_builder` folder for more info, there's also an example in that folder on how to use it.
 
 ## Demo streams
 
