@@ -67,15 +67,6 @@ Streams that start from this template:
 - Metroidvania / platform prototype: https://www.youtube.com/watch?v=kIxEMchPc3Y
 - Top-down adventure prototype: https://www.youtube.com/watch?v=cl8EOjOaoXc
 
-## Projects based on this template
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| [Atlas & animation example](https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template/tree/atlas-animation-example) | Example | Shows how to use the atlas builder and how to play animations that live within the atlas. This is actually just a branch of this repo |
-| [Subfolders](https://github.com/alfredbaudisch/odin-raylib-hot-reload-game-template/tree/build-subfolders) | Extended Template | Adds sub folders for built binaries and the game DLL's source code |
-
-Got a project based on this template? I'd gladly have it on this list! It can be a game based on the template or an extension/spinoff of the template. Just send me a link on [Discord](https://discord.gg/4FsHgtBmFK) or on karl@zylinski.se, or PR the entry into this README 😻 
-
 ## Questions?
 
 Ask questions in my gamedev Discord: https://discord.gg/4FsHgtBmFK
