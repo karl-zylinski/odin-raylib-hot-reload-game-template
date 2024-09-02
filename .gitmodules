@@ -1,0 +1,3 @@
+[submodule "atlas_builder"]
+	path = atlas_builder
+	url = https://github.com/karl-zylinski/atlas-builder.git
