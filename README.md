@@ -42,7 +42,7 @@ A task to build and hot reload is also included, build, run and rebuild with `Ct
 
 ## Optional files
 
-Only `game/game.odin` and `math.odin` are required to compile the game DLL. You can delete the other `.odin` files in the root directrory of the repository if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
+Only `game/game.odin` and `game/math.odin` are required to compile the game DLL. You can delete the other `.odin` files in the `game` folder if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
 
 ## Atlas builder
 
