@@ -1,9 +1,10 @@
 # Odin + Raylib + Hot Reload template
+
+This is an Odin + Raylib game template with Hot Reloading pre-setup. The techniques shown in this repository makes it possible reload gameplay code while the game is running.
+
 By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
 
 ## Description
-
-This is an Odin + Raylib game template with Hot Reloading pre-setup.
 
 This template is compatible with Windows, macOS and Linux. The instructions are mostly for Windows, but there is a [non-windows](#non-windows) section that explains the differences.
 
