@@ -12,8 +12,6 @@ By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/ka
 
 ## Quick start
 
-Here follows a quick start guide on how to use this template and get started with hot reloading gameplay code.
-
 If you are on Linux / macOS: Below, replace `.bat` with `.sh` and `.exe` with `.bin`.
 
 1. Run `build_hot_reload.bat` to create `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
