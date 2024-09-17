@@ -38,7 +38,7 @@ There are also some additional files with some helpers that I find useful. See [
 
 ## Sublime Text
 
-In case you use Sublime Text, there's a project pre-setup `project.sublime-project`. It comes with a build system, you should be able to open the project, select the build system (Main Menu -> Tools -> Build System -> Game template) and then compile + run the game by pressing F7/Ctrl+B/Cmd+B. Edit the project file to change the name of the build system.
+For those who use Sublime Text there's a project file: `project.sublime-project`. It comes with a build system, you should be able to open the project, select the build system (Main Menu -> Tools -> Build System -> Game template) and then compile + run the game by pressing F7/Ctrl+B/Cmd+B. Edit the project file to change the name of the build system.
 
 ## VS Code
 
