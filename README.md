@@ -1,10 +1,12 @@
 # Odin + Raylib + Hot Reload template
 
-This is an Odin + Raylib game template with Hot Reloading pre-setup.
+This is an Odin + Raylib game template with Hot Reloading pre-setup. It makes it possible to reload gameplay code while the game is running.
 
-The techniques shown in this repository makes it possible to reload gameplay code while the game is running.
+Supported platforms: Windows, macOS and Linux.
 
 ![hot_reload gif](https://github.com/user-attachments/assets/18059ab2-0878-4617-971d-e629a969fc93)
+
+I used this kind of hot reloading while developing my game [CAT & ONION](https://store.steampowered.com/app/2781210/CAT__ONION/).
 
 By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
 
@@ -20,13 +22,15 @@ If you are on Linux / macOS: Below, replace `.bat` with `.sh` and `.exe` with `.
 4. Run `build_hot_reload.bat`, it will recompile `game.dll`.
 5. The running `game.exe` will reload see that `game.dll` changed and reload it. But it will use the same `Game_Memory` (a struct defined in `game/game.odin`) as before. This will make the game use your new code without having to restart.
 
-Note, in step 4: `build_hot_reload.bat` does not rebuild `game.exe`. It check if `game.exe` is already running, and if it is, it avoid recompiling it, since it will be locked anyways.
+Note, in step 4: `build_hot_reload.bat` does not rebuild `game.exe`. It checks if `game.exe` is already running, and if it is, it avoid recompiling it, since it will be locked anyways.
 
 ## Description
 
-This template is compatible with Windows, macOS and Linux. The instructions are mostly for Windows, but there is a [non-windows](#non-windows) section that explains the differences.
+`build_hot_reload.bat` will build `game.dll` from the odin code in the `game` folder. It will also build `game.exe` from the code in the directory `main_hot_reload`.
 
-`build_hot_reload.bat` will build `game.dll` from the odin code in the `game` folder. It will also build `game.exe` from the code in the directory `main_hot_reload`. When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything that is compiled as part of `game.dll` and re-run `build_hot_reload.bat`. `game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game/game.odin`.
+When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything that is compiled as part of `game.dll` and re-run `build_hot_reload.bat`.
+
+`game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game/game.odin`.
 
 There is also a `build_release.bat` file that makes a `game_release.exe` that does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `game` directory as a normal Odin package.
 
@@ -50,20 +54,7 @@ In the folder `extras` you'll find some things that I often use in my games. Tho
 
 ## Atlas builder
 
-The `atlas_builder` subfolder contains a program that builds a texture atlas from separate aseprite and png files. You can look in `build_hot_reload.bat` for more info on how to enable it. The atlas builder outputs both an atlas PNG file as well as an `atlas.odin` file that contains metadata about where in the atlas the images are.
-
-The atlas builder is meant to be run before the game DLL is compiled. Then, in your gameplay you can use `atlas_textures` in `atlas.odin` to know where in the atlas your textures ended up. Load the `atlas.png` using `rl.LoadTexture()` and then draw using it, something like:
-
-```
-atlas_rect := atlas_textures[.Some_Texture]
-rl.DrawTextureRec(atlas_texture, atlas_rect, some_position, rl.WHITE)
-```
-
-For aseprite files with multiple frames animations will be outputted, which you find in the array `atlas_animations` of `atlas.odin`.
-
-See `readme.md` in the `atlas_builder` folder for more info, there's also an example in that folder on how to use it.
-
-Note that the atlas builder's source is hosted in a separate repository: https://github.com/karl-zylinski/atlas-builder
+This code works nicely together with my [atlas builder](https://github.com/karl-zylinski/atlas-builder). The atlas builder can build an atlas texture from a folder of png or aseprite files. Using an atlas can drastically reduce the number of draw calls your game uses. There's an example in that repository on how to set it up. The atlas generation step can easily be integrated into the build `bat` / `sh` files such as `build_hot_reload.bat`
 
 ## Demo streams
 
