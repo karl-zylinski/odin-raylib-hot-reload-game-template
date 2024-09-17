@@ -21,7 +21,7 @@ import rl "vendor:raylib"
 PIXEL_WINDOW_HEIGHT :: 180
 
 Game_Memory :: struct {	
-	player_pos: Vec2,
+	player_pos: rl.Vector2,
 	some_number: int,
 }
 
@@ -45,7 +45,7 @@ ui_camera :: proc() -> rl.Camera2D {
 }
 
 update :: proc() {
-	input: Vec2
+	input: rl.Vector2
 
 	if rl.IsKeyDown(.UP) || rl.IsKeyDown(.W) {
 		input.y -= 1
