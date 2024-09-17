@@ -1,9 +1,25 @@
 # Odin + Raylib + Hot Reload template
-By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
-
-## Description
 
 This is an Odin + Raylib game template with Hot Reloading pre-setup.
+
+By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
+
+## Quick start
+
+Here's how to get started with hot reloading gameplay code quickly.
+
+Linux/macOS: Below, replace `.bat` with `.sh` and `.exe` with `.bin`.
+
+
+1. Run `build_hot_reload.bat` to compile create `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
+2. Run `game.exe`, leave it running. Note: On Windows you have to copy `raylib.dll` from `your_odin_compiler/vendor/raylib/windows` into this directory.
+3. Make changes to the gameplay code in `game/game.odin`. For example, change the line `rl.ClearBackground(rl.BLACK)` so that it instead uses `rl.BLUE`. Save the file.
+4. Run `build_hot_reload.bat`, it will recompile `game.dll`.
+5. `game.exe` will reload `game.dll` but use the same Game_Memory (a struct defined in `game/game.odin`) as before. This will make the game use your new code without having to restart.
+
+Note, in step 4: `build_hot_reload.bat` does not rebuild `game.exe`. It check if `game.exe` is already running, and if it is, it avoid recompiling it, since it will be locked anyways.
+
+## Description
 
 This template is compatible with Windows, macOS and Linux. The instructions are mostly for Windows, but there is a [non-windows](#non-windows) section that explains the differences.
 
@@ -15,21 +31,6 @@ There is also a `build_release.bat` file that makes a `game_release.exe` that do
 
 There are also some additional files with some helpers that I find useful. See [Optional files](#optional-files) below.
 
-## Setup and usage
-
-- Copy `raylib.dll` from `your_odin_compiler/vendor/raylib/windows` to the root of this repo.
-- Run `build_hot_reload.bat` to compile `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
-- Run `game.exe`
-- Make changes to the gameplay code (for example, make changes in the proc `update` or `draw` in `game/game.odin`)
-- Run `build_hot_reload.bat` again while game.exe is running, it will recompile `game.dll`
-- `game.exe` will reload `game.dll` but use the same Game_Memory (a struct defined in `game/game.odin`) as before.
-
-### Non-Windows
-
-The template also supports Linux and MacOS, all mentions of `.bat` scripts have an equivalent `.sh` script, and the game is built as `game.bin` instead of `game.exe`.
-
-Unlike Windows, there is no need to copy any Raylib library to the root of this repo.
-
 ## Sublime Text
 
 There's sublime project called `project.sublime-project` in case you use Sublime Text. It comes with a build system, you should be able to open the project, select the build system (Main Menu -> Tools -> Build System -> Game template) and then compile + run the game by pressing F7/Ctrl+B/Cmd+B. Edit the project file to change the name of the build system.
@@ -40,9 +41,9 @@ Included there are Debug and Release tasks for VS Code. If you install the [Code
 
 A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
 
-## Optional files
+## Extra files
 
-Only `game/game.odin` and `math.odin` are required to compile the game DLL. You can delete the other `.odin` files in the root directrory of the repository if you wish. They are there because they contain things I often use in all projects. Most of them have a description at the top of the file, explaining what it contains.
+In the folder `extras` you'll find some things that I often use in my games. Those files have comments at the top of each file that says what they do. It's just my personal "useful files" stash.
 
 ## Atlas builder
 
