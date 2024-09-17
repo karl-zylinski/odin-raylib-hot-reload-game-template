@@ -17,6 +17,8 @@ when ODIN_OS == .Windows {
 	DLL_EXT :: ".so"
 }
 
+// We copy the DLL because using it directly would lock it, which would prevent
+// the compiler from writing to it.
 copy_dll :: proc(to: string) -> bool {
 	exit: i32
 	when ODIN_OS == .Windows {
@@ -63,6 +65,9 @@ load_game_api :: proc(api_version: int) -> (api: Game_API, ok: bool) {
 	game_dll_name := fmt.tprintf("{0}game_{1}" + DLL_EXT, "./" when ODIN_OS != .Windows else "", api_version)
 	copy_dll(game_dll_name) or_return
 
+	// This proc matches the names of the fields in Game_API to symbols in the
+	// game DLL. It actually looks for symbols starting with `game_`, which is
+	// why the argument `"game_"` is there.
 	_, ok = dynlib.initialize_symbols(&api, game_dll_name, "game_", "lib")
 	if !ok {
 		fmt.printfln("Failed initializing symbols: {0}", dynlib.last_error())
@@ -137,7 +142,27 @@ main :: proc() {
 			new_game_api, new_game_api_ok := load_game_api(game_api_version)
 
 			if new_game_api_ok {
-				if game_api.memory_size() != new_game_api.memory_size() || force_restart {
+				force_restart = force_restart || game_api.memory_size() != new_game_api.memory_size()
+
+				if !force_restart {
+					// This does the normal hot reload
+
+					// Note that we don't unload the old game APIs because that
+					// would unload the DLL. The DLL can contain stored info
+					// such as string literals. The old DLLs are only unloaded
+					// on a full reset or on shutdown.
+					append(&old_game_apis, game_api)
+					game_memory := game_api.memory()
+					game_api = new_game_api
+					game_api.hot_reloaded(game_memory)
+				} else {
+					// This does a full reset. That's basically like opening and
+					// closing the game, without having to restart the executable.
+					//
+					// You end up in here if the game requests a full reset OR
+					// if the size of the game memory has changed. That would
+					// probably lead to a crash anyways.
+
 					game_api.shutdown()
 					reset_tracking_allocator(&tracking_allocator)
 
@@ -149,11 +174,6 @@ main :: proc() {
 					unload_game_api(&game_api)
 					game_api = new_game_api
 					game_api.init()
-				} else {
-					append(&old_game_apis, game_api)
-					game_memory := game_api.memory()
-					game_api = new_game_api
-					game_api.hot_reloaded(game_memory)
 				}
 
 				game_api_version += 1
@@ -165,6 +185,9 @@ main :: proc() {
 				log.errorf("Bad free at: %v", b.location)
 			}
 
+			// This prevents the game from closing without you seeing the bad
+			// frees. This is mostly needed because I use Sublime Text and my game's
+			// console isn't hooked up into Sublime's console properly.
 			libc.getchar()
 			panic("Bad free detected")
 		}
@@ -175,6 +198,9 @@ main :: proc() {
 	free_all(context.temp_allocator)
 	game_api.shutdown()
 	if reset_tracking_allocator(&tracking_allocator) {
+		// This prevents the game from closing without you seeing the memory
+		// leaks. This is mostly needed because I use Sublime Text and my game's
+		// console isn't hooked up into Sublime's console properly.
 		libc.getchar()
 	}
 
@@ -189,7 +215,7 @@ main :: proc() {
 	mem.tracking_allocator_destroy(&tracking_allocator)
 }
 
-// make game use good GPU on laptops etc
+// Make game use good GPU on laptops.
 
 @(export)
 NvOptimusEnablement: u32 = 1
