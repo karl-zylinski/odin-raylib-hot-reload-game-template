@@ -2,14 +2,15 @@
 
 This is an Odin + Raylib game template with Hot Reloading pre-setup.
 
+The techniques shown in this repository makes it possible to reload gameplay code while the game is running.
+
 By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
 
 ## Quick start
 
-Here's how to get started with hot reloading gameplay code quickly.
+Here follows a quick start guide on how to use this template and get started with hot reloading gameplay code.
 
-Linux/macOS: Below, replace `.bat` with `.sh` and `.exe` with `.bin`.
-
+If you are on Linux / macOS: Below, replace `.bat` with `.sh` and `.exe` with `.bin`.
 
 1. Run `build_hot_reload.bat` to compile create `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
 2. Run `game.exe`, leave it running. Note: On Windows you have to copy `raylib.dll` from `your_odin_compiler/vendor/raylib/windows` into this directory.
@@ -59,6 +60,8 @@ rl.DrawTextureRec(atlas_texture, atlas_rect, some_position, rl.WHITE)
 For aseprite files with multiple frames animations will be outputted, which you find in the array `atlas_animations` of `atlas.odin`.
 
 See `readme.md` in the `atlas_builder` folder for more info, there's also an example in that folder on how to use it.
+
+Note that the atlas builder's source is hosted in a separate repository: https://github.com/karl-zylinski/atlas-builder
 
 ## Demo streams
 
