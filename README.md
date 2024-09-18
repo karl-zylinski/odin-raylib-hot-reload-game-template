@@ -46,14 +46,6 @@ Included there are Debug and Release tasks for VS Code. If you install the [Code
 
 A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
 
-## Extra files
-
-In the folder `extras` you'll find some things that I often use in my games. Those files have comments at the top of each file that says what they do. It's just my personal "useful files" stash.
-
-## Atlas builder
-
-This code works nicely together with my [atlas builder](https://github.com/karl-zylinski/atlas-builder). The atlas builder can build an atlas texture from a folder of png or aseprite files. Using an atlas can drastically reduce the number of draw calls your game uses. There's an example in that repository on how to set it up. The atlas generation step can easily be integrated into the build `bat` / `sh` files such as `build_hot_reload.bat`
-
 ## Demo streams
 
 Streams that start from this template:
@@ -61,6 +53,14 @@ Streams that start from this template:
 - "point & click" prototype: https://www.youtube.com/watch?v=iRvs1Xr1W6o
 - Metroidvania / platform prototype: https://www.youtube.com/watch?v=kIxEMchPc3Y
 - Top-down adventure prototype: https://www.youtube.com/watch?v=cl8EOjOaoXc
+
+## Extra files
+
+In the folder `extras` you'll find some things that I often use in my games. Those files have comments at the top of each file that says what they do. It's just my personal "useful files" stash.
+
+## Atlas builder
+
+This code works nicely together with my [atlas builder](https://github.com/karl-zylinski/atlas-builder). The atlas builder can build an atlas texture from a folder of png or aseprite files. Using an atlas can drastically reduce the number of draw calls your game uses. There's an example in that repository on how to set it up. The atlas generation step can easily be integrated into the build `bat` / `sh` files such as `build_hot_reload.bat`
 
 ## Questions?
 
