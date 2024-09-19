@@ -36,7 +36,11 @@ There is also a `build_release.bat` file that makes a `game_release.exe` that do
 
 ## Sublime Text
 
-For those who use Sublime Text there's a project file: `project.sublime-project`. It comes with a build system, you should be able to open the project, select the build system (Main Menu -> Tools -> Build System -> Game template) and then compile + run the game by pressing F7/Ctrl+B/Cmd+B. Edit the project file to change the name of the build system.
+For those who use Sublime Text there's a project file: `project.sublime-project`.
+
+It comes with a build system, you should be able to open the project, select the build system (Main Menu -> Tools -> Build System -> Game template) and then compile + run the game by pressing F7 / Ctrl + B / Cmd + B. After you make code changes and want to hot reload, just hit F7 / Ctrl + B / Cmd + B again.
+
+Edit the project file to change the name of the build system.
 
 ## VS Code
 
