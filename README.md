@@ -40,11 +40,9 @@ For those who use Sublime Text there's a project file: `project.sublime-project`
 
 How to use:
 - Open the project file in sublime
-- Choose the build system `Main Menu -> Tools -> Build System -> Game template` (you can rename the build system by editing `project.sublime-project` manually.
+- Choose the build system `Main Menu -> Tools -> Build System -> Game template` (you can rename the build system by editing `project.sublime-project` manually)
 - Compile and run by pressing using F7 / Ctrl + B / Cmd + B
 - After you make code changes and want to hot reload, just hit F7 / Ctrl + B / Cmd + B again
-
-Edit the project file to change the name of the build system.
 
 ## VS Code
 
