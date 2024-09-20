@@ -1,6 +1,6 @@
 # Odin + Raylib + Hot Reload template
 
-This is an Odin + Raylib game template with Hot Reloading pre-setup. It makes it possible to reload gameplay code while the game is running.
+This is an [Odin](https://github.com/odin-lang/Odin) + [Raylib](https://github.com/raysan5/raylib) game template with [Hot Reloading](http://zylinski.se/posts/hot-reload-gameplay-code/) pre-setup. It makes it possible to reload gameplay code while the game is running.
 
 Supported platforms: Windows, macOS and Linux.
 
@@ -58,13 +58,13 @@ Streams that start from this template:
 - Metroidvania / platform prototype: https://www.youtube.com/watch?v=kIxEMchPc3Y
 - Top-down adventure prototype: https://www.youtube.com/watch?v=cl8EOjOaoXc
 
-## Extra files
-
-In the folder `extras` you'll find some things that I often use in my games. Those files have comments at the top of each file that says what they do. It's just my personal "useful files" stash.
-
 ## Atlas builder
 
 The template works nicely together with my [atlas builder](https://github.com/karl-zylinski/atlas-builder). The atlas builder can build an atlas texture from a folder of png or aseprite files. Using an atlas can drastically reduce the number of draw calls your game uses. There's an example in that repository on how to set it up. The atlas generation step can easily be integrated into the build `bat` / `sh` files such as `build_hot_reload.bat`
+
+## Extra files
+
+In the folder `extras` you'll find some things that I often use in my games. Those files have comments at the top of each file that says what they do. It's just my personal "useful files" stash. You can delete the folder if you so wish.
 
 ## Questions?
 
