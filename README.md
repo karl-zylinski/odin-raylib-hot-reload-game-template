@@ -8,8 +8,6 @@ Supported platforms: Windows, macOS and Linux.
 
 I used this kind of hot reloading while developing my game [CAT & ONION](https://store.steampowered.com/app/2781210/CAT__ONION/).
 
-By Karl Zylinski, http://zylinski.se -- Support me at https://www.patreon.com/karl_zylinski
-
 ## Quick start
 
 If you are on Linux / macOS: Below, replace `.bat` with `.sh` and `.exe` with `.bin`.
