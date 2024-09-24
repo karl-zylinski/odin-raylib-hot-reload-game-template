@@ -15,9 +15,21 @@ odin build main_hot_reload -out:game.exe %BUILD_PARAMS%
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem Warning about raylib DLL not existing and where to find it.
-if not exist "raylib.dll" (
-	echo "Please copy raylib.dll from <your_odin_compiler>/vendor/raylib/windows/raylib.dll to the same directory as game.exe"
-	exit /b 1
+if exist "raylib.dll" (
+	exit /b 0
 )
 
-exit /b 0
+set "ODIN_ROOT="
+
+for /f "delims=" %%i in ('odin root') do (
+    set "ODIN_ROOT=%%i"
+)
+
+if exist "%ODIN_ROOT%\vendor\raylib\windows\raylib.dll" (
+	echo raylib.dll not found in current directory. Copying from %ODIN_ROOT%\vendor\raylib\windows\raylib.dll
+	copy "%ODIN_ROOT%\vendor\raylib\windows\raylib.dll" .
+	exit /b 0
+)
+
+echo "Please copy raylib.dll from <your_odin_compiler>/vendor/raylib/windows/raylib.dll to the same directory as game.exe"
+exit /b 1
