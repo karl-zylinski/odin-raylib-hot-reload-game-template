@@ -26,9 +26,9 @@ for /f "delims=" %%i in ('odin root') do (
     set "ODIN_PATH=%%i"
 )
 
-if exist "%ODIN_PATH%vendor\raylib\windows\raylib.dll" (
-	echo raylib.dll not found in current directory. Copying from %ODIN_PATH%vendor\raylib\windows\raylib.dll
-	copy "%ODIN_PATH%vendor\raylib\windows\raylib.dll" .
+if exist "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" (
+	echo raylib.dll not found in current directory. Copying from %ODIN_PATH%\vendor\raylib\windows\raylib.dll
+	copy "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" .
 	exit /b 0
 )
 
