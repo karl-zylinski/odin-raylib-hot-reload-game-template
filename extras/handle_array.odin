@@ -17,8 +17,8 @@
 // of the handle array that does not do this.
 //
 // Usage: See `ha_test` at the end of this file.
-// 
-// IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT 
+//
+// IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT
 // You should call `ha_commit_new` every now and then (in a game for example at the end of the
 // frame) in order to move things from `new_items` into `items` of the handle-based araray. This
 // split is done for these reasons:
@@ -173,7 +173,7 @@ ha_get_ptr :: proc(ha: Handle_Array($T, $HT), h: HT) -> ^T {
 	if int(h.idx) >= len(ha.items) {
 		// The item we look for might be in `new_items`, so look in there too
 		new_idx := h.idx - u32(len(ha.items))
-		
+
 		if new_idx >= u32(len(ha.new_items)) {
 			return nil
 		}
@@ -199,7 +199,7 @@ ha_remove :: proc(ha: ^Handle_Array($T, $HT), h: HT) {
 
 	if int(h.idx) >= len(ha.items) {
 		new_idx := h.idx - u32(len(ha.items))
-		
+
 		if new_idx < u32(len(ha.new_items)) {
 			// This stops this item from being added during `ha_commit_new`
 			ha.new_items[new_idx] = nil

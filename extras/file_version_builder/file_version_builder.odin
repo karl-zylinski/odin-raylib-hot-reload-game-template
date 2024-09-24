@@ -4,7 +4,7 @@
 //
 // In your game code you can then compare the modification timestamp to the files
 // to the one in `file_version.odin`. If they are different you can run `build_hot_reload.bat/sh`
-// 
+//
 // This works nicely in combination with the Atlas Builder, making it possible to
 // sit in Aseprite with the game running, modifying the source .ase files and having
 // the game recomplile and output new atlases for you without having to leave aseprite.
@@ -14,7 +14,7 @@
 // 	if mod, mod_err := os.last_write_time_by_name(f.path); mod_err == os.ERROR_NONE {
 // 		if mod != f.modification_time {
 // 			reload_error := libc.system("build_hot_reload.bat")
-// 
+//
 // 			if reload_error == 0 {
 // 				// successfully built game, hot reload will take care of rest
 // 			}

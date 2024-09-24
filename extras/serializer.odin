@@ -36,7 +36,7 @@ if data, ok := os.read_entire_file("my_data.json"); ok {
 }
 
 Similar to https://github.com/jakubtomsu/odin-lbp-serialization but uses JSON
-as backing instead of a binary blob. It is therefore slower than the 
+as backing instead of a binary blob. It is therefore slower than the
 implementation on the link, and uses more memory. But it produces human-
 readable JSON. Good for storing data saved by an editor.
 */
@@ -86,9 +86,9 @@ serialize_float :: proc(s: ^Serializer, val: ^$T) -> bool where intrinsics.type_
 		s.cur^ = json.Float(val^)
 	} else {
 		if v, ok := s.cur.(json.Float); ok {
-			val^ = T(v)    
+			val^ = T(v)
 		} else if v, ok := s.cur.(json.Integer); ok {
-			val^ = T(v)    
+			val^ = T(v)
 		} else {
 			return false
 		}
@@ -135,7 +135,7 @@ serialize_enum :: proc(s: ^Serializer, val: ^$T) -> bool where intrinsics.type_i
 }
 
 @(require_results)
-serialize_union_tag_field :: proc(s: ^Serializer, key: string, value: ^$T) -> bool  
+serialize_union_tag_field :: proc(s: ^Serializer, key: string, value: ^$T) -> bool
 where intrinsics.type_is_union(T) {
 	tag: i64
 	if s.is_writing {
@@ -181,7 +181,7 @@ serialize_fixed_array :: proc(s: ^Serializer, data: ^$T/[$N]$E) -> bool {
 	} else {
 		for idx in 0..<N {
 			serialize_array_element(s, idx, &data[idx]) or_return
-		}	
+		}
 	}
 	return true
 }
@@ -212,12 +212,12 @@ serialize_array_element :: proc(s: ^Serializer, idx: int, v: ^$T) -> bool {
 		when intrinsics.type_is_struct(T) || intrinsics.type_is_union(T) {
 			arr[idx] = json.Object{}
 		} else {
-			arr[idx] = json.Value {}    
+			arr[idx] = json.Value {}
 		}
 	}
 
 	s.cur = &arr[idx]
-	
+
 	when intrinsics.type_is_union(T) {
 		serialize_union_tag_field(s, "__tag", v) or_return
 	}
@@ -252,10 +252,10 @@ serialize_field :: proc(s: ^Serializer, key: string, v: ^$T) -> bool {
 	if s.is_writing {
 		assert(!(key in obj), "serialize_field writer: cur already has key")
 
-		when intrinsics.type_is_struct(T) || intrinsics.type_is_union(T) { 
+		when intrinsics.type_is_struct(T) || intrinsics.type_is_union(T) {
 			obj[strings.clone(key)] = json.Object {}
 		} else {
-			obj[strings.clone(key)] = json.Value {}    
+			obj[strings.clone(key)] = json.Value {}
 		}
 	} else {
 		if !(key in obj) {
@@ -284,7 +284,7 @@ serialize_field :: proc(s: ^Serializer, key: string, v: ^$T) -> bool {
 
 			reflect.set_union_variant_raw_tag(v^, tag)
 		} else {
-			serialize_union_tag_field(s, "__tag", v) or_return	
+			serialize_union_tag_field(s, "__tag", v) or_return
 		}
 	}
 
@@ -348,12 +348,12 @@ serialize_union_variant_typeid :: proc(s: ^Serializer, key: string, v: ^typeid, 
 
 		if tag < len(uti.variants) {
 			if uti.no_nil {
-				v^ = uti.variants[tag].id    
+				v^ = uti.variants[tag].id
 			} else {
 				if tag == 0 {
 					v^ = nil
 				} else {
-					v^ = uti.variants[tag-1].id    
+					v^ = uti.variants[tag-1].id
 				}
 			}
 		} else {

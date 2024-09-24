@@ -20,7 +20,7 @@ import rl "vendor:raylib"
 
 PIXEL_WINDOW_HEIGHT :: 180
 
-Game_Memory :: struct {	
+Game_Memory :: struct {
 	player_pos: rl.Vector2,
 	some_number: int,
 }
@@ -68,7 +68,7 @@ update :: proc() {
 draw :: proc() {
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.BLACK)
-	
+
 	rl.BeginMode2D(game_camera())
 	rl.DrawRectangleV(g_mem.player_pos, {10, 20}, rl.WHITE)
 	rl.DrawRectangleV({20, 20}, {10, 10}, rl.RED)
@@ -109,7 +109,7 @@ game_init :: proc() {
 }
 
 @(export)
-game_shutdown :: proc() { 
+game_shutdown :: proc() {
 	free(g_mem)
 }
 
