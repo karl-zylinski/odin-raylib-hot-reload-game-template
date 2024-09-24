@@ -7,11 +7,12 @@ FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% set G
 
 :: If game isn't running then:
 :: - delete all game_XXX.dll files
-:: - delete all files in pdbs subdir
-:: - optionally make the pdbs subdir
+:: - delete all PDBs in pdbs subdir
+:: - optionally create the pdbs subdir
 :: - write 0 into pdbs\pdb_number so game.dll PDBs start counting from zero
-:: This makes sure we start over "fresh" at PDB number 0 when starting up the game
-:: and it also makes sure we don't have so many PDBs laying around.
+::
+:: This makes sure we start over "fresh" at PDB number 0 when starting up the
+:: game and it also makes sure we don't have so many PDBs laying around.
 if %GAME_RUNNING% == false (
 	del /q game_*.dll 2> nul
 	
@@ -24,13 +25,19 @@ if %GAME_RUNNING% == false (
 	echo 0 > pdbs\pdb_number
 )
 
-:: Load PDB number from file, increment and store back
+:: Load PDB number from file, increment and store back. For as long as the game
+:: is running the pdb_number file won't be reset to 0, so we'll get a PDB of a
+:: unique name on each hot reload.
 set /p PDB_NUMBER=<pdbs\pdb_number
 set /a PDB_NUMBER=%PDB_NUMBER%+1
 echo %PDB_NUMBER% > pdbs\pdb_number
 
-:: Build game dll, use pdbs\game_%PDB_NUMBER%.pdb as pdb name so each dll gets its own PDB.
-:: This PDB stuff is done in order to make debugging work.
+:: Build game dll, use pdbs\game_%PDB_NUMBER%.pdb as PDB name so each dll gets
+:: its own PDB. This PDB stuff is done in order to make debugging work.
+:: Debuggers tend to lock PDBs or just misbehave if you reuse the same PDB name
+:: for multiple DLLs. So we give each new `game.dll` a unique PDB name.
+:: Note that we could not just rename the PDB after creation; the DLL contains
+:: a reference to where the PDB is.
 echo Building game.dll
 odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll -pdb-name:pdbs\game_%PDB_NUMBER%.pdb > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
