@@ -2,6 +2,7 @@
 *.sublime-workspace
 *.pdb
 *.raddbgi
+*.raddbg
 *.dll
 *.exp
 *.rdi
