@@ -40,8 +40,8 @@ odin build game -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -define:RAYLIB_SHARED=
 mv game_tmp$DLL_EXT game$DLL_EXT
 
 # Do not build the game.bin if it is already running.
-if pgrep game.bin > /dev/null; then
-    exit 1
+if pgrep game_hot_reload.bin > /dev/null; then
+    exit 0
 else
-    odin build main_hot_reload -out:game.bin -strict-style -vet -debug
+    odin build main_hot_reload -out:game_hot_reload.bin -strict-style -vet -debug
 fi
