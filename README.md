@@ -13,7 +13,7 @@ I used this kind of hot reloading while developing my game [CAT & ONION](https:/
 If you are on Linux / macOS: Below, replace `.bat` with `.sh` and `.exe` with `.bin`.
 
 1. Run `build_hot_reload.bat` to create `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
-2. Run `game.exe`, leave it running. Note: On Windows, if you installed odin through scoop or set an environment variable named `ODIN_ROOT` to the root of your odin install, the script will work out of the box. Otherwise you have to copy `raylib.dll` from `your_odin_compiler/vendor/raylib/windows` into this folder.
+2. Run `game.exe`, leave it running.
 3. Make changes to the gameplay code in `game/game.odin`. For example, change the line `rl.ClearBackground(rl.BLACK)` so that it instead uses `rl.BLUE`. Save the file.
 4. Run `build_hot_reload.bat`, it will recompile `game.dll`.
 5. The running `game.exe` will see that `game.dll` changed and reload it. But it will use the same `Game_Memory` (a struct defined in `game/game.odin`) as before. This will make the game use your new code without having to restart.
