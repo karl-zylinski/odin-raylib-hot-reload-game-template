@@ -1,14 +1,17 @@
 @echo off
 
+echo Building game.dll
+
 rem Build game.dll, which is loaded by game.exe. The split of game.dll and game.exe is for hot reload reasons.
-odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll
+odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 rem If game.exe already running: Then only compile game.dll and exit cleanly
 set EXE=game_hot_reload.exe
-FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% exit /b 1
+FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% echo Game running, hot reloading... && exit /b 1
 
 rem Build game.exe, which starts the program and loads game.dll och does the logic for hot reloading.
+echo Building %EXE%
 odin build main_hot_reload -strict-style -vet -debug -out:%EXE%
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
