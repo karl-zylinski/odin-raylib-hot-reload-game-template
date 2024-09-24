@@ -40,10 +40,8 @@ odin build game -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -define:RAYLIB_SHARED=
 mv game_tmp$DLL_EXT game$DLL_EXT
 
 # Do not build the game_hot_reload.bin if it is already running.
-# Note that we don't check with `.bin` extension. For some reason
-# pgrep ignores the bin extension. I.e. if game_hot_reload.bin is
-# running then pgrep will only find it if you look for game_hot_reload
-if pgrep game_hot_reload > /dev/null; then
+# -f is there to make sure we match against full name, including .bin
+if pgrep -f game_hot_reload.bin > /dev/null; then
     exit 0
 else
     odin build main_hot_reload -out:game_hot_reload.bin -strict-style -vet -debug
