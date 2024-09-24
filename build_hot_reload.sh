@@ -39,8 +39,11 @@ odin build game -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -define:RAYLIB_SHARED=
 # Need to use a temp file on Linux because it first writes an empty `game.so`, which the game will load before it is actually fully written.
 mv game_tmp$DLL_EXT game$DLL_EXT
 
-# Do not build the game.bin if it is already running.
-if pgrep game_hot_reload.bin > /dev/null; then
+# Do not build the game_hot_reload.bin if it is already running.
+# Note that we don't check with `.bin` extension. For some reason
+# pgrep ignores the bin extension. I.e. if game_hot_reload.bin is
+# running then pgrep will only find it if you look for game_hot_reload
+if pgrep game_hot_reload > /dev/null; then
     exit 0
 else
     odin build main_hot_reload -out:game_hot_reload.bin -strict-style -vet -debug
