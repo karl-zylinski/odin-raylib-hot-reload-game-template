@@ -48,6 +48,9 @@ Included there are Debug and Release tasks for VS Code. If you install the [Code
 
 A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
 
+## Debugging
+Debugging has been tested on Windows. You can use any debugger. It works by outputting a new PDB each time the game DLL is built. It cleans up the PDBs when you do a fresh start. See `build_hot_reload.bat` for details.
+
 ## Demo streams
 
 Streams that start from this template:
