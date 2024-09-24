@@ -1,26 +1,57 @@
 @echo off
 
-echo Building game.dll
+set GAME_RUNNING=false
+set EXE=game_hot_reload.exe
+:: Check if game is running
+FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% set GAME_RUNNING=true
 
-rem Build game.dll, which is loaded by game.exe. The split of game.dll and game.exe is for hot reload reasons.
-odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll > nul
+:: If game isn't running then:
+:: - delete all game_XXX.dll files
+:: - delete all files in pdbs subdir
+:: - optionally make the pdbs subdir
+:: - write 0 into pdbs\pdb_number so game.dll PDBs start counting from zero
+:: This makes sure we start over "fresh" at PDB number 0 when starting up the game
+:: and it also makes sure we don't have so many PDBs laying around.
+if %GAME_RUNNING% == false (
+	del /q game_*.dll 2> nul
+	
+	if exist "pdbs" (
+		del /q pdbs\*
+	) else (
+		mkdir pdbs
+	)
+
+	echo 0 > pdbs\pdb_number
+)
+
+:: Load PDB number from file, increment and store back
+set /p PDB_NUMBER=<pdbs\pdb_number
+set /a PDB_NUMBER=%PDB_NUMBER%+1
+echo %PDB_NUMBER% > pdbs\pdb_number
+
+:: Build game dll, use pdbs\game_%PDB_NUMBER%.pdb as pdb name so each dll gets its own PDB.
+:: This PDB stuff is done in order to make debugging work.
+echo Building game.dll
+odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll -pdb-name:pdbs\game_%PDB_NUMBER%.pdb > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
-rem If game.exe already running: Then only compile game.dll and exit cleanly
+:: If game.exe already running: Then only compile game.dll and exit cleanly
 set EXE=game_hot_reload.exe
-FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% echo Game running, hot reloading... && exit /b 1
+if %GAME_RUNNING% == true (
+	echo Game running, hot reloading... && exit /b 1
+)
 
-rem Build game.exe, which starts the program and loads game.dll och does the logic for hot reloading.
+:: Build game.exe, which starts the program and loads game.dll och does the logic for hot reloading.
 echo Building %EXE%
 odin build main_hot_reload -strict-style -vet -debug -out:%EXE%
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
-rem Warning about raylib DLL not existing and where to find it.
+:: Warning about raylib DLL not existing and where to find it.
 if exist "raylib.dll" (
 	exit /b 0
 )
 
-rem Don't name this one ODIN_ROOT as the odin exe will start using that one then.
+:: Don't name this one ODIN_ROOT as the odin exe will start using that one then.
 set ODIN_PATH=
 
 for /f %%i in ('odin root') do set ODIN_PATH=%%i
