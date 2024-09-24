@@ -16,7 +16,7 @@ if %GAME_RUNNING% == false (
 	del /q game_*.dll 2> nul
 	
 	if exist "pdbs" (
-		del /q pdbs\*
+		del /q pdbs\*.pdb
 	) else (
 		mkdir pdbs
 	)
