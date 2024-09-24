@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-VET="-strict-style -vet-unused -vet-using-stmt -vet-using-param -vet-style -vet-semicolon"
-
 # NOTE: this is a recent addition to the Odin compiler, if you don't have this command
 # you can change this to the path to the Odin folder that contains vendor, eg: "~/Odin".
 ROOT=$(odin root)
@@ -36,7 +34,7 @@ case $(uname) in
 esac
 
 # Build the game.
-odin build game -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -show-timings -define:RAYLIB_SHARED=true -build-mode:dll -out:game_tmp$DLL_EXT -debug $VET
+odin build game -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -define:RAYLIB_SHARED=true -build-mode:dll -out:game_tmp$DLL_EXT -strict-style -vet -debug
 
 # Need to use a temp file on Linux because it first writes an empty `game.so`, which the game will load before it is actually fully written.
 mv game_tmp$DLL_EXT game$DLL_EXT
@@ -45,5 +43,5 @@ mv game_tmp$DLL_EXT game$DLL_EXT
 if pgrep game.bin > /dev/null; then
     exit 1
 else
-    odin build main_hot_reload -out:game.bin $VET -debug
+    odin build main_hot_reload -out:game.bin -strict-style -vet -debug
 fi
