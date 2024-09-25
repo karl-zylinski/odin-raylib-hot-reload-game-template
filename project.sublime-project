@@ -16,11 +16,11 @@
 			},
 			"osx": {
 				"working_dir": "$project_path",
-				"shell_cmd": "./build_hot_reload.sh && ./game.bin &",
+				"shell_cmd": "./build_hot_reload.sh && ./game_hot_reload.bin &",
 			},
 			"linux": {
 				"working_dir": "$project_path",
-				"shell_cmd": "./build_hot_reload.sh && ./game.bin &",
+				"shell_cmd": "./build_hot_reload.sh && ./game_hot_reload.bin &",
 			}
 		}
 	],
