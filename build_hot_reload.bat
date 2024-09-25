@@ -43,7 +43,7 @@ echo %PDB_NUMBER% > pdbs\pdb_number
 :: reference to where the PDB is.
 ::
 :: Also note that we always write game.dll to the same file. game_hot_reload.exe
-:: monitors this file for changes and does the hot reload when it changes.
+:: monitors this file and does the hot reload when it changes.
 echo Building game.dll
 odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll -pdb-name:pdbs\game_%PDB_NUMBER%.pdb > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
