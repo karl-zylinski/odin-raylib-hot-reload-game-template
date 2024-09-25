@@ -63,10 +63,6 @@ Streams that start from this template:
 
 The template works nicely together with my [atlas builder](https://github.com/karl-zylinski/atlas-builder). The atlas builder can build an atlas texture from a folder of png or aseprite files. Using an atlas can drastically reduce the number of draw calls your game uses. There's an example in that repository on how to set it up. The atlas generation step can easily be integrated into the build `bat` / `sh` files such as `build_hot_reload.bat`
 
-## Extra files
-
-In the folder `extras` you'll find some things that I often use in my games. Those files have comments at the top of each file that says what they do. It's just my personal "useful files" stash. You can delete the folder if you so wish.
-
 ## Questions?
 
 Ask questions in my gamedev Discord: https://discord.gg/4FsHgtBmFK
