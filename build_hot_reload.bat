@@ -1,5 +1,9 @@
 @echo off
 
+if not exist "build" (
+    mkdir build
+)
+
 set GAME_RUNNING=false
 set EXE=game_hot_reload.exe
 
@@ -15,8 +19,8 @@ FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% set G
 :: This makes sure we start over "fresh" at PDB number 0 when starting up the
 :: game and it also makes sure we don't have so many PDBs laying around.
 if %GAME_RUNNING% == false (
-	del /q game_*.dll 2> nul
-	
+	del /q build/game_*.dll 2> nul
+
 	if exist "pdbs" (
 		del /q pdbs\*.pdb
 	) else (
@@ -38,18 +42,18 @@ echo %PDB_NUMBER% > pdbs\pdb_number
 :: Debuggers tend to lock PDBs or just misbehave if you reuse the same PDB while
 :: the debugger is attached. So each time we compile `game.dll` we give the
 :: PDB a unique PDB.
-:: 
+::
 :: Note that we could not just rename the PDB after creation; the DLL contains a
 :: reference to where the PDB is.
 ::
 :: Also note that we always write game.dll to the same file. game_hot_reload.exe
 :: monitors this file and does the hot reload when it changes.
-echo Building game.dll
-odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll -pdb-name:pdbs\game_%PDB_NUMBER%.pdb > nul
+echo Building build/game.dll
+odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:build/game.dll -pdb-name:pdbs\game_%PDB_NUMBER%.pdb > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 :: If game.exe already running: Then only compile game.dll and exit cleanly
-set EXE=game_hot_reload.exe
+set EXE=build/game_hot_reload.exe
 if %GAME_RUNNING% == true (
 	echo Game running, hot reloading... && exit /b 1
 )
@@ -71,7 +75,7 @@ for /f %%i in ('odin root') do set ODIN_PATH=%%i
 
 if exist "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" (
 	echo raylib.dll not found in current directory. Copying from %ODIN_PATH%\vendor\raylib\windows\raylib.dll
-	copy "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" .
+	copy "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" build\
 	exit /b 0
 )
 

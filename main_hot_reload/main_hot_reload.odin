@@ -22,9 +22,9 @@ when ODIN_OS == .Windows {
 copy_dll :: proc(to: string) -> bool {
 	exit: i32
 	when ODIN_OS == .Windows {
-		exit = libc.system(fmt.ctprintf("copy game.dll {0}", to))
+		exit = libc.system(fmt.ctprintf("copy build\\game.dll {0}", to))
 	} else {
-		exit = libc.system(fmt.ctprintf("cp game" + DLL_EXT + " {0}", to))
+		exit = libc.system(fmt.ctprintf("cp build/game" + DLL_EXT + " {0}", to))
 	}
 
 	if exit != 0 {
@@ -52,17 +52,17 @@ Game_API :: struct {
 }
 
 load_game_api :: proc(api_version: int) -> (api: Game_API, ok: bool) {
-	mod_time, mod_time_error := os.last_write_time_by_name("game" + DLL_EXT)
+	mod_time, mod_time_error := os.last_write_time_by_name("build/game" + DLL_EXT)
 	if mod_time_error != os.ERROR_NONE {
 		fmt.printfln(
-			"Failed getting last write time of game" + DLL_EXT + ", error code: {1}",
+			"Failed getting last write time of build/game" + DLL_EXT + ", error code: {1}",
 			mod_time_error,
 		)
 		return
 	}
 
 	// NOTE: this needs to be a relative path for Linux to work.
-	game_dll_name := fmt.tprintf("{0}game_{1}" + DLL_EXT, "./" when ODIN_OS != .Windows else "", api_version)
+	game_dll_name := fmt.tprintf("{0}build{1}game_{2}" + DLL_EXT, "./" when ODIN_OS != .Windows else "", "\\" when ODIN_OS == .Windows else "/", api_version)
 	copy_dll(game_dll_name) or_return
 
 	// This proc matches the names of the fields in Game_API to symbols in the
@@ -87,7 +87,7 @@ unload_game_api :: proc(api: ^Game_API) {
 		}
 	}
 
-	if os.remove(fmt.tprintf("game_{0}" + DLL_EXT, api.api_version)) != nil {
+	if os.remove(fmt.tprintf("build/game_{0}" + DLL_EXT, api.api_version)) != nil {
 		fmt.printfln("Failed to remove game_{0}" + DLL_EXT + " copy", api.api_version)
 	}
 }
@@ -132,7 +132,7 @@ main :: proc() {
 		force_reload := game_api.force_reload()
 		force_restart := game_api.force_restart()
 		reload := force_reload || force_restart
-		game_dll_mod, game_dll_mod_err := os.last_write_time_by_name("game" + DLL_EXT)
+		game_dll_mod, game_dll_mod_err := os.last_write_time_by_name("build/game" + DLL_EXT)
 
 		if game_dll_mod_err == os.ERROR_NONE && game_api.modification_time != game_dll_mod {
 			reload = true

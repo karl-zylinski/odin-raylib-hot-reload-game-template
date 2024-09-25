@@ -6,7 +6,7 @@
             "request": "launch",
             "preLaunchTask": "Build Debug",
             "name": "Debug",
-            "program": "${workspaceFolder}/game_debug.exe",
+            "program": "${workspaceFolder}/build/game_debug.exe",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
@@ -15,7 +15,7 @@
             "request": "launch",
             "preLaunchTask": "Build Release",
             "name": "Release",
-            "program": "${workspaceFolder}/game_release.exe",
+            "program": "${workspaceFolder}/build/game_release.exe",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
