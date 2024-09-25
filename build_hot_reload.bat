@@ -49,7 +49,6 @@ odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 :: If game.exe already running: Then only compile game.dll and exit cleanly
-set EXE=game_hot_reload.exe
 if %GAME_RUNNING% == true (
 	echo Game running, hot reloading... && exit /b 1
 )
