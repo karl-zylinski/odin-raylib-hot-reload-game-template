@@ -66,7 +66,7 @@ if exist "raylib.dll" (
 :: Don't name this one ODIN_ROOT as the odin exe will start using that one then.
 set ODIN_PATH=
 
-for /f %%i in ('odin root') do set ODIN_PATH=%%i
+for /f %%i in ('odin root') do set "ODIN_PATH=%%i"
 
 if exist "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" (
 	echo raylib.dll not found in current directory. Copying from %ODIN_PATH%\vendor\raylib\windows\raylib.dll
