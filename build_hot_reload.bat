@@ -2,6 +2,7 @@
 
 set GAME_RUNNING=false
 set EXE=game_hot_reload.exe
+
 :: Check if game is running
 FOR /F %%x IN ('tasklist /NH /FI "IMAGENAME eq %EXE%"') DO IF %%x == %EXE% set GAME_RUNNING=true
 
@@ -36,10 +37,13 @@ echo %PDB_NUMBER% > pdbs\pdb_number
 :: its own PDB. This PDB stuff is done in order to make debugging work.
 :: Debuggers tend to lock PDBs or just misbehave if you reuse the same PDB while
 :: the debugger is attached. So each time we compile `game.dll` we give the
-:: PDB a unique PDB. Note that we could not just rename the PDB after creation,
-:: the DLL contains a reference to where the PDB is. Also note that we always
-:: write game.dll to the same file. game_hot_reload.exe monitors this file for
-:: changes and does the hot reload when it changes.
+:: PDB a unique PDB.
+:: 
+:: Note that we could not just rename the PDB after creation; the DLL contains a
+:: reference to where the PDB is.
+::
+:: Also note that we always write game.dll to the same file. game_hot_reload.exe
+:: monitors this file for changes and does the hot reload when it changes.
 echo Building game.dll
 odin build game -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:game.dll -pdb-name:pdbs\game_%PDB_NUMBER%.pdb > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
