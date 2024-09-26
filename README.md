@@ -3,6 +3,7 @@
 This is an [Odin](https://github.com/odin-lang/Odin) + [Raylib](https://github.com/raysan5/raylib) game template with [Hot Reloading](http://zylinski.se/posts/hot-reload-gameplay-code/) pre-setup. It makes it possible to reload gameplay code while the game is running.
 
 Supported platforms: Windows, macOS and Linux.
+Tested editors and debuggers: Sublime, VS Code and RAD Debugger.
 
 ![hot_reload gif](https://github.com/user-attachments/assets/18059ab2-0878-4617-971d-e629a969fc93)
 
@@ -47,14 +48,15 @@ Debugging and hot reloading while attached to [RAD Debugger](https://github.com/
 
 ## VS Code
 
-You can build, debug and hot reload from within VS Code. Make sure you open the root folder of the repository as your VS Code project.
+You can build, debug and hot reload from within VS Code. Open the template using `File -> Open Folder...`.
 
-Requirements:
-- [Odin support package](https://marketplace.visualstudio.com/items?itemName=aesl.odin)
-- Windows: [C++ build tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) (for debugging)
-- Linux / Mac: [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) (for debugging) 
+Requirements for debugging to work:
+- Windows: [C++ build tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+- Linux / Mac: [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
-Launch with `Run Hot Reload` task. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
+<img alt="Image showing  how to start debugging session by selecting Build Hot Reload from the dropdown in the Run and Debug sidebar" src="https://github.com/user-attachments/assets/e62d710b-06f1-4833-bb2a-ab95527cf38c" width="50%" title="Start debugging session by chooing 'Run Hot Reload' and pressing the green arrow button">
+
+Launch with `Run Hot Reload` launch task, see image above. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
 
 ## Windows Debugging hacks
 On Windows the degugging while hot reloading works by outputting a new PDB each time the game DLL is built. It cleans up the PDBs when you do a fresh start. See `build_hot_reload.bat` for details.
