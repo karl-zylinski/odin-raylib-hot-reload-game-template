@@ -44,14 +44,14 @@ How to use:
 
 ## VS Code
 
-You can build, debug and hot reload from within VS Code.
+You can build, debug and hot reload from within VS Code. Make sure you open the root folder of the repository as your VS Code project.
 
 Requirements:
 - [Odin support package](https://marketplace.visualstudio.com/items?itemName=aesl.odin)
 - Windows: [C++ build tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) (for debugging)
 - Linux / Mac: [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) (for debugging) 
 
-Launch with `Run Hot Reload` task for your OS. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
+Launch with `Run Hot Reload` task. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
 
 ## Windows Debugging hacks
 On Windows the degugging while hot reloading works by outputting a new PDB each time the game DLL is built. It cleans up the PDBs when you do a fresh start. See `build_hot_reload.bat` for details.
