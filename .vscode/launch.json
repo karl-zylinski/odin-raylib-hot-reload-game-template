@@ -1,11 +1,21 @@
 {
     "version": "0.2.0",
     "configurations": [
+        // Windows configs (only difference from linux/mac is "type" and "program")
+        {
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "Run Hot Reload",
+            "name": "Run Hot Reload (Windows)",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/game_hot_reload.exe",
+        },
         {
             "type": "cppvsdbg",
             "request": "launch",
             "preLaunchTask": "Build Debug",
-            "name": "Debug",
+            "name": "Run Debug (Windows)",
             "program": "${workspaceFolder}/game_debug.exe",
             "args": [],
             "cwd": "${workspaceFolder}"
@@ -14,18 +24,39 @@
             "type": "cppvsdbg",
             "request": "launch",
             "preLaunchTask": "Build Release",
-            "name": "Release",
+            "name": "Run Release (Windows)",
             "program": "${workspaceFolder}/game_release.exe",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
+
+        // Linux / Mac configs
         {
-            "type": "cppvsdbg",
+            "type": "lldb",
             "request": "launch",
-            "name": "Run File",
-            "program": "odin",
-            "args": ["run", "${fileBasename}", "-file"],
-            "cwd": "${workspaceFolder}"
-        }
+            "preLaunchTask": "Build Hot Reload",
+            "name": "Run Hot Reload (Linux / Mac)",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/game_hot_reload.bin",
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "Build Debug",
+            "name": "Run Debug (Linux / Mac)",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/game_debug.bin",
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "preLaunchTask": "Build Release",
+            "name": "Run Release (Linux / Mac)",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/game_release.bin",
+        },
     ]
 }
