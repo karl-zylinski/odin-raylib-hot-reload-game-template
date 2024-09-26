@@ -53,7 +53,8 @@ Requirements for debugging to work:
 - Windows: [C++ build tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 - Linux / Mac: [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
-![Image showing  how to start debugging session by selecting Build Hot Reload from the dropdown in the Run and Debug sidebar](https://github.com/user-attachments/assets/95b09772-a19e-400d-9372-06edc8c30484 "Start debugging session by chooing 'Run Hot Reload' and pressing the green arrow button")
+
+![Image showing  how to start debugging session by selecting Build Hot Reload from the dropdown in the Run and Debug sidebar](https://github.com/user-attachments/assets/e62d710b-06f1-4833-bb2a-ab95527cf38c "Start debugging session by chooing 'Run Hot Reload' and pressing the green arrow button")
 
 Launch with `Run Hot Reload` launch task, see image above. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
 
