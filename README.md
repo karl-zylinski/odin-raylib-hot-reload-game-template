@@ -47,14 +47,15 @@ Debugging and hot reloading while attached to [RAD Debugger](https://github.com/
 
 ## VS Code
 
-You can build, debug and hot reload from within VS Code. Make sure you open the root folder of the repository as your VS Code project.
+You can build, debug and hot reload from within VS Code. Open the template using `File -> Open Folder...`.
 
-Requirements:
-- [Odin support package](https://marketplace.visualstudio.com/items?itemName=aesl.odin)
-- Windows: [C++ build tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) (for debugging)
-- Linux / Mac: [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) (for debugging) 
+Requirements for debugging to work:
+- Windows: [C++ build tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+- Linux / Mac: [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)
 
-Launch with `Run Hot Reload` task. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
+![Image showing  how to start debugging session by selecting Build Hot Reload from the dropdown in the Run and Debug sidebar](https://github.com/user-attachments/assets/95b09772-a19e-400d-9372-06edc8c30484 "Start debugging session by chooing 'Run Hot Reload' and pressing the green arrow button")
+
+Launch with `Run Hot Reload` launch task, see image above. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
 
 ## Windows Debugging hacks
 On Windows the degugging while hot reloading works by outputting a new PDB each time the game DLL is built. It cleans up the PDBs when you do a fresh start. See `build_hot_reload.bat` for details.
