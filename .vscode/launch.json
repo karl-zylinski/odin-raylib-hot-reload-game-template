@@ -5,7 +5,7 @@
         {
             "type": "cppvsdbg",
             "request": "launch",
-            "preLaunchTask": "Run Hot Reload",
+            "preLaunchTask": "Build Hot Reload",
             "name": "Run Hot Reload (Windows)",
             "args": [],
             "cwd": "${workspaceFolder}",
