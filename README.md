@@ -44,7 +44,7 @@ How to use:
 - After you make code changes and want to hot reload, just hit F7 / Ctrl + B / Cmd + B again
 
 ## RAD Debugger
-Debugging and hot reloading while attached to [RAD Debugger](https://github.com/EpicGamesExt/raddebugger) works with no extra setup.
+You can hot reload while attached to [RAD Debugger](https://github.com/EpicGamesExt/raddebugger). Attach to your `game_hot_reload` executable, make code changes in your code editor and re-run the the `build_hot_reload` script to build and hot reload.
 
 ## VS Code
 
