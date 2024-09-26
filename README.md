@@ -42,6 +42,9 @@ How to use:
 - Compile and run by pressing using F7 / Ctrl + B / Cmd + B
 - After you make code changes and want to hot reload, just hit F7 / Ctrl + B / Cmd + B again
 
+## RAD Debugger
+Debugging and hot reloading while attached to [RAD Debugger](https://github.com/EpicGamesExt/raddebugger) works with no extra setup.
+
 ## VS Code
 
 You can build, debug and hot reload from within VS Code. Make sure you open the root folder of the repository as your VS Code project.
