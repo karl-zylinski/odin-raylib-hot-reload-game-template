@@ -47,9 +47,9 @@ How to use:
 You can build, debug and hot reload from within VS Code.
 
 Requirements:
-- Odin support package: https://marketplace.visualstudio.com/items?itemName=aesl.odin
-- Windows: C++ build tools (for debugging): https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
-- Linux / Mac: CodeLLDB (for debugging): https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb
+- [Odin support package](https://marketplace.visualstudio.com/items?itemName=aesl.odin)
+- Windows: [C++ build tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) (for debugging)
+- Linux / Mac: [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) (for debugging) 
 
 Launch with `Run Hot Reload` task for your OS. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
 
