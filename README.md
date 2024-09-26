@@ -44,12 +44,17 @@ How to use:
 
 ## VS Code
 
-Included there are Debug and Release tasks for VS Code. If you install the [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) extension, it's possible to Debug the project code with the included Debug task.
+You can build, debug and hot reload from within VS Code.
 
-A task to build and hot reload is also included, build, run and rebuild with `Ctrl+B` or `Command Palette` -> `Task: Run Build Task`.
+Requirements:
+- Odin support package: https://marketplace.visualstudio.com/items?itemName=aesl.odin
+- Windows: C++ build tools (for debugging): https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+- Linux / Mac: CodeLLDB (for debugging): https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb
 
-## Debugging
-Debugging has been tested on Windows. You can use any debugger. It works by outputting a new PDB each time the game DLL is built. It cleans up the PDBs when you do a fresh start. See `build_hot_reload.bat` for details.
+Launch with `Run Hot Reload` task for your OS. After you make code changes press `Ctrl + Shift + B` to rebuild and hot reload.
+
+## Windows Debugging hacks
+On Windows the degugging while hot reloading works by outputting a new PDB each time the game DLL is built. It cleans up the PDBs when you do a fresh start. See `build_hot_reload.bat` for details.
 
 ## Demo streams
 
