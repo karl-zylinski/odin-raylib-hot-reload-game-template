@@ -44,7 +44,7 @@ mv game_tmp$DLL_EXT game$DLL_EXT
 # -f is there to make sure we match against full name, including .bin
 if pgrep -f game_hot_reload.bin > /dev/null; then
     echo "Game running, hot reloading..."
-    exit 0
+    exit 1
 else
     echo "Building game_hot_reload.bin"
     odin build main_hot_reload -out:game_hot_reload.bin -strict-style -vet -debug
