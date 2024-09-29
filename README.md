@@ -4,7 +4,7 @@ This is an [Odin](https://github.com/odin-lang/Odin) + [Raylib](https://github.c
 
 Supported platforms: Windows, macOS and Linux.
 
-Tested editors and debuggers: Sublime Text, VS Code and RAD Debugger.
+Supported editors and debuggers: [Sublime Text](#sublime-text), [VS Code](#vs-code) and [RAD Debugger](#rad-debugger).
 
 ![hot_reload gif](https://github.com/user-attachments/assets/18059ab2-0878-4617-971d-e629a969fc93)
 
