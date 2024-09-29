@@ -3,6 +3,7 @@
 This is an [Odin](https://github.com/odin-lang/Odin) + [Raylib](https://github.com/raysan5/raylib) game template with [Hot Reloading](http://zylinski.se/posts/hot-reload-gameplay-code/) pre-setup. It makes it possible to reload gameplay code while the game is running.
 
 Supported platforms: Windows, macOS and Linux.
+
 Tested editors and debuggers: Sublime Text, VS Code and RAD Debugger.
 
 ![hot_reload gif](https://github.com/user-attachments/assets/18059ab2-0878-4617-971d-e629a969fc93)
