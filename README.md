@@ -14,21 +14,21 @@ I used this kind of hot reloading while developing my game [CAT & ONION](https:/
 
 If you are on Linux / macOS: Below, replace `.bat` with `.sh` and `.exe` with `.bin`.
 
-1. Run `build_hot_reload.bat` to create `game.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
-2. Run `game.exe`, leave it running.
+1. Run `build_hot_reload.bat` to create `game_hot_reload.exe` and `game.dll`. Note: It expects odin compiler to be part of your PATH environment variable.
+2. Run `game_hot_reload.exe`, leave it running.
 3. Make changes to the gameplay code in `game/game.odin`. For example, change the line `rl.ClearBackground(rl.BLACK)` so that it instead uses `rl.BLUE`. Save the file.
 4. Run `build_hot_reload.bat`, it will recompile `game.dll`.
-5. The running `game.exe` will see that `game.dll` changed and reload it. But it will use the same `Game_Memory` (a struct defined in `game/game.odin`) as before. This will make the game use your new code without having to restart.
+5. The running `game_hot_reload.exe` will see that `game.dll` changed and reload it. But it will use the same `Game_Memory` (a struct defined in `game/game.odin`) as before. This will make the game use your new code without having to restart.
 
-Note, in step 4: `build_hot_reload.bat` does not rebuild `game.exe`. It checks if `game.exe` is already running, and if it is, it avoid recompiling it, since it will be locked anyways.
+Note, in step 4: `build_hot_reload.bat` does not rebuild `game_hot_reload.exe`. It checks if `game_hot_reload.exe` is already running, and if it is, it avoid recompiling it, since it will be locked anyways.
 
 ## Description
 
-`build_hot_reload.bat` will build `game.dll` from the odin code in the `game` folder. It will also build `game.exe` from the code in the folder `main_hot_reload`.
+`build_hot_reload.bat` will build `game.dll` from the odin code in the `game` folder. It will also build `game_hot_reload.exe` from the code in the folder `main_hot_reload`.
 
-When you run `game.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything in the `game` folder and re-run `build_hot_reload.bat`.
+When you run `game_hot_reload.exe` it will load `game.dll` and start the game. In order to hot reload, make some changes to anything in the `game` folder and re-run `build_hot_reload.bat`.
 
-`game.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game/game.odin`.
+`game_hot_reload.exe` will notice that `game.dll` changed and reload it. The state you wish to keep between reloads goes into the `Game_Memory` struct in `game/game.odin`.
 
 There is also a `build_release.bat` file that makes a `game_release.exe` that does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `game` folder as a normal Odin package.
 
