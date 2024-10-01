@@ -1,5 +1,5 @@
 // This file is compiled as part of the `odin.dll` file. It contains the
-// procs that `game.exe` will call, such as:
+// procs that `game_hot_reload.exe` will call, such as:
 //
 // game_init: Sets up the game state
 // game_update: Run once per frame
@@ -76,6 +76,7 @@ draw :: proc() {
 	rl.EndMode2D()
 
 	rl.BeginMode2D(ui_camera())
+	// Note: main_hot_reload.odin clears the temp allocator at end of frame.
 	rl.DrawText(fmt.ctprintf("some_number: %v\nplayer_pos: %v", g_mem.some_number, g_mem.player_pos), 5, 5, 8, rl.WHITE)
 	rl.EndMode2D()
 
