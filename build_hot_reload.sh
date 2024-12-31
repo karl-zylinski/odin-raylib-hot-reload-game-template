@@ -39,7 +39,7 @@ odin build game -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -define:RAYLIB_SHARED=
 
 # Need to use a temp file on Linux because it first writes an empty `game.so`, which the game will load before it is actually fully written.
 mv game_tmp$DLL_EXT game$DLL_EXT
-[ -n "$DLL_EXT" ] && rm game_*$DLL_EXT
+[ -n "$DLL_EXT" ] && rm -f game_*$DLL_EXT
 
 # Do not build the game_hot_reload.bin if it is already running.
 # -f is there to make sure we match against full name, including .bin
