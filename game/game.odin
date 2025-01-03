@@ -143,3 +143,9 @@ game_force_reload :: proc() -> bool {
 game_force_restart :: proc() -> bool {
 	return rl.IsKeyPressed(.F6)
 }
+
+// In a web build, this is called when browser changes size. Remove the
+// `rl.SetWindowSize` call if you don't want a resizable game.
+game_parent_window_size_changed :: proc(w, h: int) {
+	rl.SetWindowSize(i32(w), i32(h))
+}
