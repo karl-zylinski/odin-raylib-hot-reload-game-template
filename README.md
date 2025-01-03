@@ -34,6 +34,10 @@ There is also a `build_release.bat` file that makes a `game_release.exe` that do
 
 `build_debug.bat` is like `build_release.bat` but makes a debuggable executable, in case you need to debug your non-hot-reload-exe.
 
+## Web build
+
+`build_web.bat` and `build_web.sh` builds a release web executable (no hot reloading!). See https://github.com/karl-zylinski/odin-raylib-web for more info on how the web build works, including how to embed assets into it.
+
 ## Sublime Text
 
 For those who use Sublime Text there's a project file: `project.sublime-project`.
