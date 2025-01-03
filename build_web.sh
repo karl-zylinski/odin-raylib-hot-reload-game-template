@@ -13,7 +13,7 @@ export EMSDK_QUIET=1
 # shellcheck disable=SC1091
 [[ -f "$EMSCRIPTEN_SDK_DIR/emsdk_env.sh" ]] && . "$EMSCRIPTEN_SDK_DIR/emsdk_env.sh"
 
-if ! odin build main_web -target:freestanding_wasm32 -build-mode:obj -define:RAYLIB_WASM_LIB=env.o -vet -strict-style -out:$OUT_DIR/game; then
+if ! odin build main_web -target:freestanding_wasm32 -build-mode:obj -define:RAYLIB_WASM_LIB=env.o -vet -strict-style -o:speed -out:$OUT_DIR/game; then
   exit 1
 fi
 
