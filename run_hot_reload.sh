@@ -7,11 +7,14 @@ EXE=game_hot_reload.bin
 
 mkdir -p $OUT_DIR
 
+# root is a special command of the odin compiler that tells you where the Odin
+# compiler is located.
 ROOT=$(odin root)
 
 set -eu
 
-# Figure out the mess that is dynamic libraries.
+# Figure out which DLL extension to use based on platform. Also copy the Linux
+# so libs.
 case $(uname) in
 "Darwin")
     case $(uname -m) in
@@ -34,20 +37,22 @@ case $(uname) in
     ;;
 esac
 
-# Build the game.
+# Build the game. Note that the game goes into $OUT_DIR while the exe stays in
+# the root folder.
 echo "Building game$DLL_EXT"
 odin build source -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -define:RAYLIB_SHARED=true -build-mode:dll -out:$OUT_DIR/game_tmp$DLL_EXT -strict-style -vet -debug
 
-# Need to use a temp file on Linux because it first writes an empty `game.so`, which the game will load before it is actually fully written.
+# Need to use a temp file on Linux because it first writes an empty `game.so`,
+# which the game will load before it is actually fully written.
 mv $OUT_DIR/game_tmp$DLL_EXT $OUT_DIR/game$DLL_EXT
 
-# Do not build the game_hot_reload.bin if it is already running.
+# If the executable is already running, then don't try to build and start it.
 # -f is there to make sure we match against full name, including .bin
-if pgrep -f game_hot_reload.bin > /dev/null; then
+if pgrep -f $EXE > /dev/null; then
     echo "Hot reloading..."
 else
     echo "Building $EXE"
-    odin build source/main_hot_reload -out:game_hot_reload.bin -strict-style -vet -debug
+    odin build source/main_hot_reload -out:$EXE -strict-style -vet -debug
 
     echo "Running $EXE"
     ./$EXE &
