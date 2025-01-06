@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# See https://github.com/karl-zylinski/odin-raylib-web for more examples on how
-# to do a web build, including how to embed assets into it.
-
-# This one is optional on some Linux systems if you've installed emscripten through a package manager.
-EMSCRIPTEN_SDK_DIR="$HOME/repos/emsdk"
 OUT_DIR="build/web"
+
+# This one is optional on some Linux systems if you've installed emscripten
+# through a package manager, since emcc might then already be in your path.
+EMSCRIPTEN_SDK_DIR="$HOME/repos/emsdk"
 
 mkdir -p $OUT_DIR
 
