@@ -9,7 +9,7 @@ Some important procedures are:
 - game_shutdown_window: Closes window
 
 The procs above are used regardless if you compile using the `build_release`
-script or the `run_hot_reload` script. However, in the hot reload case, the
+script or the `build_hot_reload` script. However, in the hot reload case, the
 contents of this file is compiled as part of `build/hot_reload/game.dll` (or
 .dylib/.so on mac/linux). In the hot reload cases some other procedures are
 also used in order to facilitate the hot reload functionality:
