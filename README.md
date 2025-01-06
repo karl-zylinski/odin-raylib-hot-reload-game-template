@@ -24,7 +24,7 @@ I used this kind of hot reloading while developing my game [CAT & ONION](https:/
 4. Run `build_hot_reload.bat`, it will recompile `game.dll`.
 5. The running `game_hot_reload.exe` will see that `game.dll` changed and reload it. But it will use the same `Game_Memory` (a struct defined in `source/game.odin`) as before. This will make the game use your new code without having to restart.
 
-Note, in step 4: `build_hot_reload.bat` does not rebuild `game_hot_reload.exe`. It checks if `game_hot_reload.exe` is already running, and if it is, it avoid recompiling it.
+Note, in step 4: `build_hot_reload.bat` does not rebuild `game_hot_reload.exe`. It checks if `game_hot_reload.exe` is already running. If it is, then it skips compiling it.
 
 ## Release builds
 
