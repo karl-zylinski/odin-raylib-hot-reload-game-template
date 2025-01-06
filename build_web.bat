@@ -4,7 +4,7 @@ rem See https://github.com/karl-zylinski/odin-raylib-web for more examples on
 rem how to do a web build, including how to embed assets into it.
 
 set EMSCRIPTEN_SDK_DIR=c:\emsdk
-set OUT_DIR=game_web
+set OUT_DIR=build\web
 
 if not exist %OUT_DIR% mkdir %OUT_DIR%
 
