@@ -3,7 +3,13 @@
 	[
 		{
 			"path": ".",
-		}
+		},
+		{
+			"path": "C:\\Odin\\core"
+		},
+		{
+			"path": "source\\main_hot_reload"
+		},
 	],
 	"build_systems":
 	[
@@ -21,7 +27,7 @@
 			"linux": {
 				"working_dir": "$project_path",
 				"shell_cmd": "./build_hot_reload.sh && ./game_hot_reload.bin &",
-			}
+			},
 		}
 	],
 	"settings":
