@@ -28,7 +28,7 @@ Note, in step 4: `build_hot_reload.bat` does not rebuild `game_hot_reload.exe`. 
 
 ## Release builds
 
-Run `build_release.bat` to create `build/release/game_release.exe`. That exe does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `source` folder as a normal Odin package.
+Run `build_release.bat` to create a release build in `build/release`. That exe does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `source` folder as a normal Odin package.
 
 `build_debug.bat` is like `build_release.bat` but makes a debuggable executable, in case you need to debug your non-hot-reload-exe.
 
