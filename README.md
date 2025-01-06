@@ -58,13 +58,18 @@ Run `build_release.bat` to create `build/release/game_release.exe`. That exe doe
 
 See https://github.com/karl-zylinski/odin-raylib-web for more info on how the web build works.
 
+## Assets
+You can put assets such as textures, sounds and music in the `assets` folder. That folder will be copied when a release build is created and also integrated into the web build.
+
+The hot reload build doesn't do any copying, because the hot reload executable lives in the root of the repository, alongside the `assets` folder.
+
 ## Sublime Text
 
 For those who use Sublime Text there's a project file: `project.sublime-project`.
 
 How to use:
 - Open the project file in sublime
-- Choose the build system `Main Menu -> Tools -> Build System -> Game template` (you can rename the build system by editing `project.sublime-project` manually)
+- Choose the build system `Main Menu -> Tools -> Build System -> Odin + Raylib + Hot Reload template` (you can rename the build system by editing `project.sublime-project` manually)
 - Compile and run by pressing using F7 / Ctrl + B / Cmd + B
 - After you make code changes and want to hot reload, just hit F7 / Ctrl + B / Cmd + B again
 
@@ -89,6 +94,7 @@ On Windows the degugging while hot reloading works by outputting a new PDB each 
 ## Demo streams
 
 Streams that start from this template:
+- 48 hour "Odin Holiday Gamejam": https://www.youtube.com/playlist?list=PLxE7SoPYTef2XC-ObA811vIefj02uSGnB Every minute of the development is documented. The resulting game of the gamejam is here: https://zylinski.itch.io/the-legend-of-tuna
 - CAR RACER prototype: https://www.youtube.com/watch?v=KVbHJ_CLdkA
 - "point & click" prototype: https://www.youtube.com/watch?v=iRvs1Xr1W6o
 - Metroidvania / platform prototype: https://www.youtube.com/watch?v=kIxEMchPc3Y
