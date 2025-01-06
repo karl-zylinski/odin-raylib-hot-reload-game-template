@@ -22,6 +22,7 @@ PIXEL_WINDOW_HEIGHT :: 180
 
 Game_Memory :: struct {
 	player_pos: rl.Vector2,
+	player_texture: rl.Texture,
 	some_number: int,
 }
 
@@ -70,7 +71,7 @@ draw :: proc() {
 	rl.ClearBackground(rl.BLACK)
 
 	rl.BeginMode2D(game_camera())
-	rl.DrawRectangleV(g_mem.player_pos, {10, 20}, rl.WHITE)
+	rl.DrawTextureEx(g_mem.player_texture, g_mem.player_pos, 0, 1, rl.WHITE)
 	rl.DrawRectangleV({20, 20}, {10, 10}, rl.RED)
 	rl.DrawRectangleV({-30, -20}, {10, 10}, rl.GREEN)
 	rl.EndMode2D()
@@ -104,6 +105,7 @@ game_init :: proc() {
 
 	g_mem^ = Game_Memory {
 		some_number = 100,
+		player_texture = rl.LoadTexture("assets/round_cat.png"),
 	}
 
 	game_hot_reloaded(g_mem)
