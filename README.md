@@ -36,6 +36,9 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 `build_web.bat` builds a release web executable (no hot reloading!).
 
+> [!WARNING]
+> The web build relies on emscripten, because raylib requires emscripten in order to work on the web. This comes with some limitations for our Odin code. We can only compile in "freestanding mode", which means we have no operating system support at all, and no compilers pre-setup. Therefore I have made sure to setup web-compatible allocators and loggers and all that by interfacing with the stuff that emscripten exposes. This does mean that some parts of `core` do not work.
+
 ### Web build requirements
 
 - Emscripten. Download and install somewhere on your computer. Follow the instructions here: https://emscripten.org/docs/getting_started/downloads.html (follow the stuff under "Installation instructions using the emsdk (recommended)").
