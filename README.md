@@ -13,7 +13,7 @@ I used this kind of hot reloading while developing my game [CAT & ONION](https:/
 ## Hot reload quick start
 
 > [!NOTE]
-> If you are on mac / linux, then replace these words below:
+> These instructions use some Windows terminology. If you are on mac / linux, then replace these words:
 > - `bat` -> `sh`
 > - `exe` -> `bin`
 > - `dll` -> `dylib` (mac), `so` (linux)
