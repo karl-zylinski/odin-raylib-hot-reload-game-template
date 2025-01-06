@@ -1,2 +1,0 @@
-- remove getchar call, check how we can hook into sublime nicer
-- why is log empty?
