@@ -17,10 +17,10 @@
 				"shell_cmd": "build_hot_reload.bat run",
 			},
 			"osx": {
-				"cmd": "./run_hot_reload.sh",
+				"shell_cmd": "./build_hot_reload.sh run",
 			},
 			"linux":{ 
-				"cmd": "./run_hot_reload.sh",
+				"shell_cmd": "./build_hot_reload.sh run",
 			},
 		}
 	],

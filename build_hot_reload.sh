@@ -50,10 +50,13 @@ mv $OUT_DIR/game_tmp$DLL_EXT $OUT_DIR/game$DLL_EXT
 # -f is there to make sure we match against full name, including .bin
 if pgrep -f $EXE > /dev/null; then
     echo "Hot reloading..."
-else
-    echo "Building $EXE"
-    odin build source/main_hot_reload -out:$EXE -strict-style -vet -debug
+    exit 0
+fi
 
+echo "Building $EXE"
+odin build source/main_hot_reload -out:$EXE -strict-style -vet -debug
+
+if [ $# -ge 1 ] && [ $1 == "run" ]; then
     echo "Running $EXE"
     ./$EXE &
 fi
