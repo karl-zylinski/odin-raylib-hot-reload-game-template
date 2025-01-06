@@ -76,6 +76,6 @@ if not exist "raylib.dll" (
 	)
 )
 
-echo Running game_hot_reload.exe...
+echo Running %EXE%...
 
 start %EXE%
