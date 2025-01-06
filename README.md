@@ -24,17 +24,17 @@ I used this kind of hot reloading while developing my game [CAT & ONION](https:/
 4. Run `build_hot_reload.bat`, it will recompile `game.dll`.
 5. The running `game_hot_reload.exe` will see that `game.dll` changed and reload it. But it will use the same `Game_Memory` (a struct defined in `source/game.odin`) as before. This will make the game use your new code without having to restart.
 
-Note, in step 4: `build_hot_reload.bat` does not rebuild `game_hot_reload.exe`. It checks if `game_hot_reload.exe` is already running, and if it is, it avoid recompiling it.
+Note, in step 4: `build_hot_reload.bat` does not rebuild `game_hot_reload.exe`. It checks if `game_hot_reload.exe` is already running. If it is, then it skips compiling it.
 
 ## Release builds
 
-Run `build_release.bat` to create `build/release/game_release.exe`. That exe does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `source` folder as a normal Odin package.
+Run `build_release.bat` to create a release build in `build/release`. That exe does not have the hot reloading stuff, since you probably do not want that in the released version of your game. This means that the release version does not use `game.dll`, instead it imports the `source` folder as a normal Odin package.
 
 `build_debug.bat` is like `build_release.bat` but makes a debuggable executable, in case you need to debug your non-hot-reload-exe.
 
 ## Web build
 
-`build_web.bat` and `build_web.sh` builds a release web executable (no hot reloading!).
+`build_web.bat` builds a release web executable (no hot reloading!).
 
 ### Web build requirements
 
