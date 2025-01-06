@@ -32,16 +32,30 @@
             "group": "build"
         },
         {
+            "label": "Build Web",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/build_web.bat",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build_web.sh",
+            },
+            "osx": {
+                "command": "${workspaceFolder}/build_web.sh",
+            },
+            "group": "build"
+        },
+        {
             "label": "Build Hot Reload",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/build_hot_reload.bat",
+                "command": "${workspaceFolder}/run_hot_reload.bat no-run",
             },
             "linux": {
-                "command": "${workspaceFolder}/build_hot_reload.sh",
+                "command": "${workspaceFolder}/run_hot_reload.sh",
             },
             "osx": {
-                "command": "${workspaceFolder}/build_hot_reload.sh",
+                "command": "${workspaceFolder}/run_hot_reload.sh",
             },
             "presentation": {
                 "echo": true,

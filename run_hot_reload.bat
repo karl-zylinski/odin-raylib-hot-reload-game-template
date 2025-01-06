@@ -76,6 +76,11 @@ if not exist "raylib.dll" (
 	)
 )
 
+:: This is for some
+if "%~1"=="no-run" (
+	exit /b 0
+)
+
 echo Running %EXE%...
 
 start %EXE%
