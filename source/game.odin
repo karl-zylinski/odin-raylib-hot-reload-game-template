@@ -1,16 +1,25 @@
-// This file is compiled as part of the `odin.dll` file. It contains the
-// procs that `game_hot_reload.exe` will call, such as:
+// This file is the starting point of your game.
 //
-// game_init: Sets up the game state
-// game_update: Run once per frame
-// game_shutdown: Shuts down game and frees memory
-// game_memory: Run just before a hot reload, so game.exe has a pointer to the
-//		game's memory.
-// game_hot_reloaded: Run after a hot reload so that the `g_mem` global variable
-//		can be set to whatever pointer it was in the old DLL.
+// Some important procedures are:
+// - game_init_window: Opens the window
+// - game_init: Sets up the game state
+// - game_update: Run once per frame
+// - game_shutdown: Shuts down game and frees memory
+// - game_shutdown_window: Closes window
 //
-// Note: When compiled as part of the release executable this whole package is imported as a normal
-// odin package instead of a DLL.
+// The procs above are used regardless if you compile using the `build_release`
+// script or the `run_hot_reload` script. However, in the hot reload case, the
+// contents of this file is compiled as part of `build/hot_reload/game.dll` (or
+// .dylib/.so on mac/linux). In the hot reload cases some other procedures are
+// also used in order to facilitate the hot reload functionality:
+// - game_memory: Run just before a hot reload, so game.exe has a pointer to the
+//       game's memory.
+// - game_hot_reloaded: Run after a hot reload so that the `g_mem` global
+//       variable can be set to whatever pointer it was in the old DLL.
+//
+// NOTE: When compiled as part of `build_release`, `build_debug` or `build_web`
+// then this whole package is just treated as a normal Odin package. No DLL is
+// created.
 
 package game
 
@@ -77,8 +86,12 @@ draw :: proc() {
 	rl.EndMode2D()
 
 	rl.BeginMode2D(ui_camera())
-	// Note: main_hot_reload.odin clears the temp allocator at end of frame.
+
+	// NOTE: `fmt.ctprintf` uses the temp allocator. The temp allocator is
+	// cleared at the end of the frame by the main application, meaning inside
+	// `main_hot_reload.odin`, `main_release.odin` or `main_web_entry.odin`.
 	rl.DrawText(fmt.ctprintf("some_number: %v\nplayer_pos: %v", g_mem.some_number, g_mem.player_pos), 5, 5, 8, rl.WHITE)
+
 	rl.EndMode2D()
 
 	rl.EndDrawing()
@@ -105,6 +118,9 @@ game_init :: proc() {
 
 	g_mem^ = Game_Memory {
 		some_number = 100,
+
+		// You can put textures, sounds and music in the `assets` folder. Those
+		// files will be part any release or web build.
 		player_texture = rl.LoadTexture("assets/round_cat.png"),
 	}
 
