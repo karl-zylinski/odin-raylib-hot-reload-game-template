@@ -3,7 +3,7 @@
 set GAME_RUNNING=false
 
 :: OUT_DIR is for everything except the exe. The exe needs to stay in root
-:: foler so it sees the assets folder, without having to copy it.
+:: folder so it sees the assets folder, without having to copy it.
 set OUT_DIR=build\hot_reload
 set GAME_PDBS_DIR=%OUT_DIR%\game_pdbs
 
