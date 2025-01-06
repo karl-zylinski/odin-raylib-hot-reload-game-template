@@ -1,5 +1,8 @@
 @echo off
 
+:: This creates a build that is similar to a release build, but it's debuggable.
+:: There is no hot reloading and no separate game library.
+
 set OUT_DIR=build\debug
 
 if not exist %OUT_DIR% mkdir %OUT_DIR%

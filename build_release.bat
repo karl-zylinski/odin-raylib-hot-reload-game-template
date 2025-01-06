@@ -1,3 +1,5 @@
+:: This script creates an optimized release build.
+
 @echo off
 
 set OUT_DIR=build\release
