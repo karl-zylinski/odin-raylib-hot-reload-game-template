@@ -49,13 +49,13 @@
             "label": "Build Hot Reload",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/run_hot_reload.bat no-run",
+                "command": "${workspaceFolder}/build_hot_reload.bat",
             },
             "linux": {
-                "command": "${workspaceFolder}/run_hot_reload.sh",
+                "command": "${workspaceFolder}/build_hot_reload.sh",
             },
             "osx": {
-                "command": "${workspaceFolder}/run_hot_reload.sh",
+                "command": "${workspaceFolder}/build_hot_reload.sh",
             },
             "presentation": {
                 "echo": true,

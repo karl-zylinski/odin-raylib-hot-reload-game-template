@@ -14,7 +14,7 @@
 			"file_regex": "^(.+)\\(([0-9]+):([0-9]+)\\) (.+)$",
 			
 			"windows": {
-				"cmd": "run_hot_reload.bat",
+				"shell_cmd": "build_hot_reload.bat run",
 			},
 			"osx": {
 				"cmd": "./run_hot_reload.sh",

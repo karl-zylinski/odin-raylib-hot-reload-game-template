@@ -23,7 +23,7 @@ if not exist %OUT_DIR% mkdir %OUT_DIR%
 :: This makes sure we start over "fresh" at PDB number 0 when starting up the
 :: game and it also makes sure we don't have so many PDBs laying around.
 if %GAME_RUNNING% == false (
-	del /q /s %OUT_DIR%\game_*.dll > nul
+	del /q /s %OUT_DIR% >nul 2>nul
 	if not exist "%GAME_PDBS_DIR%" mkdir %GAME_PDBS_DIR%
 	echo 0 > %GAME_PDBS_DIR%\pdb_number
 )
@@ -77,10 +77,8 @@ if not exist "raylib.dll" (
 )
 
 :: This is for some
-if "%~1"=="no-run" (
-	exit /b 0
+if "%~1"=="run" (
+	echo Running %EXE%...
+	start %EXE%
 )
 
-echo Running %EXE%...
-
-start %EXE%
