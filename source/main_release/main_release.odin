@@ -1,4 +1,6 @@
-// For making a release exe that does not use hot reload.
+/*
+For making a release exe that does not use hot reload.
+*/
 
 package main_release
 

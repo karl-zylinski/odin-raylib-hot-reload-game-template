@@ -1,4 +1,7 @@
-// Development game exe. Loads game.dll and reloads it whenever it changes.
+/*
+Development game exe. Loads build/hot_reload/game.dll and reloads it whenever it
+changes.
+*/
 
 package main
 
