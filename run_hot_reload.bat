@@ -23,7 +23,7 @@ if not exist %OUT_DIR% mkdir %OUT_DIR%
 :: This makes sure we start over "fresh" at PDB number 0 when starting up the
 :: game and it also makes sure we don't have so many PDBs laying around.
 if %GAME_RUNNING% == false (
-	del /q /s %OUT_DIR%\game_*.dll 2> nul
+	del /q /s %OUT_DIR%\game_*.dll > nul
 	if not exist "%GAME_PDBS_DIR%" mkdir %GAME_PDBS_DIR%
 	echo 0 > %GAME_PDBS_DIR%\pdb_number
 )
@@ -47,12 +47,12 @@ echo %PDB_NUMBER% > %GAME_PDBS_DIR%\pdb_number
 :: Also note that we always write game.dll to the same file. game_hot_reload.exe
 :: monitors this file and does the hot reload when it changes.
 echo Building game.dll
-odin build source -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:%OUT_DIR%/game.dll -pdb-name:%GAME_PDBS_DIR%\game_%PDB_NUMBER%.pdb
+odin build source -strict-style -vet -debug -define:RAYLIB_SHARED=true -build-mode:dll -out:%OUT_DIR%/game.dll -pdb-name:%GAME_PDBS_DIR%\game_%PDB_NUMBER%.pdb > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 :: If game.exe already running: Then only compile game.dll and exit cleanly
 if %GAME_RUNNING% == true (
-	echo Game running, hot reloading... && exit /b 0
+	echo Hot reloading... && exit /b 0
 )
 
 :: Build game.exe, which starts the program and loads game.dll och does the logic for hot reloading.
@@ -76,4 +76,6 @@ if not exist "raylib.dll" (
 	)
 )
 
-start game_hot_reload.exe
+echo Running game_hot_reload.exe...
+
+start %EXE%
