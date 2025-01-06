@@ -9,3 +9,5 @@ IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 xcopy /y /e /i assets %OUT_DIR%\assets > nul
 IF %ERRORLEVEL% NEQ 0 exit /b 1
+
+echo Debug build created in %OUT_DIR%
