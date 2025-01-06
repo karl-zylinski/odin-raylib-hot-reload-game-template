@@ -32,6 +32,20 @@
             "group": "build"
         },
         {
+            "label": "Build Web",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/build_web.bat",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build_web.sh",
+            },
+            "osx": {
+                "command": "${workspaceFolder}/build_web.sh",
+            },
+            "group": "build"
+        },
+        {
             "label": "Build Hot Reload",
             "type": "shell",
             "windows": {

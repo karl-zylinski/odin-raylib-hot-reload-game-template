@@ -1,15 +1,24 @@
-// For making a release exe that does not use hot reload.
+/*
+For making a release exe that does not use hot reload.
+*/
 
 package main_release
 
 import "core:log"
 import "core:os"
+import "core:path/filepath"
 
-import game "../game"
+import game ".."
 
 USE_TRACKING_ALLOCATOR :: #config(USE_TRACKING_ALLOCATOR, false)
 
+
 main :: proc() {
+	// Set working dir to dir of executable.
+	exe_path := os.args[0]
+	exe_dir := filepath.dir(string(exe_path), context.temp_allocator)
+	os.set_current_directory(exe_dir)
+	
 	when USE_TRACKING_ALLOCATOR {
 		default_allocator := context.allocator
 		tracking_allocator: Tracking_Allocator

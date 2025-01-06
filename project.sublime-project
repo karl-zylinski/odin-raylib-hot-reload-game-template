@@ -3,25 +3,25 @@
 	[
 		{
 			"path": ".",
-		}
+		},
 	],
 	"build_systems":
 	[
 		{
+			"name": "Odin + Raylib + Hot Reload template",
+			"working_dir": "$project_path",
+			// This makes sublime able to jump to build errors.
 			"file_regex": "^(.+)\\(([0-9]+):([0-9]+)\\) (.+)$",
-			"name": "Game template",
+			
 			"windows": {
-				"working_dir": "$project_path",
-				"shell_cmd": "build_hot_reload.bat && start game_hot_reload.exe",
+				"shell_cmd": "build_hot_reload.bat run",
 			},
 			"osx": {
-				"working_dir": "$project_path",
-				"shell_cmd": "./build_hot_reload.sh && ./game_hot_reload.bin &",
+				"shell_cmd": "./build_hot_reload.sh run",
 			},
-			"linux": {
-				"working_dir": "$project_path",
-				"shell_cmd": "./build_hot_reload.sh && ./game_hot_reload.bin &",
-			}
+			"linux":{ 
+				"shell_cmd": "./build_hot_reload.sh run",
+			},
 		}
 	],
 	"settings":

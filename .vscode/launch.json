@@ -16,7 +16,7 @@
             "request": "launch",
             "preLaunchTask": "Build Debug",
             "name": "Run Debug (Windows)",
-            "program": "${workspaceFolder}/game_debug.exe",
+            "program": "${workspaceFolder}/build/debug/game_debug.exe",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
@@ -25,11 +25,11 @@
             "request": "launch",
             "preLaunchTask": "Build Release",
             "name": "Run Release (Windows)",
-            "program": "${workspaceFolder}/game_release.exe",
+            "program": "${workspaceFolder}/build/release/game_release.exe",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
-
+        
         // Linux / Mac configs
         {
             "type": "lldb",
@@ -47,7 +47,7 @@
             "name": "Run Debug (Linux / Mac)",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "program": "${workspaceFolder}/game_debug.bin",
+            "program": "${workspaceFolder}/build/debug/game_debug.bin",
         },
         {
             "type": "lldb",
@@ -56,7 +56,7 @@
             "name": "Run Release (Linux / Mac)",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "program": "${workspaceFolder}/game_release.bin",
+            "program": "${workspaceFolder}/build/release/game_release.bin",
         },
     ]
 }
