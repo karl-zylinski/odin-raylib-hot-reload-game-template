@@ -52,7 +52,7 @@ IF %ERRORLEVEL% NEQ 0 exit /b 1
 
 :: If game.exe already running: Then only compile game.dll and exit cleanly
 if %GAME_RUNNING% == true (
-	echo Game running, hot reloading... && exit /b 1
+	echo Game running, hot reloading... && exit /b 0
 )
 
 :: Build game.exe, which starts the program and loads game.dll och does the logic for hot reloading.
@@ -60,21 +60,20 @@ echo Building %EXE%
 odin build source\main_hot_reload -strict-style -vet -debug -out:%EXE% -pdb-name:%OUT_DIR%\main_hot_reload.pdb
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
-:: Warning about raylib DLL not existing and where to find it.
-if exist "raylib.dll" (
-	exit /b 0
+if not exist "raylib.dll" (
+	:: Don't name this one ODIN_ROOT as the odin exe will start using that one then.
+	set ODIN_PATH=
+
+	for /f %%i in ('odin root') do set "ODIN_PATH=%%i"
+
+	if exist "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" (
+		echo raylib.dll not found in current directory. Copying from %ODIN_PATH%\vendor\raylib\windows\raylib.dll
+		copy "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" .
+		IF %ERRORLEVEL% NEQ 0 exit /b 1
+	) else (
+		echo "Please copy raylib.dll from <your_odin_compiler>/vendor/raylib/windows/raylib.dll to the same directory as game.exe"
+		exit /b 1
+	)
 )
 
-:: Don't name this one ODIN_ROOT as the odin exe will start using that one then.
-set ODIN_PATH=
-
-for /f %%i in ('odin root') do set "ODIN_PATH=%%i"
-
-if exist "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" (
-	echo raylib.dll not found in current directory. Copying from %ODIN_PATH%\vendor\raylib\windows\raylib.dll
-	copy "%ODIN_PATH%\vendor\raylib\windows\raylib.dll" .
-	exit /b 0
-)
-
-echo "Please copy raylib.dll from <your_odin_compiler>/vendor/raylib/windows/raylib.dll to the same directory as game.exe"
-exit /b 1
+start game_hot_reload.exe
