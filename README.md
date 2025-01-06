@@ -34,7 +34,7 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 ## Web build
 
-`build_web.bat` and `build_web.sh` builds a release web executable (no hot reloading!).
+`build_web.bat` builds a release web executable (no hot reloading!).
 
 ### Web build requirements
 
