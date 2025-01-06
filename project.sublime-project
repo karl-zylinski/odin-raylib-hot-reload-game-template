@@ -4,12 +4,6 @@
 		{
 			"path": ".",
 		},
-		{
-			"path": "C:\\Odin\\core"
-		},
-		{
-			"path": "source\\main_hot_reload"
-		},
 	],
 	"build_systems":
 	[
