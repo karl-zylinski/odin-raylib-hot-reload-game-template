@@ -1,3 +1,2 @@
 - remove getchar call, check how we can hook into sublime nicer
-- fixup linux / mac build scripts
 - why is log empty?

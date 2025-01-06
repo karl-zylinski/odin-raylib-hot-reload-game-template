@@ -14,8 +14,8 @@
 
 package game
 
-import "core:math/linalg"
 import "core:fmt"
+import "core:math/linalg"
 import rl "vendor:raylib"
 
 PIXEL_WINDOW_HEIGHT :: 180

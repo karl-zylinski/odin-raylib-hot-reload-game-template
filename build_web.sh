@@ -34,6 +34,11 @@ export EMSDK_QUIET=1
 # We have to do it this way because the emscripten compiler (emcc) needs to be
 # fed the precompiled raylib library file. That stuff will end up in env.o,
 # which our Odin code is instructed to link to.
+#
+# If you want to use raygui, then add:
+#     -define:RAYGUI_WASM_LIB=env.o
+# and add the following at to the `files` variable declared a few lines down:
+#     ${ODIN_PATH}/vendor/raylib/wasm/libraygui.a
 if ! odin build source/main_web -target:freestanding_wasm32 -build-mode:obj -define:RAYLIB_WASM_LIB=env.o -vet -strict-style -o:speed -out:$OUT_DIR/game; then
   exit 1
 fi

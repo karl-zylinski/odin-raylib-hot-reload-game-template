@@ -44,6 +44,11 @@ set files=source\main_web\main_web.c %OUT_DIR%\game.wasm.o %ODIN_PATH%\vendor\ra
 set flags=-sUSE_GLFW=3 -sASYNCIFY -sASSERTIONS -DPLATFORM_WEB --shell-file source\main_web\index_template.html --preload-file assets
 
 :: add `-g` to `emcc` call to enable debug symbols (works in chrome).
-emcc -o %OUT_DIR%\index.html %files% %flags% && del %OUT_DIR%\game.wasm.o 
+::
+:: We use cmd /c here because emcc tends to steal the whole command prompt, so
+:: nothing after it is ever run, regardless of if it succeeds or not.
+cmd /c emcc -o %OUT_DIR%\index.html %files% %flags%
 
-echo "Web build created in %OUT_DIR%"
+del %OUT_DIR%\game.wasm.o 
+
+echo Web build created in %OUT_DIR%
