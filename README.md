@@ -58,6 +58,8 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 See https://github.com/karl-zylinski/odin-raylib-web for more info on how the web build works.
 
+See https://github.com/karl-zylinski/the-legend-of-tuna for a gamejam game I made using this template. It supports web builds. In fact, the web build support is ported backwards from that game into this template and the odin-raylib-web repository I mentioned just above.
+
 ## Assets
 You can put assets such as textures, sounds and music in the `assets` folder. That folder will be copied when a release build is created and also integrated into the web build.
 
