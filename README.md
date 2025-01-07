@@ -65,7 +65,7 @@ See https://github.com/karl-zylinski/the-legend-of-tuna for a gamejam game I mad
 > [!WARNING]
 > The web build relies on emscripten, because raylib requires emscripten in order to work on the web. This comes with some limitations for our Odin code. We can only compile in "freestanding mode", which means we have no operating system support at all. For example, no allocators are automatically set up for us. Therefore I have made sure to setup web-compatible allocators and a logger. This is done by interfacing with the `libc` stuff that emscripten exposes. This also means that some parts of `core` do not work.
 >
-> Also, if you need to use `os.read_entire_file` on the web, then I have a tiny `core:os` wrapper here: https://github.com/karl-zylinski/odin-raylib-web/tree/main/source/os -- currently it just contains `read_entire_file` and `write_entire_file`. Let me know if you're missing some other proc that you need in order to port your game to the web!
+> If you need to use `os.read_entire_file` on the web, then have a look at `source/os` package. It implements `read_entire_file` and `write_entire_file` using emscripten libc. Let me know if you need any other OS procs to port your game to the web!
 
 ## Assets
 You can put assets such as textures, sounds and music in the `assets` folder. That folder will be copied when a release build is created and also integrated into the web build.
