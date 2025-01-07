@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -eu
 
 # OUT_DIR is for everything except the exe. The exe needs to stay in root
 # folder so it sees the assets folder, without having to copy it.
@@ -10,8 +10,6 @@ mkdir -p $OUT_DIR
 # root is a special command of the odin compiler that tells you where the Odin
 # compiler is located.
 ROOT=$(odin root)
-
-set -eu
 
 # Figure out which DLL extension to use based on platform. Also copy the Linux
 # so libs.
