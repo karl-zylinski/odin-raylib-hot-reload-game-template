@@ -8,6 +8,8 @@ Supported editors and debuggers: [Sublime Text](#sublime-text), [VS Code](#vs-co
 
 ![hot_reload gif](https://github.com/user-attachments/assets/18059ab2-0878-4617-971d-e629a969fc93)
 
+See The Legend of Tuna repository for an example project that also uses Box2D: https://github.com/karl-zylinski/the-legend-of-tuna
+
 I used this kind of hot reloading while developing my game [CAT & ONION](https://store.steampowered.com/app/2781210/CAT__ONION/).
 
 ## Hot reload quick start
