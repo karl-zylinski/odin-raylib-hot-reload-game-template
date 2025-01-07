@@ -40,6 +40,8 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 > [!WARNING]
 > The web build relies on emscripten, because raylib requires emscripten in order to work on the web. This comes with some limitations for our Odin code. We can only compile in "freestanding mode", which means we have no operating system support at all. For example, no allocators are automatically set up for us. Therefore I have made sure to setup web-compatible allocators and a logger. This is done by interfacing with the `libc` stuff that emscripten exposes. This also means that some parts of `core` do not work.
+>
+> Also, if you need to be able to use `os.read_entire_file` on the web, then I have a tiny wrapper that enables it here: https://github.com/karl-zylinski/odin-raylib-web/tree/main/source/os
 
 ### Web build requirements
 
@@ -52,7 +54,7 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 2. Run `build_web.bat/sh`.
 3. Web game is in the `build/web` folder.
 
-> [!WARNING]
+> [!NOTE]
 > You may not be able to start `build/web/index.html` directly, because you'll get "CORS policy" javascript errors. You can get around that by starting a local web server using python. Go into `build/web` and run:
 > 
 > `python -m http.server`
