@@ -14,8 +14,8 @@ contents of this file is compiled as part of `build/hot_reload/game.dll` (or
 .dylib/.so on mac/linux). In the hot reload cases some other procedures are
 also used in order to facilitate the hot reload functionality:
 
-- game_memory: Run just before a hot reload, so game.exe has a pointer to the
-      game's memory.
+- game_memory: Run just before a hot reload. That way game_hot_reload.exe has a
+      pointer to the game's memory that it can hand to the new game DLL.
 - game_hot_reloaded: Run after a hot reload so that the `g_mem` global
       variable can be set to whatever pointer it was in the old DLL.
 
@@ -153,6 +153,10 @@ game_memory_size :: proc() -> int {
 @(export)
 game_hot_reloaded :: proc(mem: rawptr) {
 	g_mem = (^Game_Memory)(mem)
+
+	// Here you can also set your own global variables. A good idea is to make
+	// your global variables into pointers that point to something inside
+	// `g_mem`.
 }
 
 @(export)
