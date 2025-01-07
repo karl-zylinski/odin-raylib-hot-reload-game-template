@@ -38,11 +38,6 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 `build_web.bat` builds a release web executable (no hot reloading!).
 
-> [!WARNING]
-> The web build relies on emscripten, because raylib requires emscripten in order to work on the web. This comes with some limitations for our Odin code. We can only compile in "freestanding mode", which means we have no operating system support at all. For example, no allocators are automatically set up for us. Therefore I have made sure to setup web-compatible allocators and a logger. This is done by interfacing with the `libc` stuff that emscripten exposes. This also means that some parts of `core` do not work.
->
-> Also, if you need to be able to use `os.read_entire_file` on the web, then I have a tiny wrapper that enables it here: https://github.com/karl-zylinski/odin-raylib-web/tree/main/source/os
-
 ### Web build requirements
 
 - Emscripten. Download and install somewhere on your computer. Follow the instructions here: https://emscripten.org/docs/getting_started/downloads.html (follow the stuff under "Installation instructions using the emsdk (recommended)").
@@ -66,6 +61,11 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 See https://github.com/karl-zylinski/odin-raylib-web for more info on how the web build works.
 
 See https://github.com/karl-zylinski/the-legend-of-tuna for a gamejam game I made using this template. It supports web builds. In fact, the web build support is ported backwards from that game into this template and the odin-raylib-web repository I mentioned just above.
+
+> [!WARNING]
+> The web build relies on emscripten, because raylib requires emscripten in order to work on the web. This comes with some limitations for our Odin code. We can only compile in "freestanding mode", which means we have no operating system support at all. For example, no allocators are automatically set up for us. Therefore I have made sure to setup web-compatible allocators and a logger. This is done by interfacing with the `libc` stuff that emscripten exposes. This also means that some parts of `core` do not work.
+>
+> Also, if you need to be able to use `os.read_entire_file` on the web, then I have a tiny wrapper that enables it here: https://github.com/karl-zylinski/odin-raylib-web/tree/main/source/os
 
 ## Assets
 You can put assets such as textures, sounds and music in the `assets` folder. That folder will be copied when a release build is created and also integrated into the web build.
