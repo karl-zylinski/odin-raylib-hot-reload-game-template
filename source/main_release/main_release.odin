@@ -44,9 +44,8 @@ main :: proc() {
 	game.game_init_window()
 	game.game_init()
 
-	window_open := true
-	for window_open {
-		window_open = game.game_update()
+	for !game.game_should_close() {
+		game.game_update()
 
 		when USE_TRACKING_ALLOCATOR {
 			for b in tracking_allocator.bad_free_array {

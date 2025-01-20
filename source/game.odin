@@ -5,6 +5,7 @@ Some important procedures are:
 - game_init_window: Opens the window
 - game_init: Sets up the game state
 - game_update: Run once per frame
+- game_should_close: For stopping your game when close button is pressed
 - game_shutdown: Shuts down game and frees memory
 - game_shutdown_window: Closes window
 
@@ -101,10 +102,9 @@ draw :: proc() {
 }
 
 @(export)
-game_update :: proc() -> bool {
+game_update :: proc() {
 	update()
 	draw()
-	return !rl.WindowShouldClose()
 }
 
 @(export)
@@ -128,6 +128,11 @@ game_init :: proc() {
 	}
 
 	game_hot_reloaded(g_mem)
+}
+
+@(export)
+game_should_close :: proc() -> bool {
+	return rl.WindowShouldClose()
 }
 
 @(export)
