@@ -75,7 +75,6 @@ if not exist "raylib.dll" (
 	)
 )
 
-:: This is for some
 if "%~1"=="run" (
 	echo Running %EXE%...
 	start %EXE%
