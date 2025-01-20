@@ -43,7 +43,7 @@ odin build source/main_web -target:freestanding_wasm32 -build-mode:obj -define:R
 
 ODIN_PATH=$(odin root)
 files="source/main_web/main_web.c $OUT_DIR/game.wasm.o ${ODIN_PATH}/vendor/raylib/wasm/libraylib.a"
-flags="-sUSE_GLFW=3 -sASYNCIFY -sASSERTIONS -DPLATFORM_WEB --shell-file source/main_web/index_template.html --preload-file assets"
+flags="-sUSE_GLFW=3 -sASSERTIONS --shell-file source/main_web/index_template.html --preload-file assets"
 
 # shellcheck disable=SC2086
 # Add `-g` to `emcc` call to enable debug symbols (works in chrome).
