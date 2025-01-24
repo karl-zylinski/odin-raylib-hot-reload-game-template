@@ -44,7 +44,7 @@ main :: proc() {
 	game.game_init_window()
 	game.game_init()
 
-	for !game.game_should_close() {
+	for game.game_should_run() {
 		game.game_update()
 
 		when USE_TRACKING_ALLOCATOR {
