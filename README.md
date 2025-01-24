@@ -45,27 +45,24 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 ### Web build quick start
 
-1. Change `EMSCRIPTEN_SDK_DIR` in `build_web.bat/sh` to point to your emscripten setup.
+1. Point `EMSCRIPTEN_SDK_DIR` in `build_web.bat/sh` to where you installed emscripten.
 2. Run `build_web.bat/sh`.
 3. Web game is in the `build/web` folder.
 
 > [!NOTE]
-> You may not be able to start `build/web/index.html` directly, because you'll get "CORS policy" javascript errors. You can get around that by starting a local web server using python. Go into `build/web` and run:
-> 
-> `python -m http.server`
->
-> Open `localhost:8000` in your browser to play the game.
->
-> _If you don't have python, then emscripten actually comes with it. Look in the `python` folder of where you installed emscripten._
-
-See https://github.com/karl-zylinski/odin-raylib-web for more info on how the web build works.
-
-See https://github.com/karl-zylinski/the-legend-of-tuna for a gamejam game I made using this template. It supports web builds. In fact, the web build support is ported backwards from that game into this template and the odin-raylib-web repository I mentioned just above.
+> `build_web.bat` is for windows, `build_web.sh` is for Linux / macOS.
 
 > [!WARNING]
-> The web build relies on emscripten, because raylib requires emscripten in order to work on the web. This comes with some limitations for our Odin code. We can only compile in "freestanding mode", which means we have no operating system support at all. For example, no allocators are automatically set up for us. Therefore I have made sure to setup web-compatible allocators and a logger. This is done by interfacing with the `libc` stuff that emscripten exposes. This also means that some parts of `core` do not work.
+> You can't run `build/web/index.html` directly due to "CORS policy" javascript errors. You can work around that by running a small python web server:
+> - Go to `build/web` in a console.
+> - Run `python -m http.server`
+> - Go to `localhost:8000` in your browser.
 >
-> If you need to use `os.read_entire_file` on the web, then have a look at the `source/os` package. It implements `read_entire_file` and `write_entire_file` using emscripten libc. Let me know if you need any other OS procs to port your game to the web!
+> _For those who don't have python: Emscripten comes with it. See the `python` folder in your emscripten installation directory._
+
+Build a desktop executable using `build_desktop.bat/sh`. It will end up in the `build/desktop` folder.
+
+There's a wrapper for `read_entire_file` and `write_entire_file` from `core:os` that can files from `assets` directory, even on web. See `source/utils.odin`
 
 ## Assets
 You can put assets such as textures, sounds and music in the `assets` folder. That folder will be copied when a release build is created and also integrated into the web build.
