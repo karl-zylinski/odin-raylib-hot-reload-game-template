@@ -43,7 +43,7 @@ Game_API :: struct {
 	init_window: proc(),
 	init: proc(),
 	update: proc(),
-	should_close: proc() -> bool,
+	should_run: proc() -> bool,
 	shutdown: proc(),
 	shutdown_window: proc(),
 	memory: proc() -> rawptr,
@@ -134,7 +134,7 @@ main :: proc() {
 
 	old_game_apis := make([dynamic]Game_API, default_allocator)
 
-	for !game_api.should_close() {
+	for game_api.should_run() {
 		game_api.update()
 		force_reload := game_api.force_reload()
 		force_restart := game_api.force_restart()

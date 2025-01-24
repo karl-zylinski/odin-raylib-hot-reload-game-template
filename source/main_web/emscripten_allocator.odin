@@ -10,8 +10,8 @@ import "core:mem"
 import "core:c"
 import "base:intrinsics"
 
-// This create's bindings to emscriptens implementation of libc memory
-// allocation features.
+// This will create bindings to emscripten's implementation of libc
+// memory allocation features.
 @(default_calling_convention = "c")
 foreign {
 	calloc  :: proc(num, size: c.size_t) -> rawptr ---
@@ -20,11 +20,11 @@ foreign {
 	realloc :: proc(ptr: rawptr, size: c.size_t) -> rawptr ---
 }
 
-aligned_raylib_allocator :: proc "contextless" () -> mem.Allocator {
-	return mem.Allocator{aligned_raylib_allocator_proc, nil}
+emscripten_allocator :: proc "contextless" () -> mem.Allocator {
+	return mem.Allocator{emscripten_allocator_proc, nil}
 }
 
-aligned_raylib_allocator_proc :: proc(
+emscripten_allocator_proc :: proc(
 	allocator_data: rawptr,
 	mode: mem.Allocator_Mode,
 	size, alignment: int,

@@ -37,6 +37,7 @@ Game_Memory :: struct {
 	player_pos: rl.Vector2,
 	player_texture: rl.Texture,
 	some_number: int,
+	run: bool,
 }
 
 g_mem: ^Game_Memory
@@ -77,6 +78,10 @@ update :: proc() {
 	input = linalg.normalize0(input)
 	g_mem.player_pos += input * rl.GetFrameTime() * 100
 	g_mem.some_number += 1
+
+	if rl.IsKeyPressed(.ESCAPE) {
+		g_mem.run = false
+	}
 }
 
 draw :: proc() {
@@ -113,6 +118,7 @@ game_init_window :: proc() {
 	rl.InitWindow(1280, 720, "Odin + Raylib + Hot Reload template!")
 	rl.SetWindowPosition(200, 200)
 	rl.SetTargetFPS(500)
+	rl.SetExitKey(nil)
 }
 
 @(export)
@@ -120,6 +126,7 @@ game_init :: proc() {
 	g_mem = new(Game_Memory)
 
 	g_mem^ = Game_Memory {
+		run = true,
 		some_number = 100,
 
 		// You can put textures, sounds and music in the `assets` folder. Those
@@ -131,8 +138,15 @@ game_init :: proc() {
 }
 
 @(export)
-game_should_close :: proc() -> bool {
-	return rl.WindowShouldClose()
+game_should_run :: proc() -> bool {
+	when ODIN_OS != .JS {
+		// Never run this proc in browser. It contains a 16 ms sleep on web!
+		if rl.WindowShouldClose() {
+			return false
+		}
+	}
+
+	return g_mem.run
 }
 
 @(export)

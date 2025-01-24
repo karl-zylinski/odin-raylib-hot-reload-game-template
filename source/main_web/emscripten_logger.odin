@@ -13,10 +13,10 @@ import "core:fmt"
 import "core:log"
 import "core:strings"
 
-Web_Logger_Opts :: log.Options{.Level, .Short_File_Path, .Line}
+Emscripten_Logger_Opts :: log.Options{.Level, .Short_File_Path, .Line}
 
-create_web_logger :: proc (lowest := log.Level.Debug, opt := Web_Logger_Opts) -> log.Logger {
-	return log.Logger{data = nil, procedure = web_logger_proc, lowest_level = lowest, options = opt}
+create_emscripten_logger :: proc (lowest := log.Level.Debug, opt := Emscripten_Logger_Opts) -> log.Logger {
+	return log.Logger{data = nil, procedure = logger_proc, lowest_level = lowest, options = opt}
 }
 
 // This create's a binding to `puts` which will be linked in as part of the
@@ -27,7 +27,7 @@ foreign {
 }
 
 @(private="file")
-web_logger_proc :: proc(
+logger_proc :: proc(
 	logger_data: rawptr,
 	level: log.Level,
 	text: string,
@@ -35,14 +35,14 @@ web_logger_proc :: proc(
 	location := #caller_location
 ) {
 	b := strings.builder_make(context.temp_allocator)
-	strings.write_string(&b, Web_Logger_Level_Headers[level])
+	strings.write_string(&b, Level_Headers[level])
 	do_location_header(options, &b, location)
 	fmt.sbprint(&b, text)
 	puts(strings.to_cstring(&b))
 }
 
 @(private="file")
-Web_Logger_Level_Headers := [?]string {
+Level_Headers := [?]string {
 	0 ..< 10 = "[DEBUG] --- ",
 	10 ..< 20 = "[INFO ] --- ",
 	20 ..< 30 = "[WARN ] --- ",

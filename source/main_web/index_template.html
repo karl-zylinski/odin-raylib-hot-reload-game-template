@@ -1,78 +1,110 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <title>Odin + Raylib on the web</title>
-
     <meta name="title" content="Odin + Raylib on the web">
     <meta name="description" content="Make games using Odin + Raylib that work in the browser">
     <meta name="viewport" content="width=device-width">
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="https://www.raylib.com/favicon.ico">
-
-    <!-- Web Style -->
     <style>
         body { 
-          margin: 0px; 
-          overflow: hidden; 
-          background-color: black;
+            margin: 0px; 
+            overflow: hidden; 
+            background-color: black;
         }
-        canvas.emscripten { 
-          border: 0px none; 
-          background-color: black;}
-          padding-left: 0;
-          padding-right: 0;
-          margin-left: auto;
-          margin-right: auto;
-          display: block;
+        canvas.game_canvas { 
+            border: 0px none; 
+            background-color: black;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
         }
     </style>
-    <script type='text/javascript' src="https://cdn.jsdelivr.net/gh/eligrey/FileSaver.js/dist/FileSaver.min.js"> </script>
-    <script type='text/javascript'>
-        function saveFileFromMEMFSToDisk(memoryFSname, localFSname)     // This can be called by C/C++ code
-        {
-            var isSafari = false; // Not supported, navigator.userAgent access is being restricted
-            //var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            var data = FS.readFile(memoryFSname);
-            var blob;
+</head>
+<body>
+    <canvas class="game_canvas" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    <script type="text/javascript" src="odin.js"></script>
+    <script>
+        var odinMemoryInterface = new odin.WasmMemoryInterface();
+        odinMemoryInterface.setIntSize(4);
+        var odinImports = odin.setupDefaultImports(odinMemoryInterface);
 
-            if (isSafari) blob = new Blob([data.buffer], { type: "application/octet-stream" });
-            else blob = new Blob([data.buffer], { type: "application/octet-binary" });
+        // The Module is used as configuration for emscripten.
+        var Module = {
+            // This is called by emscripten when it starts up.
+            instantiateWasm: (imports, successCallback) => {
+                const newImports = {
+                    ...odinImports,
+                    ...imports
+                }
 
-            // NOTE: SaveAsDialog is a browser setting. For example, in Google Chrome,
-            // in Settings/Advanced/Downloads section you have a setting:
-            // 'Ask where to save each file before downloading' - which you can set true/false.
-            // If you enable this setting it would always ask you and bring the SaveAsDialog
-            saveAs(blob, localFSname);
-        }
-    </script>
-    </head>
-    <body>
-        <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-        <p id="output" />
-        <script>
-            var Module = {
-                print: (function() {
-                    var element = document.getElementById('output');
-                    if (element) element.value = ''; // clear browser cache
-                    return function(text) {
-                        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-                        console.log(text);
-                        if (element) {
-                          element.value += text + "\n";
-                          element.scrollTop = element.scrollHeight; // focus on bottom
+                return WebAssembly.instantiateStreaming(fetch("index.wasm"), newImports).then(function(output) {
+                    var e = output.instance.exports
+                    odinMemoryInterface.setExports(e)
+                    odinMemoryInterface.setMemory(e.memory)
+                    successCallback(output.instance);
+
+                    // Calls any procedure marked with @init
+                    e._start()
+
+                    // See source/main_web/main_web.odin for main_start,
+                    // main_update and main_end.
+                    e.main_start()
+
+                    function send_resize() {
+                        var canvas = document.getElementById('canvas');
+                        e.web_window_size_changed(canvas.width, canvas.height)
+                    }
+
+                    window.addEventListener('resize', function(event) {
+                        send_resize()
+                    }, true);
+
+                    // This can probably be done better: Ideally we'd feed the
+                    // initial size to `main_start`. But there seems to be a
+                    // race condition. `canvas` doesn't have it's correct size yet.
+                    send_resize()
+
+                    // Runs the "main loop".
+                    function do_main_update() {
+                        if (!e.main_update()) {
+                            e.main_end()
+
+                            // Calls procedures marked with @fini
+                            e._end();
+                            return;
                         }
-                    };
-                })(),
-                canvas: (function() {
-                    var canvas = document.getElementById('canvas');
-                    return canvas;
-                })()
-            };
-        </script>
-        {{{ SCRIPT }}}
-    </body>
+                        window.requestAnimationFrame(do_main_update);
+                    }
+
+                    window.requestAnimationFrame(do_main_update);
+                    return output.instance.exports;
+                });
+            },
+            print: (function() {
+                var element = document.getElementById("output");
+                if (element) element.value = ''; // clear browser cache
+                return function(text) {
+                    if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                    console.log(text);
+                    if (element) {
+                      element.value += text + "\n";
+                      element.scrollTop = element.scrollHeight; // focus on bottom
+                    }
+                };
+            })(),
+            canvas: (function() {
+                return document.getElementById("canvas");
+            })()
+        };
+    </script>
+
+    <!-- Emscripten injects its javascript here -->
+    {{{ SCRIPT }}}
+</body>
 </html>
