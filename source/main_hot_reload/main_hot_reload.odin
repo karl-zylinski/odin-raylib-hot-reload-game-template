@@ -90,8 +90,8 @@ unload_game_api :: proc(api: ^Game_API) {
 		}
 	}
 
-	if os.remove(fmt.tprintf("game_{0}" + DLL_EXT, api.api_version)) != nil {
-		fmt.printfln("Failed to remove game_{0}" + DLL_EXT + " copy", api.api_version)
+	if os.remove(fmt.tprintf(GAME_DLL_DIR + "game_{0}" + DLL_EXT, api.api_version)) != nil {
+		fmt.printfln("Failed to remove {0}game_{1}" + DLL_EXT + " copy", GAME_DLL_DIR, api.api_version)
 	}
 }
 
