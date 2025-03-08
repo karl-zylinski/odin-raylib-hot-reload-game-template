@@ -38,7 +38,10 @@ logger_proc :: proc(
 	strings.write_string(&b, Level_Headers[level])
 	do_location_header(options, &b, location)
 	fmt.sbprint(&b, text)
-	puts(strings.to_cstring(&b))
+
+	if bc, bc_err := strings.to_cstring(&b); bc_err == nil {
+		puts(bc)
+	}
 }
 
 @(private="file")
