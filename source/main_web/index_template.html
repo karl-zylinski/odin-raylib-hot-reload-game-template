@@ -27,7 +27,7 @@
 	</style>
 </head>
 <body>
-	<canvas class="game_canvas" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+	<canvas class="game_canvas" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1" onmousedown="event.target.focus()" onkeydown="event.preventDefault()"></canvas>
 	<script type="text/javascript" src="odin.js"></script>
 	<script>
 		var odinMemoryInterface = new odin.WasmMemoryInterface();
