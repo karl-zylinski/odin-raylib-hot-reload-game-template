@@ -38,9 +38,6 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 `build_web.bat` builds a release web executable (no hot reloading!).
 
-> [!WARNING]
-> There's a bug in Odin right now that breaks the web build. As a temporary workaround, change `game.wasm.o` to `gamegame.wasm.o` in the build script.
-
 ### Web build requirements
 
 - Emscripten. Download and install somewhere on your computer. Follow the instructions here: https://emscripten.org/docs/getting_started/downloads.html (follow the stuff under "Installation instructions using the emsdk (recommended)").
