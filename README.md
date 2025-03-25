@@ -38,9 +38,6 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 
 `build_web.bat` builds a release web executable (no hot reloading!).
 
-> [!WARNING]
-> There's a bug in Odin right now that breaks the web build. As a temporary workaround, change `game.wasm.o` to `gamegame.wasm.o` in the build script.
-
 ### Web build requirements
 
 - Emscripten. Download and install somewhere on your computer. Follow the instructions here: https://emscripten.org/docs/getting_started/downloads.html (follow the stuff under "Installation instructions using the emsdk (recommended)").
@@ -66,6 +63,10 @@ Run `build_release.bat` to create a release build in `build/release`. That exe d
 Build a desktop executable using `build_desktop.bat/sh`. It will end up in the `build/desktop` folder.
 
 There's a wrapper for `read_entire_file` and `write_entire_file` from `core:os` that can files from `assets` directory, even on web. See `source/utils.odin`
+
+### Web build troubleshooting
+
+See the README of the [Odin + Raylib on the web repository](https://github.com/karl-zylinski/odin-raylib-web) for troubleshooting steps.
 
 ## Assets
 You can put assets such as textures, sounds and music in the `assets` folder. That folder will be copied when a release build is created and also integrated into the web build.
