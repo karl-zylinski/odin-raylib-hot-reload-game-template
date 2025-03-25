@@ -1,4 +1,5 @@
-#!/bin/bash -eu
+#!/usr/bin/env bash
+set -eu
 
 # Point this to where you installed emscripten. Optional on systems that already
 # have `emcc` in the path.

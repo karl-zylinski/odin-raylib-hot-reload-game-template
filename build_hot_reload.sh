@@ -1,4 +1,5 @@
-#!/bin/bash -eu
+#!/usr/bin/env bash
+set -eu
 
 # OUT_DIR is for everything except the exe. The exe needs to stay in root
 # folder so it sees the assets folder, without having to copy it.
