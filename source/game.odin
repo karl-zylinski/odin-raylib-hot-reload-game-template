@@ -16,9 +16,9 @@ contents of this file is compiled as part of `build/hot_reload/game.dll` (or
 also used in order to facilitate the hot reload functionality:
 
 - game_memory: Run just before a hot reload. That way game_hot_reload.exe has a
-      pointer to the game's memory that it can hand to the new game DLL.
+	pointer to the game's memory that it can hand to the new game DLL.
 - game_hot_reloaded: Run after a hot reload so that the `g_mem` global
-      variable can be set to whatever pointer it was in the old DLL.
+	variable can be set to whatever pointer it was in the old DLL.
 
 NOTE: When compiled as part of `build_release`, `build_debug` or `build_web`
 then this whole package is just treated as a normal Odin package. No DLL is
