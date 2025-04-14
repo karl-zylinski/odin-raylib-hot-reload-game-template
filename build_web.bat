@@ -19,11 +19,11 @@ call %EMSCRIPTEN_SDK_DIR%\emsdk_env.bat
 odin build source\main_web -target:js_wasm32 -build-mode:obj -define:RAYLIB_WASM_LIB=env.o -define:RAYGUI_WASM_LIB=env.o -vet -strict-style -out:%OUT_DIR%\game
 IF %ERRORLEVEL% NEQ 0 exit /b 1
 
-for /f %%i in ('odin root') do set "ODIN_PATH=%%i"
+for /f "delims=" %%i in ('odin root') do set "ODIN_PATH=%%i"
 
-copy %ODIN_PATH%\core\sys\wasm\js\odin.js %OUT_DIR%
+copy "%ODIN_PATH%\core\sys\wasm\js\odin.js" %OUT_DIR%
 
-set files=%OUT_DIR%\game.wasm.o %ODIN_PATH%\vendor\raylib\wasm\libraylib.a %ODIN_PATH%\vendor\raylib\wasm\libraygui.a
+set files=%OUT_DIR%\game.wasm.o "%ODIN_PATH%\vendor\raylib\wasm\libraylib.a" "%ODIN_PATH%\vendor\raylib\wasm\libraygui.a"
 
 :: index_template.html contains the javascript code that calls the procedures in
 :: source/main_web/main_web.odin
