@@ -15,15 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: laytan/setup-odin@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      
       - uses: mymindstorm/setup-emsdk@v14
+      
       - uses: actions/checkout@v4
-      - uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: libglu1-mesa-dev mesa-common-dev xorg-dev libasound2-dev
-          version: 1.2
-
+      
       - name: Build hot reload
         run: ./build_hot_reload.sh
 
@@ -46,6 +42,9 @@ jobs:
       - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - uses: mymindstorm/setup-emsdk@v14
+
       - uses: actions/checkout@v4
 
       - name: Build hot reload
@@ -57,6 +56,9 @@ jobs:
       - name: Build debug
         run: ./build_debug.sh
 
+      - name: Build web
+        run: ./build_web.sh
+
   build_windows:
     name: windows
     runs-on: windows-latest
@@ -64,6 +66,9 @@ jobs:
       - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: mymindstorm/setup-emsdk@v14
+
       - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
 
@@ -75,3 +80,6 @@ jobs:
 
       - name: Build debug
         run: .\build_debug.bat
+
+      - name: Build web
+        run: .\build_web.bat
