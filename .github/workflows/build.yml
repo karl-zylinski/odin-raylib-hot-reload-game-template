@@ -11,7 +11,7 @@ on:
 
 jobs:
   build_linux:
-    name: linux + wasm
+    name: Linux
     runs-on: ubuntu-latest
     steps:
       - uses: laytan/setup-odin@v2
@@ -35,7 +35,7 @@ jobs:
         run: ./build_web.sh
 
   build_macos:
-    name: macos
+    name: MacOS
     strategy:
       matrix:
         os: [macos-13, macos-15]
@@ -62,7 +62,7 @@ jobs:
         run: ./build_web.sh
 
   build_windows:
-    name: windows
+    name: Windows
     runs-on: windows-latest
     steps:
       - uses: laytan/setup-odin@v2
