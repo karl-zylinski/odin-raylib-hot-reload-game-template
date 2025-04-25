@@ -17,7 +17,7 @@ also used in order to facilitate the hot reload functionality:
 
 - game_memory: Run just before a hot reload. That way game_hot_reload.exe has a
 	pointer to the game's memory that it can hand to the new game DLL.
-- game_hot_reloaded: Run after a hot reload so that the `g_mem` global
+- game_hot_reloaded: Run after a hot reload so that the `g` global
 	variable can be set to whatever pointer it was in the old DLL.
 
 NOTE: When compiled as part of `build_release`, `build_debug` or `build_web`
@@ -40,7 +40,7 @@ Game_Memory :: struct {
 	run: bool,
 }
 
-g_mem: ^Game_Memory
+g: ^Game_Memory
 
 game_camera :: proc() -> rl.Camera2D {
 	w := f32(rl.GetScreenWidth())
@@ -48,7 +48,7 @@ game_camera :: proc() -> rl.Camera2D {
 
 	return {
 		zoom = h/PIXEL_WINDOW_HEIGHT,
-		target = g_mem.player_pos,
+		target = g.player_pos,
 		offset = { w/2, h/2 },
 	}
 }
@@ -76,11 +76,11 @@ update :: proc() {
 	}
 
 	input = linalg.normalize0(input)
-	g_mem.player_pos += input * rl.GetFrameTime() * 100
-	g_mem.some_number += 1
+	g.player_pos += input * rl.GetFrameTime() * 100
+	g.some_number += 1
 
 	if rl.IsKeyPressed(.ESCAPE) {
-		g_mem.run = false
+		g.run = false
 	}
 }
 
@@ -89,7 +89,7 @@ draw :: proc() {
 	rl.ClearBackground(rl.BLACK)
 
 	rl.BeginMode2D(game_camera())
-	rl.DrawTextureEx(g_mem.player_texture, g_mem.player_pos, 0, 1, rl.WHITE)
+	rl.DrawTextureEx(g.player_texture, g.player_pos, 0, 1, rl.WHITE)
 	rl.DrawRectangleV({20, 20}, {10, 10}, rl.RED)
 	rl.DrawRectangleV({-30, -20}, {10, 10}, rl.GREEN)
 	rl.EndMode2D()
@@ -99,7 +99,7 @@ draw :: proc() {
 	// NOTE: `fmt.ctprintf` uses the temp allocator. The temp allocator is
 	// cleared at the end of the frame by the main application, meaning inside
 	// `main_hot_reload.odin`, `main_release.odin` or `main_web_entry.odin`.
-	rl.DrawText(fmt.ctprintf("some_number: %v\nplayer_pos: %v", g_mem.some_number, g_mem.player_pos), 5, 5, 8, rl.WHITE)
+	rl.DrawText(fmt.ctprintf("some_number: %v\nplayer_pos: %v", g.some_number, g.player_pos), 5, 5, 8, rl.WHITE)
 
 	rl.EndMode2D()
 
@@ -123,9 +123,9 @@ game_init_window :: proc() {
 
 @(export)
 game_init :: proc() {
-	g_mem = new(Game_Memory)
+	g = new(Game_Memory)
 
-	g_mem^ = Game_Memory {
+	g^ = Game_Memory {
 		run = true,
 		some_number = 100,
 
@@ -134,7 +134,7 @@ game_init :: proc() {
 		player_texture = rl.LoadTexture("assets/round_cat.png"),
 	}
 
-	game_hot_reloaded(g_mem)
+	game_hot_reloaded(g)
 }
 
 @(export)
@@ -146,12 +146,12 @@ game_should_run :: proc() -> bool {
 		}
 	}
 
-	return g_mem.run
+	return g.run
 }
 
 @(export)
 game_shutdown :: proc() {
-	free(g_mem)
+	free(g)
 }
 
 @(export)
@@ -161,7 +161,7 @@ game_shutdown_window :: proc() {
 
 @(export)
 game_memory :: proc() -> rawptr {
-	return g_mem
+	return g
 }
 
 @(export)
@@ -171,11 +171,10 @@ game_memory_size :: proc() -> int {
 
 @(export)
 game_hot_reloaded :: proc(mem: rawptr) {
-	g_mem = (^Game_Memory)(mem)
+	g = (^Game_Memory)(mem)
 
 	// Here you can also set your own global variables. A good idea is to make
-	// your global variables into pointers that point to something inside
-	// `g_mem`.
+	// your global variables into pointers that point to something inside `g`.
 }
 
 @(export)
