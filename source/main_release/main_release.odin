@@ -54,8 +54,6 @@ main :: proc() {
 
 			clear(&tracking_allocator.bad_free_array)
 		}
-
-		free_all(context.temp_allocator)
 	}
 
 	free_all(context.temp_allocator)

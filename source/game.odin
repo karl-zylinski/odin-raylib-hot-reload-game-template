@@ -82,6 +82,9 @@ update :: proc() {
 	if rl.IsKeyPressed(.ESCAPE) {
 		g.run = false
 	}
+
+	// Everything on tracking allocator is valid until end-of-frame.
+	free_all(context.temp_allocator)
 }
 
 draw :: proc() {

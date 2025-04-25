@@ -198,8 +198,6 @@ main :: proc() {
 			libc.getchar()
 			panic("Bad free detected")
 		}
-
-		free_all(context.temp_allocator)
 	}
 
 	free_all(context.temp_allocator)
