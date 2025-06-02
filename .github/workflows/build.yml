@@ -45,6 +45,7 @@ jobs:
       - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
       
       - uses: mymindstorm/setup-emsdk@v14
 
@@ -69,6 +70,7 @@ jobs:
       - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
 
       - uses: mymindstorm/setup-emsdk@v14
 
