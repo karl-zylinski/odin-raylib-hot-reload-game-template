@@ -112,7 +112,7 @@ main :: proc() {
 		err := false
 
 		for _, value in a.allocation_map {
-			fmt.printf("%v: Leaked %v bytes\n", value.location, value.size)
+			log.errorf("%v: Leaked %v bytes\n", value.location, value.size)
 			err = true
 		}
 
