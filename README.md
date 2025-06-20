@@ -20,7 +20,7 @@ I used this kind of hot reloading while developing my game [CAT & ONION](https:/
 > - `exe` -> `bin`
 > - `dll` -> `dylib` (mac), `so` (linux)
 
-1. Run `build_hot_reload.bat` to create `game_hot_reload.exe` and `game.dll` (located in `build/hot_reload`). Note: It expects odin compiler to be part of your PATH environment variable.
+1. Run `build_hot_reload.bat` to create `game_hot_reload.exe` (located at the root of the project) and `game.dll` (located in `build/hot_reload`). Note: It expects odin compiler to be part of your PATH environment variable.
 2. Run `game_hot_reload.exe`, leave it running.
 3. Make changes to the gameplay code in `source/game.odin`. For example, change the line `rl.ClearBackground(rl.BLACK)` so that it instead uses `rl.BLUE`. Save the file.
 4. Run `build_hot_reload.bat`, it will recompile `game.dll`.
