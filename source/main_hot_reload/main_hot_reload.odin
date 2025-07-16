@@ -72,12 +72,16 @@ load_game_api :: proc(api_version: int) -> (api: Game_API, ok: bool) {
 	// game DLL. It actually looks for symbols starting with `game_`, which is
 	// why the argument `"game_"` is there.
 	_, ok = dynlib.initialize_symbols(&api, game_dll_name, "game_", "lib")
+	// Update modification time regardless of initialize_symbols result
+	// so we don't keep trying to reload a broken DLL
+	api.modification_time = mod_time
+
 	if !ok {
 		fmt.printfln("Failed initializing symbols: {0}", dynlib.last_error())
+		return
 	}
 
 	api.api_version = api_version
-	api.modification_time = mod_time
 	ok = true
 
 	return
