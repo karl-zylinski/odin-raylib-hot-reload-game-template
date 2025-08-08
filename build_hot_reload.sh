@@ -16,13 +16,8 @@ ROOT=$(odin root)
 # so libs.
 case $(uname) in
 "Darwin")
-    case $(uname -m) in
-    "arm64") LIB_PATH="macos-arm64" ;;
-    *)       LIB_PATH="macos" ;;
-    esac
-
     DLL_EXT=".dylib"
-    EXTRA_LINKER_FLAGS="-Wl,-rpath $ROOT/vendor/raylib/$LIB_PATH"
+    EXTRA_LINKER_FLAGS="-Wl,-rpath $ROOT/vendor/raylib/macos"
     ;;
 *)
     DLL_EXT=".so"
