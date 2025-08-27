@@ -66,7 +66,7 @@ There's a wrapper for `read_entire_file` and `write_entire_file` from `core:os` 
 
 ### Web build troubleshooting
 
-See the README of the [Odin + Raylib on the web repository](https://github.com/karl-zylinski/odin-raylib-web) for troubleshooting steps.
+See the README of the [Odin + Raylib on the web repository](https://github.com/karl-zylinski/odin-raylib-web?tab=readme-ov-file#troubleshooting) for troubleshooting steps.
 
 ## Assets
 You can put assets such as textures, sounds and music in the `assets` folder. That folder will be copied when a release build is created and also integrated into the web build.
