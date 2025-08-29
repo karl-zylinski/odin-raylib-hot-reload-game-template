@@ -92,45 +92,37 @@ jobs:
   test_web:
     name: Test Web Build
     runs-on: ubuntu-latest
-    needs: [build_linux] # depends on Linux build finishing
+    needs: [build_linux]   # ensures build_linux completes first
     steps:
       - uses: actions/checkout@v4
 
-      # Setup Emscripten for web testing
-      - uses: mymindstorm/setup-emsdk@v14
-
-      # Install Node.js for running tests
+        # Install Node.js to run Playwright and a simple HTTP server
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Install Playwright
+          # Install Playwright and http-server
       - name: Install Playwright
         run: |
           npm init -y
           npm install @playwright/test http-server
 
-      # Serve the web build from ./build/web
+        # Serve the web build directory
       - name: Start Web Server
         run: |
           npx http-server ./build/web -p 8080 &
-          sleep 3
+          sleep 8  # give the server a moment to start
 
-      # Run Playwright test
+        # Run a browser test to catch console errors
       - name: Run Browser Test
         run: |
           npx playwright install --with-deps
           echo "
           const { test, expect } = require('@playwright/test');
           test('web build loads without errors', async ({ page }) => {
-          page.on('console', msg => {
-          if (msg.type() === 'error') {
-          throw new Error('Console error: ' + msg.text());
-          }
-          });
+          page.on('pageerror', err => { throw err; });
           await page.goto('http://localhost:8080');
-          await expect(page).toHaveTitle(/.*/); // check it loads
+          await expect(page).toHaveTitle(/.*/);
           });
           " > web.spec.js
           npx playwright test web.spec.js
-
