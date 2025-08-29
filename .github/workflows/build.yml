@@ -96,24 +96,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-        # Install Node.js for running tests
+      # Setup Emscripten for web testing
+      - uses: mymindstorm/setup-emsdk@v14
+
+      # Install Node.js for running tests
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-          # Install Playwright
+      # Install Playwright
       - name: Install Playwright
         run: |
           npm init -y
           npm install @playwright/test http-server
 
-        # Serve the web build from ./build/web
+      # Serve the web build from ./build/web
       - name: Start Web Server
         run: |
           npx http-server ./build/web -p 8080 &
           sleep 3
 
-        # Run Playwright test
+      # Run Playwright test
       - name: Run Browser Test
         run: |
           npx playwright install --with-deps
