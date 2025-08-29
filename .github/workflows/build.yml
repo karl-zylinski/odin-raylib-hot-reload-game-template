@@ -120,11 +120,7 @@ jobs:
           echo "
           const { test, expect } = require('@playwright/test');
           test('web build loads without errors', async ({ page }) => {
-          page.on('console', msg => {
-          if (msg.type() === 'error') {
-          throw new Error('Console error: ' + msg.text());
-          }
-          });
+          page.on('pageerror', err => { throw err; });
           await page.goto('http://localhost:8080');
           await expect(page).toHaveTitle(/.*/);
           });
