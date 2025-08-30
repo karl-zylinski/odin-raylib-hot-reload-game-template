@@ -23,9 +23,6 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Build hot reload
-        run: ./build_hot_reload.sh
-
       - name: Build release
         run: ./build_release.sh
 
@@ -35,6 +32,9 @@ jobs:
           name: linux-release
           path: build/
           retention-days: 30
+
+      - name: Build hot reload
+        run: ./build_hot_reload.sh
 
       - name: Build debug
         run: ./build_debug.sh
@@ -58,9 +58,6 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Build hot reload
-        run: ./build_hot_reload.sh
-
       - name: Build release
         run: ./build_release.sh
 
@@ -70,6 +67,9 @@ jobs:
           name: macos-${{matrix.os}}-release
           path: build/
           retention-days: 30
+
+      - name: Build hot reload
+        run: ./build_hot_reload.sh
 
       - name: Build debug
         run: ./build_debug.sh
@@ -91,9 +91,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Build hot reload
-        run: .\build_hot_reload.bat
-
       - name: Build release
         run: .\build_release.bat
 
@@ -103,6 +100,9 @@ jobs:
           name: windows-release
           path: build/
           retention-days: 30
+
+      - name: Build hot reload
+        run: .\build_hot_reload.bat
 
       - name: Build debug
         run: .\build_debug.bat
