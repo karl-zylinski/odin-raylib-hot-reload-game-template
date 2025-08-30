@@ -27,57 +27,141 @@ created.
 
 package game
 
-import "core:fmt"
-import "core:math/linalg"
+import "core:math"
 import rl "vendor:raylib"
 
+DEBUG :: true
 PIXEL_WINDOW_HEIGHT :: 180
 
-Game_Memory :: struct {
-	player_pos: rl.Vector2,
-	player_texture: rl.Texture,
-	some_number: int,
-	run: bool,
+Handle :: struct {
+	index: int,
+	// Makes trying to debug thing a bit easier if we know for a fact
+	// an entity cannot have the same ID as another one.
+	id:    int,
 }
 
-g: ^Game_Memory
+GameMemory :: struct {
+	// Entity
+	entity_top_count: int,
+	latest_entity_id: int,
+	entities:         [MAX_ENTITIES]Entity,
+	entity_free_list: [dynamic]int,
+	player_handle:    Handle,
+	screen_shake:     ScreenShake,
+	textures:         Textures,
+	sounds:           Sounds,
+	soundtrack:       rl.Music,
+	run:              bool,
+	scratch:          struct {
+		all_entities: []Handle,
+	},
+}
+
+ScreenShake :: struct {
+	is_screen_shaking:        bool,
+	screen_shake_time:        f64,
+	screen_shake_timeElapsed: f64,
+	screen_shake_dropOff:     f64,
+	screen_shake_speed:       f64,
+}
+
+Sounds :: struct {}
+
+// WARNING: if you add a texture you MUST also unload it game_shutdown
+Textures :: struct {
+	player_run: rl.Texture2D,
+}
+
+g: ^GameMemory
+
+rebuild_scratch :: proc() {
+	/*
+	* Entities
+	*/
+	all_ents := make([dynamic]Handle, 0, len(g.entities), context.temp_allocator)
+	for &e in g.entities {
+		if !entity_is_valid(e) do continue
+		append(&all_ents, e.handle)
+	}
+	// Greedy selection sort by z
+	for i in 0 ..< len(all_ents) {
+		min_index := i
+		for j in i + 1 ..< len(all_ents) {
+			ea := entity_get(all_ents[j])
+			em := entity_get(all_ents[min_index])
+			if ea.z_index < em.z_index {
+				min_index = j
+			}
+		}
+		if min_index != i {
+			all_ents[i], all_ents[min_index] = all_ents[min_index], all_ents[i]
+		}
+	}
+	// Sort entities by their z value (lower z drawn first, higher on top)
+	g.scratch.all_entities = all_ents[:]
+}
+
+get_player :: proc() -> (player: ^Entity, ok: bool) #optional_ok {
+	return entity_get(g.player_handle)
+}
+
+set_screen_shake :: proc(time_s, drop_off, speed: f64) {
+	g.screen_shake.screen_shake_time = time_s
+	g.screen_shake.screen_shake_dropOff = drop_off
+	g.screen_shake.screen_shake_speed = speed
+	g.screen_shake.is_screen_shaking = true
+	g.screen_shake.screen_shake_timeElapsed = g.screen_shake.screen_shake_time
+}
+
+get_screen_shake :: proc() -> (target: rl.Vector2) {
+	g.screen_shake.screen_shake_timeElapsed -=
+		f64(rl.GetFrameTime()) * g.screen_shake.screen_shake_dropOff
+
+	target.x =
+		target.x +
+		f32(g.screen_shake.screen_shake_timeElapsed) *
+			math.sin_f32(f32(rl.GetTime()) * f32(g.screen_shake.screen_shake_speed))
+	target.y =
+		target.y +
+		f32(g.screen_shake.screen_shake_timeElapsed) *
+			math.sin_f32(f32(rl.GetTime()) * f32(g.screen_shake.screen_shake_speed) * 1.3 + 1.7)
+
+	if (g.screen_shake.screen_shake_timeElapsed <= 0) {
+		g.screen_shake.is_screen_shaking = false
+	}
+
+	return
+}
 
 game_camera :: proc() -> rl.Camera2D {
 	w := f32(rl.GetScreenWidth())
 	h := f32(rl.GetScreenHeight())
 
-	return {
-		zoom = h/PIXEL_WINDOW_HEIGHT,
-		target = g.player_pos,
-		offset = { w/2, h/2 },
-	}
+	target := rl.Vector2(0)
+	target += get_screen_shake()
+
+	return {zoom = h / PIXEL_WINDOW_HEIGHT, target = target, offset = {w / 2, h / 2}}
 }
 
 ui_camera :: proc() -> rl.Camera2D {
-	return {
-		zoom = f32(rl.GetScreenHeight())/PIXEL_WINDOW_HEIGHT,
-	}
+	return {zoom = f32(rl.GetScreenHeight()) / PIXEL_WINDOW_HEIGHT}
 }
 
 update :: proc() {
-	input: rl.Vector2
 
-	if rl.IsKeyDown(.UP) || rl.IsKeyDown(.W) {
-		input.y -= 1
-	}
-	if rl.IsKeyDown(.DOWN) || rl.IsKeyDown(.S) {
-		input.y += 1
-	}
-	if rl.IsKeyDown(.LEFT) || rl.IsKeyDown(.A) {
-		input.x -= 1
-	}
-	if rl.IsKeyDown(.RIGHT) || rl.IsKeyDown(.D) {
-		input.x += 1
-	}
+	g.scratch = {}
+	rebuild_scratch()
+	rl.UpdateMusicStream(g.soundtrack)
+	// big :update time
+	for handle in entity_get_all() {
+		e := entity_get(handle)
+		// animation for every entity
+		animate(e)
 
-	input = linalg.normalize0(input)
-	g.player_pos += input * rl.GetFrameTime() * 100
-	g.some_number += 1
+		e.on_update(e)
+
+		collision_box_update(e)
+	}
 
 	if rl.IsKeyPressed(.ESCAPE) {
 		g.run = false
@@ -89,9 +173,10 @@ draw :: proc() {
 	rl.ClearBackground(rl.BLACK)
 
 	rl.BeginMode2D(game_camera())
-	rl.DrawTextureEx(g.player_texture, g.player_pos, 0, 1, rl.WHITE)
-	rl.DrawRectangleV({20, 20}, {10, 10}, rl.RED)
-	rl.DrawRectangleV({-30, -20}, {10, 10}, rl.GREEN)
+	for handle in entity_get_all() {
+		e := entity_get(handle)^ // dereference because we don't want to edit it
+		e.on_draw(e)
+	}
 	rl.EndMode2D()
 
 	rl.BeginMode2D(ui_camera())
@@ -99,7 +184,13 @@ draw :: proc() {
 	// NOTE: `fmt.ctprintf` uses the temp allocator. The temp allocator is
 	// cleared at the end of the frame by the main application, meaning inside
 	// `main_hot_reload.odin`, `main_release.odin` or `main_web_entry.odin`.
-	rl.DrawText(fmt.ctprintf("some_number: %v\nplayer_pos: %v", g.some_number, g.player_pos), 5, 5, 8, rl.WHITE)
+	// rl.DrawText(
+	// 	fmt.ctprintf("some_number: %v\nplayer_pos: %v", g.some_number, g.player_pos),
+	// 	5,
+	// 	5,
+	// 	8,
+	// 	rl.WHITE,
+	// )
 
 	rl.EndMode2D()
 
@@ -126,16 +217,14 @@ game_init_window :: proc() {
 
 @(export)
 game_init :: proc() {
-	g = new(Game_Memory)
+	g = new(GameMemory)
 
-	g^ = Game_Memory {
+	g^ = GameMemory {
 		run = true,
-		some_number = 100,
-
-		// You can put textures, sounds and music in the `assets` folder. Those
-		// files will be part any release or web build.
-		player_texture = rl.LoadTexture("assets/round_cat.png"),
+		textures = {player_run = rl.LoadTexture("assets/CorgiRun.png")},
 	}
+
+	entity_create(.PLAYER)
 
 	game_hot_reloaded(g)
 }
@@ -154,6 +243,9 @@ game_should_run :: proc() -> bool {
 
 @(export)
 game_shutdown :: proc() {
+
+	rl.UnloadTexture(g.textures.player_run)
+
 	free(g)
 }
 
@@ -169,12 +261,12 @@ game_memory :: proc() -> rawptr {
 
 @(export)
 game_memory_size :: proc() -> int {
-	return size_of(Game_Memory)
+	return size_of(GameMemory)
 }
 
 @(export)
 game_hot_reloaded :: proc(mem: rawptr) {
-	g = (^Game_Memory)(mem)
+	g = (^GameMemory)(mem)
 
 	// Here you can also set your own global variables. A good idea is to make
 	// your global variables into pointers that point to something inside `g`.
