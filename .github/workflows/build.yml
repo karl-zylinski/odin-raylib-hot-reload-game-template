@@ -14,7 +14,7 @@ jobs:
     name: tests
     runs-on: ubuntu-latest
     steps:
-      - uses: laytan-setup-odin@v2
+      - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: false
@@ -63,7 +63,7 @@ jobs:
         os: [macos-13, macos-15]
     runs-on: ${{matrix.os}}
     steps:
-      - uses: laytan-setup-odin@v2
+      - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: false
@@ -112,7 +112,7 @@ jobs:
     name: tests
     runs-on: windows-latest
     steps:
-      - uses: laytan-setup-odin@v2
+      - uses: laytan/setup-odin@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release: false
