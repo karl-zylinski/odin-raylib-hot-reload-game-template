@@ -13,6 +13,8 @@ player_setup :: proc(player: ^Entity) {
 
 player_update :: proc(player: ^Entity) {
 
+	player.velocity.y = 0
+	player.velocity.y += 10
 
 	// WARNING: nothing goes after this line
 	player.pos += player.velocity * rl.GetFrameTime()

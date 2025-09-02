@@ -10,6 +10,20 @@ on:
 
 
 jobs:
+  test_ubuntu:
+    name: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: laytan-setup-odin@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
+
+      - uses: actions/checkout@v4
+
+      - name: Build release
+        run: odin test tests
+
   build_linux:
     name: Linux
     runs-on: ubuntu-latest
@@ -41,6 +55,23 @@ jobs:
 
       - name: Build web
         run: ./build_web.sh
+
+  test_macos:
+    name: tests
+    strategy:
+      matrix:
+        os: [macos-13, macos-15]
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: laytan-setup-odin@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
+
+      - uses: actions/checkout@v4
+
+      - name: Build release
+        run: odin test tests
 
   build_macos:
     name: MacOS
@@ -76,6 +107,20 @@ jobs:
 
       - name: Build web
         run: ./build_web.sh
+
+  test_windows:
+    name: tests
+    runs-on: windows-latest
+    steps:
+      - uses: laytan-setup-odin@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release: false
+
+      - uses: actions/checkout@v4
+
+      - name: Build release
+        run: odin test tests
 
   build_windows:
     name: Windows

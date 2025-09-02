@@ -27,6 +27,7 @@ created.
 
 package game
 
+import "core:fmt"
 import "core:math"
 import rl "vendor:raylib"
 
@@ -151,6 +152,8 @@ update :: proc() {
 
 	g.scratch = {}
 	rebuild_scratch()
+
+	fmt.println(g.scratch.all_entities)
 	rl.UpdateMusicStream(g.soundtrack)
 	// big :update time
 	for handle in entity_get_all() {
@@ -170,7 +173,7 @@ update :: proc() {
 
 draw :: proc() {
 	rl.BeginDrawing()
-	rl.ClearBackground(rl.BLACK)
+	rl.ClearBackground(rl.RED)
 
 	rl.BeginMode2D(game_camera())
 	for handle in entity_get_all() {
