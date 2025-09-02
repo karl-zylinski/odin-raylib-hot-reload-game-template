@@ -100,8 +100,3 @@ entity_clear_all_empties_scratch :: proc(t: ^testing.T) {
 	handles_after := gm.entity_get_all()
 	testing.expect(t, len(handles_after) == 0, "All entities should be cleared and scratch empty")
 }
-
-@(test)
-should_fail :: proc(t: ^testing.T) {
-	testing.expectf(t, false, "should fail")
-}
