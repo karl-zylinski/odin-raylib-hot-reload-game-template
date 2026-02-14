@@ -18,14 +18,10 @@ main :: proc() {
 	// Set working dir to dir of executable.
 	exe_path := os.args[0]
 	exe_dir := filepath.dir(string(exe_path), context.temp_allocator)
-	os.set_current_directory(exe_dir)
+	os.set_working_directory(exe_dir)
 	
-	mode: int = 0
-	when ODIN_OS == .Linux || ODIN_OS == .Darwin {
-		mode = os.S_IRUSR | os.S_IWUSR | os.S_IRGRP | os.S_IROTH
-	}
-
-	logh, logh_err := os.open("log.txt", (os.O_CREATE | os.O_TRUNC | os.O_RDWR), mode)
+	mode := os.Permissions { .Read_User, .Write_User, .Read_Group, .Read_Other }
+	logh, logh_err := os.open("log.txt", {.Create, .Trunc, .Read, .Write}, mode)
 
 	if logh_err == os.ERROR_NONE {
 		os.stdout = logh
