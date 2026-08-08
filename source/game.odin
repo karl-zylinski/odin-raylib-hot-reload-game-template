@@ -117,6 +117,7 @@ game_update :: proc() {
 
 @(export)
 game_init_window :: proc() {
+	set_raylib_log_callback()
 	rl.SetConfigFlags({.WINDOW_RESIZABLE, .VSYNC_HINT})
 	rl.InitWindow(1280, 720, "Odin + Raylib + Hot Reload template!")
 	rl.SetWindowPosition(200, 200)
@@ -126,6 +127,10 @@ game_init_window :: proc() {
 
 @(export)
 game_init :: proc() {
+	// A full restart (F6) unloads the old game DLL and then runs this proc, so
+	// raylib needs to be pointed at this DLL's callback before anything logs.
+	set_raylib_log_callback()
+
 	g = new(Game_Memory)
 
 	g^ = Game_Memory {
@@ -174,6 +179,10 @@ game_memory_size :: proc() -> int {
 
 @(export)
 game_hot_reloaded :: proc(mem: rawptr) {
+	// raylib outlives the game DLL, so it has to be told about the newly
+	// loaded DLL's log callback.
+	set_raylib_log_callback()
+
 	g = (^Game_Memory)(mem)
 
 	// Here you can also set your own global variables. A good idea is to make
