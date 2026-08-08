@@ -127,8 +127,9 @@ game_init_window :: proc() {
 
 @(export)
 game_init :: proc() {
-	// A full restart (F6) unloads the old game DLL and then runs this proc, so
-	// raylib needs to be pointed at this DLL's callback before anything logs.
+	// A full restart (F6, or a changed `Game_Memory` size) unloads the game DLL
+	// that registered the callback and then runs this proc from the new one.
+	// This has to happen before `rl.LoadTexture` below, because that logs.
 	set_raylib_log_callback()
 
 	g = new(Game_Memory)
@@ -179,8 +180,11 @@ game_memory_size :: proc() -> int {
 
 @(export)
 game_hot_reloaded :: proc(mem: rawptr) {
-	// raylib outlives the game DLL, so it has to be told about the newly
-	// loaded DLL's log callback.
+	// In the hot reload build raylib is a separate DLL (see RAYLIB_SHARED in
+	// `build_hot_reload`) that stays loaded while game DLLs come and go. It
+	// keeps calling the log callback of whichever game DLL registered it, so
+	// point it at the one that was just loaded. In the other builds raylib is
+	// linked into the executable and this is simply a no-op.
 	set_raylib_log_callback()
 
 	g = (^Game_Memory)(mem)
